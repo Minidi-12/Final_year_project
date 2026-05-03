@@ -24,11 +24,26 @@ import {
 } from "lucide-react";
 import { useNavigate, Link } from "react-router";
 import { useCreateb_reqMutation, useGetAllgn_divisionsQuery } from "@/lib/api";
+import ImageInput from "@/components/ImageInput";
 
 export default function RequestSupport() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [reqEvidence, setReqEvidence] = useState([]);
+
+  const handleEvidenceChange = (files) => {
+  const fileList = Array.isArray(files) ? files : [files];
+  const evidence = fileList
+    .filter(Boolean)
+    .map((file) => ({
+      fileUrl: file.url || file.preview || (typeof file === "string" ? file : ""),
+      file_name: file.name || "upload",
+      description: "",
+      uploaded_at: new Date().toISOString(),
+    }));
+  setReqEvidence(evidence);
+};
   const [formData, setFormData] = useState({
    name: "",
    nic: "",
@@ -58,7 +73,7 @@ export default function RequestSupport() {
    electricity_access: false,
    support_types: [], // Will be validated before submit
    support_description: "",
-   selfrated_urgency: 5,
+   selfrated_urgency: 5,   
 });
 
   const { data: gn_divisions, error, isLoading } = useGetAllgn_divisionsQuery();
@@ -168,12 +183,6 @@ export default function RequestSupport() {
     return;
   }
 
-  // Validate government allowance
-  if (!formData.GovtAllowance || formData.GovtAllowance.length === 0) {
-    alert("Please select at least one government allowance or select 'Other' if none apply.");
-    return;
-  }
-
   // Validate support types
   if (!formData.support_types || formData.support_types.length === 0) {
     alert("Please select at least one support type.");
@@ -216,7 +225,7 @@ export default function RequestSupport() {
           selfrated_urgency: String(formData.selfrated_urgency), 
         },
       ],
-      req_evidence: [], // Empty array for now
+      req_evidence: reqEvidence,
       gn_division_Id: formData.gn_division, // Add this field
     };
 
@@ -920,15 +929,20 @@ export default function RequestSupport() {
 
                     <div className="p-6 bg-emerald-50/50 rounded-3xl border border-emerald-100/50">
                       <h4 className="text-[10px] font-bold text-emerald-950 uppercase tracking-widest mb-4 flex items-center gap-2">
-                        <Upload className="w-4 h-4 text-emerald-600" /> Upload
-                        Evidence
+                        <Upload className="w-4 h-4 text-emerald-600" /> Upload Evidence
                       </h4>
-                      <button
-                        type="button"
-                        className="w-full py-4 bg-white border-2 border-dashed border-emerald-200 text-[10px] font-bold text-emerald-900/40 uppercase tracking-[0.2em] rounded-2xl hover:bg-emerald-50 transition-all"
-                      >
-                        Photo or PDF (max 5MB)
-                      </button>
+                      <ImageInput
+                        onChange={handleEvidenceChange}
+                        multiple
+                        accept="image/*,.pdf"
+                        maxSizeMB={5}
+                        className="w-full"
+                      />
+                      {reqEvidence.length > 0 && (
+                      <p className="mt-2 text-[9px] font-bold text-emerald-600 uppercase tracking-widest">
+                        {reqEvidence.length} file{reqEvidence.length > 1 ? "s" : ""} selected
+                      </p>
+                      )}
                     </div>
                   </div>
                 </div>

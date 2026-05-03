@@ -33,33 +33,48 @@ export default function Login() {
   setIsLoading(true);
   setError(null);
 
+ 
   try {
-      await new Promise(resolve => setTimeout(resolve, 1200));
-      
-      // Validation based on role
-      if (role === "GN_OFFICER") {
-        if (email === "gn@hopelink.org" && password === "gn123") {
-          localStorage.setItem("userRole", "GN_OFFICER");
-          localStorage.setItem("userName", "Mr. Kamal Perera");
-          navigate("/verify");
-        } else {
-          setError("Invalid officer credentials. Please check your Division Email.");
-        }
-      } else {
-        if (email === "admin@hopelink.org" && password === "admin123") {
-          localStorage.setItem("userRole", "NGO_OFFICER");
-          localStorage.setItem("userName", "HopeLink Admin");
-          navigate("/dashboard");
-        } else {
-          setError("Invalid NGO credentials. Access denied.");
-        }
-      }
-    } catch {
-      setError("Portal connection timeout. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const res = await fetch("http://localhost:3000/api/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password, role }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Login failed");
+  }
+
+  // Save data
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("userRole", data.user.role);
+  localStorage.setItem("userName", data.user.name);
+
+  if (data.user.isFirstLogin) {
+    navigate("/change-password");  // Force password change
+  } else if (data.user.role === "GN_OFFICER") {
+    navigate("/verify");
+  } else {
+    navigate("/dashboard");
+  }
+
+  // Redirect based on role
+  if (data.user.role === "GN_OFFICER") {
+    navigate("/verify");
+  } else {
+    navigate("/dashboard");
+  }
+
+} catch (err) {
+  setError(err.message);
+} finally {
+  setIsLoading(false);
+}
+};
 
   return (
     <div className="min-h-screen bg-[#FDFCFB] flex flex-col md:flex-row font-sans">
