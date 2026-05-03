@@ -1,7 +1,7 @@
 import { AnimatePresence } from "framer-motion";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Heart, 
   Users, 
@@ -14,32 +14,76 @@ import {
   Globe2,
   Mail,
   Phone,
-  Share2 as Facebook,
-  Share2 as Twitter,
-  Share2 as Instagram,
-  Share2 as Linkedin,
+   // Instagram,
+   // Facebook
+   //twitter
   ChevronLeft,
   ChevronRight,
   ShieldCheck,
-  ChevronDown
+  CheckCircle2,
+  ChevronDown,
+  Calendar,
+  Activity as ActivityIcon,
+  Search,
+  Building2,
+  Truck,
+  Sparkles,
+  Fingerprint
 } from "lucide-react";
 import { useNavigate, Link } from "react-router";
- 
+import { PROJECTS, ACTIVITIES, getCategoryLabel } from "../constants";
+import { useRef } from "react";
+
+// Animated Counter Component
+const CountUp = ({ value, suffix = "" }) => {
+  const [count, setCount] = useState(0);
+  const elementRef = useRef(null);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasStarted) {
+          setHasStarted(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (elementRef.current) observer.observe(elementRef.current);
+    return () => observer.disconnect();
+  }, [hasStarted]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    let startTime;
+    const duration = 2000; // 2 seconds
+
+    const animate = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = timestamp - startTime;
+      const percentage = Math.min(progress / duration, 1);
+      
+      // Easing function (out-expo)
+      const easeValue = percentage === 1 ? 1 : 1 - Math.pow(2, -10 * percentage);
+      
+      setCount(Math.floor(easeValue * value));
+
+      if (percentage < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [hasStarted, value]);
+
+  return <div ref={elementRef} className="inline-block">{count.toLocaleString()}{suffix}</div>;
+};
+
 export default function Home() {
   const navigate = useNavigate();
-  const [activeDropdown, setActiveDropdown] = useState(null);
- 
-  const navItems = [
-    { label: "HOME", href: "/", dropdown: null },
-    { label: "ABOUT US", href: "/about-us", dropdown: null },
-    { label: "OUR WORK", href: "#", dropdown: ["PROJECTS", "ONGOING PROJECTS", "PROJECT ACHIEVEMENTS", "CAMPAIGNS"] },
-    { label: "NEWS", href: "#", dropdown: null },
-    { label: "RESOURCES", href: "#", dropdown: ["ANNUAL REPORTS", "RESEARCH REPORTS", "AWARENESS MATERIALS", "OUR PUBLICATIONS"] },
-    { label: "CONTACT US", href: "#", dropdown: null },
-  ];
- 
-  const getInvolvedDropdown = ["DONATE", "VOLUNTEER", "REQUEST SUPPORT"];
- 
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -47,7 +91,7 @@ export default function Home() {
       transition: { staggerChildren: 0.2 } 
     }
   };
- 
+
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { 
@@ -56,114 +100,62 @@ export default function Home() {
       transition: { type: "spring", stiffness: 100 }
     }
   };
- 
+
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+
+  const testimonials = [
+    {
+      quote: "When we were struggling with medical expenses for my daughter, Hopelink stepped in with kindness and speed. Their support didn't just provide medicine; it gave us hope for her future.",
+      author: "Sanduni Perera",
+      role: "Member of family supported",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d"
+    },
+    {
+      quote: "Participating in the flood relief mission opened my eyes. Hopelink's coordination was flawless, ensuring that aid reached the most remote families within hours.",
+      author: "Aruna Kumara",
+      role: "Volunteer, Galle",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704e"
+    },
+    {
+      quote: "Getting my kids ready for school was a constant worry until Hopelink provided the supplies they needed. Seeing my children go to school with confidence is the greatest gift we've received.",
+      author: "Fathima Rizwan",
+      role: "Member of family supported",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704f"
+    },
+    {
+      quote: "I've always been wary of where my donations go, but Hopelink's transparency is refreshing. Seeing exactly how my contribution helped a family in Nuwara Eliya was a powerful experience.",
+      author: "Dilan de Silva",
+      role: "Donor, Colombo",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e290267050"
+    },
+    {
+      quote: "As a local officer, I value the integrity of the verification process. Hopelink works closely with us to identify the most vulnerable members of our community.",
+      author: "Lakshman Perera",
+      role: "Grama Niladhari, Matara",
+      avatar: "https://i.pravatar.cc/150?u=a042581f4e290267051"
+    }
+  ];
+
+  const nextTestimonial = () => {
+    setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 4000); // Change testimonial every 4 seconds
+
+    return () => clearInterval(timer);
+  }, [testimonials.length]);
+
   return (
-    <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden w-full">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-emerald-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-200/50">
-                <Heart className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-xl font-bold font-display tracking-tight text-emerald-900 uppercase">HOPELINK</span>
-            </div>
-            
-            <div className="hidden lg:flex items-center space-x-4 xl:space-x-6 text-[11px] font-bold tracking-widest text-gray-500 uppercase">
-              {navItems.map((item) => (
-                <div 
-                  key={item.label}
-                  className="relative group h-16 flex items-center"
-                  onMouseEnter={() => setActiveDropdown(item.label)}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  {item.href.startsWith('/') ? (
-                    <Link 
-                      to={item.href} 
-                      className={`flex items-center gap-1 transition-colors hover:text-emerald-600 ${item.label === "HOME" ? "text-emerald-600" : ""}`}
-                    >
-                      {item.label}
-                      {item.dropdown && <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${activeDropdown === item.label ? "rotate-180" : ""}`} />}
-                    </Link>
-                  ) : (
-                    <a 
-                      href={item.href} 
-                      className={`flex items-center gap-1 transition-colors hover:text-emerald-600 ${item.label === "HOME" ? "text-emerald-600" : ""}`}
-                    >
-                      {item.label}
-                      {item.dropdown && <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${activeDropdown === item.label ? "rotate-180" : ""}`} />}
-                    </a>
-                  )}
- 
-                  <AnimatePresence>
-                    {item.dropdown && activeDropdown === item.label && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="absolute top-full left-0 w-64 bg-white border border-emerald-100 rounded-2xl shadow-2xl shadow-emerald-900/10 p-3 z-50 pointer-events-auto"
-                      >
-                        {item.dropdown.map((subItem) => (
-                          <a 
-                            key={subItem} 
-                            href="#" 
-                            className="block px-4 py-3 text-[10px] text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all font-bold tracking-widest"
-                          >
-                            {subItem}
-                          </a>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))}
-            </div>
- 
-            <div className="flex items-center gap-3">
-              <Link to="/login" className="hidden md:block px-4 py-2 text-xs font-bold text-emerald-700 bg-emerald-50 rounded-full hover:bg-emerald-100 transition-all border border-emerald-200 uppercase tracking-widest">
-                Officer Login
-              </Link>
-              <div 
-                className="relative"
-                onMouseEnter={() => setActiveDropdown("GET INVOLVED")}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <button className="px-4 xl:px-5 py-2.5 text-xs font-bold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 shadow-lg shadow-emerald-200 transition-all transform hover:-translate-y-0.5 uppercase tracking-widest flex items-center gap-2">
-                  GET INVOLVED
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === "GET INVOLVED" ? "rotate-180" : ""}`} />
-                </button>
- 
-                <AnimatePresence>
-                  {activeDropdown === "GET INVOLVED" && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      className="absolute top-full right-0 mt-2 w-56 bg-emerald-950 text-white rounded-[1.5rem] shadow-2xl p-3 z-50 border border-white/10"
-                    >
-                      {getInvolvedDropdown.map((subItem) => (
-                        <button 
-                          key={subItem} 
-                          onClick={() => {
-                            if (subItem === "REQUEST SUPPORT") navigate("/request-support");
-                            else if (subItem === "VOLUNTEER") navigate("/volunteer");
-                          }}
-                          className="w-full text-left px-4 py-3 text-[10px] text-emerald-100/60 hover:text-white hover:bg-white/10 rounded-xl transition-all font-bold tracking-widest uppercase"
-                        >
-                          {subItem}
-                        </button>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
- 
+    <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pt-16">
       {/* Hero Section */}
-      <section className="relative h-screen max-h-[900px] min-h-[600px] flex items-center overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
         {/* Background Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
@@ -173,7 +165,7 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/90 via-emerald-900/60 to-transparent"></div>
         </div>
- 
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -181,141 +173,246 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl text-left"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 backdrop-blur-md text-emerald-300 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4 lg:mb-6 border border-white/10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 backdrop-blur-md text-emerald-300 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 border border-white/10">
               <Globe2 className="w-3 h-3" /> <span>Direct Community Support</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-display text-white mb-4 lg:mb-6 tracking-tight leading-[1.05]">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-display text-white mb-6 tracking-tight leading-[1.05]">
               Empowering <br />
               <span className="text-emerald-400">the unheard.</span>
             </h1>
-            <p className="text-base lg:text-lg xl:text-xl text-emerald-50/80 max-w-xl mb-6 lg:mb-8 leading-relaxed font-serif italic">
+            <p className="text-lg md:text-xl text-emerald-50/80 max-w-xl mb-10 leading-relaxed font-serif italic">
               Where technology meets compassion to serve verified community needs across Sri Lanka through direct, transparent support.
             </p>
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-              <Link to="/request-support" className="px-8 lg:px-10 xl:px-12 py-3.5 lg:py-4 xl:py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-bold shadow-2xl shadow-emerald-500/40 transition-all transform hover:-translate-y-1.5 active:scale-95 uppercase tracking-widest text-[11px] inline-flex items-center justify-center gap-3 group">
+            <div className="flex flex-col sm:flex-row items-center gap-5 mt-4">
+              <Link to="/request-support" className="w-full sm:w-auto px-12 py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-bold shadow-2xl shadow-emerald-500/40 transition-all transform hover:-translate-y-1.5 active:scale-95 uppercase tracking-widest text-[11px] inline-flex items-center justify-center gap-3 group">
                 Request Support 
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <button className="px-8 lg:px-10 xl:px-12 py-3.5 lg:py-4 xl:py-5 bg-white/5 backdrop-blur-xl border-2 border-white/20 hover:border-white/40 hover:bg-white/10 text-white rounded-2xl font-bold transition-all transform hover:-translate-y-1.5 active:scale-95 uppercase tracking-widest text-[11px] flex items-center justify-center gap-3">
-                <Heart className="w-4 h-4 text-emerald-400" /> 
+              <Link to="/donate" className="w-full sm:w-auto px-12 py-5 bg-white/5 backdrop-blur-xl border-2 border-white/20 hover:border-white/40 hover:bg-white/10 text-white rounded-2xl font-bold transition-all transform hover:-translate-y-1.5 active:scale-95 uppercase tracking-widest text-[11px] flex items-center justify-center gap-3">
+                <Heart className="w-4 h-4 text-emerald-400 group-hover:scale-125 transition-transform" /> 
                 Donate Now
-              </button>
+              </Link>
             </div>
           </motion.div>
         </div>
       </section>
- 
-      {/* Our Mission */}
-      <section className="py-12 lg:py-16 xl:py-20 bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={containerVariants}
-            className="text-center"
-          >
-            <h2 className="text-xs font-bold tracking-[0.3em] text-emerald-600 uppercase mb-3">OUR MISSION</h2>
-            <h3 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-emerald-950 mb-10 lg:mb-12 xl:mb-16 tracking-tight px-4">Protecting rights & wellbeing of everyone</h3>
-            
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8">
-              {[
-                { title: "Local GN Verification", icon: ShieldCheck, desc: "Working with local Grama Niladhari officers to ensure every request is genuine and reaches the right hands." },
-                { title: "Transparent Fund Tracking", icon: FileCheck, desc: "Track every LKR you donate in real-time. We believe in total financial transparency and accountability." },
-                { title: "Direct Beneficiary Support", icon: HandHeart, desc: "Your support goes directly to those in need, bypassing intermediaries and maximizing community impact." }
-              ].map((item, i) => (
-                <motion.div key={i} variants={itemVariants} className="p-6 lg:p-8 rounded-3xl bg-emerald-50/30 border border-emerald-100 hover:bg-emerald-50 transition-all group cursor-default">
-                  <div className="w-14 h-14 lg:w-16 lg:h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-5 lg:mb-6 shadow-sm group-hover:scale-110 transition-transform border border-emerald-50">
-                    <item.icon className="w-7 h-7 lg:w-8 lg:h-8 text-emerald-600" />
-                  </div>
-                  <h4 className="text-lg lg:text-xl font-bold text-emerald-900 mb-3 lg:mb-4">{item.title}</h4>
-                  <p className="text-gray-500 leading-relaxed text-sm font-medium">
-                    {item.desc}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
- 
-            <Link 
-              to="/about-us"
-              className="mt-16 inline-flex items-center gap-2 text-emerald-600 font-bold hover:gap-3 transition-all text-xs uppercase tracking-widest cursor-pointer"
+
+      {/* Integrity & GN Verification Focus */}
+      <section className="py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-center gap-20">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="lg:w-1/2 relative"
             >
-              Learn more about Hopelink <ArrowRight className="w-5 h-5" />
-            </Link>
-          </motion.div>
+              <div className="absolute -top-10 -left-10 w-40 h-40 bg-emerald-50 rounded-full blur-3xl opacity-60"></div>
+              <div className="relative z-10 bg-emerald-50 rounded-[3rem] p-4">
+                <img 
+                  src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800" 
+                  alt="Official Verification" 
+                  className="rounded-[2.5rem] w-full aspect-[4/5] object-cover shadow-2xl"
+                />
+                <div className="absolute -bottom-8 -right-8 bg-white p-8 rounded-3xl shadow-2xl shadow-emerald-900/10 border border-emerald-50 group max-w-[240px]">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-emerald-600 rounded-2xl flex items-center justify-center shrink-0">
+                      <ShieldCheck className="w-6 h-6 text-white" />
+                    </div>
+                    <div className="font-bold text-emerald-950 text-sm leading-tight">Verified by Local Authorities</div>
+                  </div>
+                  <p className="text-[11px] text-gray-500 leading-relaxed font-medium">Every request features a digital verification certificate from the respective Grama Niladhari.</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <div className="lg:w-1/2">
+              <h2 className="text-xs font-bold tracking-[0.3em] text-emerald-600 uppercase mb-4">UNCOMPROMISING INTEGRITY</h2>
+              <h3 className="text-4xl md:text-5xl font-bold text-emerald-950 mb-8 leading-[1.1] tracking-tight">Trust is our <span className="text-emerald-600 italic">Foundation.</span></h3>
+              <p className="text-lg text-gray-600 mb-10 leading-relaxed font-serif italic">
+                In a world of information overload, we ensure every story you see on Hopelink is authenticated. We've built the first digital bridge between grassroots needs and official government verification.
+              </p>
+              
+              <div className="space-y-6">
+                {[
+                  { title: "Mandatory GN Certificates", desc: "No project goes live without a physical verification report from the village officer." },
+                  { title: "Evidence-Based Support", desc: "Medical records, school letters, and damage assessments are audited manually." },
+                  { title: "Zero-Intermediary Leakage", desc: "Transparent allocation ensures resources reach the beneficiary's doorstep." }
+                ].map((item, i) => (
+                  <motion.div 
+                    key={i}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex gap-5 group"
+                  >
+                    <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-emerald-600 transition-colors">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-600 group-hover:text-white" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-emerald-950 mb-1">{item.title}</h4>
+                      <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+              
+              <div className="mt-12 p-8 bg-emerald-50 rounded-3xl border border-emerald-100 flex items-center justify-between gap-6 group">
+                <div>
+                  <div className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-1">Live Statistics</div>
+                  <div className="text-2xl font-bold text-emerald-950">99.8% Success Rate</div>
+                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">In authentic aid delivery</p>
+                </div>
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
+                  <Sparkles className="w-8 h-8 text-emerald-600" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
- 
-      {/* Ongoing Projects */}
-      <section className="py-12 lg:py-16 xl:py-20 bg-emerald-50/30 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-8 lg:mb-10 xl:mb-12 gap-4">
-            <div>
-              <h2 className="text-xs font-bold tracking-[0.3em] text-emerald-600 uppercase mb-3">IMMEDIATE NEED</h2>
-              <h3 className="text-2xl lg:text-3xl font-bold text-emerald-950 mb-2 tracking-tight">Ongoing Projects</h3>
-              <div className="w-20 h-1.5 bg-emerald-600 rounded-full"></div>
-            </div>
-            <a href="#" className="text-emerald-600 font-bold flex items-center gap-1 hover:underline text-xs uppercase tracking-widest">
-              View all projects <ArrowRight className="w-4 h-4" />
-            </a>
+
+      {/* How it Works / The Process */}
+      <section className="py-24 bg-emerald-950 text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-emerald-900/20 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2"></div>
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-20">
+            <h2 className="text-xs font-bold tracking-[0.4em] text-emerald-400 uppercase mb-4">THE PROCESS</h2>
+            <h3 className="text-4xl font-bold mb-4 tracking-tight">How Hope is Delivered</h3>
+            <p className="text-emerald-100/60 max-w-xl mx-auto font-serif italic">A transparent, secure, and respectful journey for every request.</p>
           </div>
- 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+
+          <div className="grid md:grid-cols-4 gap-12 relative">
+            {/* Connecting Lines (Desktop) */}
+            <div className="hidden lg:block absolute top-12 left-0 w-full h-0.5 bg-gradient-to-r from-emerald-800/0 via-emerald-800 to-emerald-800/0"></div>
+            
             {[
-              { title: "Educational support", raised: 450000, target: 600000, progress: 75, image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=800" },
-              { title: "Renevate a home", raised: 50000, target: 100000, progress: 50, image: "" },
-              { title: "Medical Support for Elders", raised: 120000, target: 200000, progress: 60, image: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?auto=format&fit=crop&q=80&w=800" }
-            ].map((project, i) => (
+              { step: "01", title: "Submit Request", icon: Search, desc: "Submit a need with supporting documents for medical, education, or disaster relief." },
+              { step: "02", title: "Official Verification", icon: Fingerprint, desc: "Local Grama Niladhari officers verify the authenticity and urgency of each case." },
+              { step: "03", title: "Community Funding", icon: Users, desc: "Verified projects are published for transparent public donations and support." },
+              { step: "04", title: "Direct Impact", icon: Truck, desc: "Resources are delivered directly to beneficiaries with documented impact reports." }
+            ].map((item, i) => (
               <motion.div 
                 key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white rounded-[2.5rem] overflow-hidden shadow-xl shadow-emerald-900/5 group border border-emerald-100"
+                transition={{ delay: i * 0.2 }}
+                className="relative group pt-16"
               >
-                <div className="h-48 lg:h-56 xl:h-64 relative overflow-hidden">
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  <div className="absolute top-4 lg:top-6 left-4 lg:left-6">
-                    <span className="px-3 lg:px-4 py-1.5 lg:py-2 bg-emerald-600 text-white text-[10px] font-bold rounded-full uppercase tracking-widest shadow-lg">URGENT</span>
-                  </div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-12 bg-emerald-800 rounded-2xl flex items-center justify-center text-emerald-400 font-bold group-hover:bg-emerald-600 group-hover:text-white transition-all transform group-hover:rotate-12 z-20 shadow-xl border border-white/10">
+                  <item.icon className="w-5 h-5" />
                 </div>
-                <div className="p-6 lg:p-8 xl:p-10">
-                  <h4 className="text-lg lg:text-xl font-bold text-emerald-950 mb-5 lg:mb-6 leading-tight">{project.title}</h4>
-                  <div className="space-y-3 lg:space-y-4 mb-6 lg:mb-8">
-                    <div className="flex justify-between text-xs font-bold uppercase tracking-widest">
-                      <span className="text-gray-400">Raised: <span className="text-emerald-600">LKR {project.raised.toLocaleString()}</span></span>
-                      <span className="text-emerald-950">{project.progress}%</span>
-                    </div>
-                    <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-emerald-600 rounded-full transition-all" style={{ width: `${project.progress}%` }}></div>
-                    </div>
-                  </div>
-                  <button className="w-full py-3.5 lg:py-4 bg-emerald-50 hover:bg-emerald-600 text-emerald-900 hover:text-white font-bold rounded-2xl transition-all border border-emerald-100 uppercase tracking-widest text-[10px] active:scale-95">
-                    Donate Now
-                  </button>
+                <div className="text-center">
+                  <div className="text-[10px] font-bold text-emerald-500 mb-2 uppercase tracking-widest">{item.step}</div>
+                  <h4 className="text-lg font-bold mb-4 text-white group-hover:text-emerald-400 transition-colors">{item.title}</h4>
+                  <p className="text-sm text-emerald-100/50 leading-relaxed font-medium">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
- 
+
+
+
+      {/* Ongoing Projects */}
+      <section className="py-24 bg-emerald-50/30">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <h2 className="text-xs font-bold tracking-[0.3em] text-emerald-600 uppercase mb-4">IMMEDIATE NEED</h2>
+              <h3 className="text-3xl font-bold text-emerald-950 mb-2 tracking-tight">Ongoing Projects</h3>
+              <div className="w-20 h-1.5 bg-emerald-600 rounded-full"></div>
+            </div>
+            <Link to="/projects" className="hidden sm:flex text-emerald-600 font-bold items-center gap-1 hover:underline text-xs uppercase tracking-widest">
+              View all projects <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {PROJECTS.filter(p => p.status === "active").slice(0, 3).map((project, i) => (
+              <motion.div 
+                key={project.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white rounded-[2rem] overflow-hidden border border-emerald-50 shadow-xl shadow-emerald-950/5 group transition-all flex flex-col h-full"
+              >
+                <div className="h-64 relative overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                  />
+                  <div className="absolute top-6 left-6">
+                    <div className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-[9px] font-bold text-emerald-900 uppercase tracking-widest shadow-sm">
+                      {getCategoryLabel(project.category)}
+                    </div>
+                  </div>
+                </div>
+                <div className="p-8 flex flex-col flex-1">
+                  <h4 className="text-xl font-bold text-emerald-950 mb-4 leading-tight group-hover:text-emerald-600 transition-colors">
+                    {project.title}
+                  </h4>
+                  <p className="text-gray-500 text-sm leading-relaxed mb-8 font-medium line-clamp-3">
+                    {project.description}
+                  </p>
+                  
+                  <div className="mt-auto pt-6 border-t border-emerald-50">
+                    <div className="flex flex-col space-y-6">
+                      <div className="space-y-3">
+                        <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
+                          <span className="text-gray-400">Raised: <span className="text-emerald-600">LKR {project.fundsRaised.toLocaleString()}</span></span>
+                          <span className="text-emerald-950">{Math.round((project.fundsRaised / project.budget) * 100)}%</span>
+                        </div>
+                        <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-emerald-600 rounded-full" 
+                            style={{ width: `${(project.fundsRaised / project.budget) * 100}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Link 
+                          to={`/projects/${project.id}`}
+                          className="inline-flex items-center gap-2 font-bold hover:gap-3 transition-all text-xs uppercase tracking-widest px-4 py-2 border border-emerald-200 text-emerald-600 rounded-lg hover:bg-emerald-50 w-fit"
+                        >
+                          Read More <ArrowRight className="w-4 h-4" />
+                        </Link>
+                        <Link 
+                          to="/donate"
+                          className="inline-flex items-center gap-2 font-bold transition-all text-xs uppercase tracking-widest px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 w-fit shadow-md shadow-emerald-200"
+                        >
+                          Donate
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Impact Numbers */}
-      <section className="py-12 lg:py-16 xl:py-20 bg-emerald-950 text-white relative overflow-hidden">
+      <section className="py-24 bg-emerald-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.2),transparent)] opacity-50"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <h2 className="text-[11px] font-bold tracking-[0.4em] text-emerald-400 uppercase mb-3 lg:mb-4">OUR IMPACT IN NUMBERS</h2>
-          <p className="text-base lg:text-lg text-emerald-100/60 mb-10 lg:mb-12 xl:mb-16 max-w-2xl mx-auto italic font-serif px-4">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-[11px] font-bold tracking-[0.4em] text-emerald-400 uppercase mb-4">OUR IMPACT IN NUMBERS</h2>
+          <p className="text-lg text-emerald-100/60 mb-16 max-w-2xl mx-auto italic font-serif">
             "Since 2021, we have been working tirelessly across SRI LANKA."
           </p>
           
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 xl:gap-12">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12">
             {[
-              { label: "Families Supported", value: "100+", icon: Users },
-              { label: "Funds Raised", value: "LKR 100,000", icon: BarChart3 },
-              { label: "Total Requests", value: "120", icon: Globe2 },
-              { label: "Districts Covered", value: "2/25", icon: MapPin }
+              { label: "Families Supported", value: 12400, suffix: "+", icon: Users },
+              { label: "Funds Raised", value: 8.2, suffix: "M", prefix: "LKR ", icon: BarChart3 },
+              { label: "Total Requests", value: 45000, suffix: "+", icon: Globe2 },
+              { label: "Districts Covered", value: 25, suffix: "/25", icon: MapPin }
             ].map((stat, i) => (
               <motion.div 
                 key={i}
@@ -323,87 +420,154 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="space-y-3 lg:space-y-4"
+                className="space-y-4"
               >
-                <div className="text-3xl lg:text-4xl xl:text-5xl font-bold font-display tracking-tight">{stat.value}</div>
+                <div className="text-4xl md:text-5xl font-bold font-display tracking-tight">
+                  {stat.prefix}<CountUp value={stat.value} suffix={stat.suffix} />
+                </div>
                 <div className="text-emerald-400/40 text-[10px] font-bold uppercase tracking-[0.2em]">{stat.label}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
- 
+
       {/* Recent Activities */}
-      <section className="py-12 lg:py-16 xl:py-20 bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10 lg:mb-12 xl:mb-16">
-            <h2 className="text-xs font-bold tracking-[0.3em] text-emerald-600 uppercase mb-3 lg:mb-4">MOMENTS OF HOPE</h2>
-            <h3 className="text-2xl lg:text-3xl font-bold text-emerald-950 mb-4 tracking-tight">Recent Activities</h3>
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-xs font-bold tracking-[0.3em] text-emerald-600 uppercase mb-4">MOMENTS OF HOPE</h2>
+            <h3 className="text-3xl font-bold text-emerald-950 mb-4 tracking-tight">Recent Activities</h3>
             <div className="w-12 h-1.5 bg-emerald-600 mx-auto rounded-full"></div>
           </div>
           
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8">
-            {[
-              "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&q=80&w=800",
-              "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=800",
-              "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=800"
-            ].map((img, i) => (
+          <div className="grid md:grid-cols-3 gap-8">
+            {ACTIVITIES.slice(0, 3).map((activity, i) => (
               <motion.div 
-                key={i}
+                key={activity.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                whileHover={{ y: -12 }}
-                className="aspect-[4/3] rounded-[2.5rem] overflow-hidden bg-gray-100 border border-emerald-50 shadow-lg shadow-emerald-900/5 group"
+                className="bg-white border border-gray-100 flex flex-col group hover:shadow-2xl hover:shadow-emerald-900/5 transition-all h-full"
               >
-                <img src={img} alt="Activity" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                {/* Image */}
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img 
+                    src={activity.image} 
+                    alt={activity.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute top-4 left-4 flex gap-2">
+                    <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-[9px] font-bold text-emerald-900 rounded-full uppercase tracking-widest shadow-sm flex items-center gap-1.5">
+                      <Calendar className="w-3 h-3" /> {activity.date}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-8 flex flex-col flex-1 border-t-4 border-emerald-600">
+                  <h3 className="text-lg font-bold text-emerald-900 mb-4 leading-tight group-hover:text-emerald-600 transition-colors line-clamp-2">
+                    {activity.title}
+                  </h3>
+                  
+                  <div className="flex items-center gap-2 mb-4 text-gray-400">
+                    <MapPin className="w-3 h-3" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">{activity.location}</span>
+                  </div>
+
+                  <p className="text-gray-500 text-sm leading-relaxed font-serif italic">
+                    {activity.shortDescription}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
- 
+
+      {/* Partners Section */}
+      <section className="py-24 bg-white border-y border-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-[10px] font-bold tracking-[0.4em] text-gray-400 uppercase mb-2">STRATEGIC PARTNERS</h2>
+            <div className="w-20 h-1 bg-emerald-100 mx-auto rounded-full"></div>
+          </div>
+          
+          <div className="flex flex-wrap items-center justify-center gap-12 md:gap-24 opacity-40 grayscale group-hover:grayscale-0 transition-all duration-700">
+            {[
+              { name: "Global Relief", icon: Globe2 },
+              { name: "Digital Trust", icon: ShieldCheck },
+              { name: "Youth Impact", icon: Users },
+              { name: "Future Lanka", icon: Building2 },
+              { name: "Tech Aid", icon: ActivityIcon }
+            ].map((partner, i) => (
+              <div key={i} className="flex items-center gap-3 group/partner cursor-default hover:opacity-100 hover:grayscale-0 transition-all">
+                <partner.icon className="w-8 h-8 text-emerald-950" />
+                <span className="font-bold text-xl tracking-tighter text-emerald-950 uppercase">{partner.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials */}
-      <section className="py-16 lg:py-24 xl:py-32 bg-[#FDFCFB] overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="py-32 bg-[#FDFCFB]">
+        <div className="max-w-4xl mx-auto px-4 text-center">
           <motion.div 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="p-8 lg:p-12 xl:p-16 bg-white rounded-[3rem] shadow-2xl shadow-emerald-900/5 relative text-center border border-emerald-50"
+            className="p-12 md:p-20 bg-white rounded-[3rem] shadow-2xl shadow-emerald-900/5 relative text-center border border-emerald-50 min-h-[500px] flex flex-col justify-center"
           >
-            <div className="absolute top-0 right-0 p-6 lg:p-10 opacity-5">
-              <MessageSquare className="w-24 h-24 lg:w-32 lg:h-32 text-emerald-600" />
+            <div className="absolute top-0 right-0 p-10 opacity-5">
+              <MessageSquare className="w-32 h-32 text-emerald-600" />
             </div>
             
-            <div className="w-16 h-16 lg:w-20 lg:h-20 bg-emerald-100 rounded-[1.5rem] mx-auto mb-6 lg:mb-8 overflow-hidden border-4 border-white shadow-xl rotate-3">
-              <img src="" alt="Profile" className="-rotate-3 w-full h-full object-cover" />
-            </div>
-            
-            <div className="relative z-10">
-              <p className="text-lg lg:text-xl xl:text-2xl text-emerald-950 italic font-serif leading-relaxed mb-6 lg:mb-8">
-                "Hopelink made it possible for our community to get the medical equipment we desperately needed. The process was fast, respectful, and completely transparent."
-              </p>
-              <div className="font-bold text-emerald-950 text-base lg:text-lg">Sanduni Anuththara</div>
-              <div className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mt-2">Grama Niladari Walpita</div>
-            </div>
- 
-            <div className="flex justify-center gap-4 mt-10 lg:mt-12">
-              <button className="w-12 h-12 rounded-2xl border border-emerald-100 flex items-center justify-center hover:bg-emerald-50 transition-colors">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTestimonial}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="relative z-10"
+              >
+                <div className="w-20 h-20 bg-emerald-100 rounded-[1.5rem] mx-auto mb-8 overflow-hidden border-4 border-white shadow-xl rotate-3">
+                  <img src={testimonials[activeTestimonial].avatar} alt="Profile" className="-rotate-3 w-full h-full object-cover" />
+                </div>
+                
+                <p className="text-xl md:text-2xl text-emerald-950 italic font-serif leading-relaxed mb-8">
+                  "{testimonials[activeTestimonial].quote}"
+                </p>
+                <div className="font-bold text-emerald-950 text-lg">{testimonials[activeTestimonial].author}</div>
+                <div className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mt-2">{testimonials[activeTestimonial].role}</div>
+              </motion.div>
+            </AnimatePresence>
+
+            <div className="flex justify-center gap-4 mt-12">
+              <button 
+                onClick={prevTestimonial}
+                className="w-12 h-12 rounded-2xl border border-emerald-100 flex items-center justify-center hover:bg-emerald-50 transition-colors"
+                aria-label="Previous testimonial"
+              >
                 <ChevronLeft className="w-6 h-6 text-emerald-600" />
               </button>
-              <button className="w-12 h-12 rounded-2xl border border-emerald-100 flex items-center justify-center hover:bg-emerald-50 transition-colors">
+              <button 
+                onClick={nextTestimonial}
+                className="w-12 h-12 rounded-2xl border border-emerald-100 flex items-center justify-center hover:bg-emerald-50 transition-colors"
+                aria-label="Next testimonial"
+              >
                 <ChevronRight className="w-6 h-6 text-emerald-600" />
               </button>
             </div>
           </motion.div>
         </div>
       </section>
- 
+
       {/* Pride Section */}
-      <section className="py-16 lg:py-24 xl:py-32 bg-white px-4 overflow-hidden">
+      <section className="py-32 bg-white px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-emerald-900 rounded-[2rem] lg:rounded-[3rem] xl:rounded-[4rem] p-8 lg:p-16 xl:p-24 relative overflow-hidden text-center shadow-2xl">
+          <div className="bg-emerald-900 rounded-[4rem] p-12 md:p-24 relative overflow-hidden text-center shadow-2xl">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(16,185,129,0.2),transparent)]"></div>
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
@@ -411,16 +575,19 @@ export default function Home() {
               viewport={{ once: true }}
               className="relative z-10"
             >
-              <h2 className="text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-white mb-8 lg:mb-10 xl:mb-12 max-w-2xl mx-auto leading-tight tracking-tight flex flex-wrap items-center justify-center gap-3">
-                We are really proud of our kind volunteers & donors <Heart className="w-6 h-6 lg:w-8 lg:h-8 xl:w-10 xl:h-10 text-emerald-400 fill-current shrink-0" />
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-12 max-w-2xl mx-auto leading-tight tracking-tight flex flex-wrap items-center justify-center gap-3">
+                We are really proud of our kind volunteers & donors <Heart className="w-8 h-8 md:w-10 md:h-10 text-emerald-400 fill-current shrink-0" />
               </h2>
-              <div className="flex flex-col sm:flex-row justify-center gap-4 lg:gap-6">
-                <button className="px-8 lg:px-10 xl:px-12 py-4 lg:py-4.5 xl:py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-[1.5rem] font-bold shadow-2xl shadow-emerald-950/40 transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs">
+              <div className="flex flex-col sm:flex-row justify-center gap-6">
+                <Link 
+                  to="/donate"
+                  className="px-12 py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-[1.5rem] font-bold shadow-2xl shadow-emerald-950/40 transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs"
+                >
                   Donate Now
-                </button>
+                </Link>
                 <button 
                   onClick={() => navigate("/volunteer")}
-                  className="px-8 lg:px-10 xl:px-12 py-4 lg:py-4.5 xl:py-5 bg-white/10 hover:bg-white/20 text-white rounded-[1.5rem] font-bold transition-all flex items-center justify-center gap-2 backdrop-blur-md border border-white/20 uppercase tracking-widest text-xs"
+                  className="px-12 py-5 bg-white/10 hover:bg-white/20 text-white rounded-[1.5rem] font-bold transition-all flex items-center justify-center gap-2 backdrop-blur-md border border-white/20 uppercase tracking-widest text-xs"
                 >
                   <Users className="w-5 h-5" /> Be a Volunteer
                 </button>
@@ -429,93 +596,6 @@ export default function Home() {
           </div>
         </div>
       </section>
- 
-      {/* Footer */}
-      <footer className="bg-gray-50 pt-16 lg:pt-20 xl:pt-24 pb-8 lg:pb-12 border-t border-emerald-100/50 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 mb-12 lg:mb-16 xl:mb-20">
-            {/* Branding */}
-            <div className="space-y-6 lg:space-y-8">
-              <div>
-                <div className="flex items-center gap-2 mb-5 lg:mb-6">
-                  <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center rotate-3">
-                    <Heart className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-xl lg:text-2xl font-bold font-display text-emerald-950 tracking-tight uppercase">HOPELINK</span>
-                </div>
-                <p className="text-sm text-gray-500 leading-relaxed italic font-serif">
-                  "Empowering the unheard, Rebuilding Lives where technology meets compassion."
-                </p>
-              </div>
- 
-              <div className="flex gap-4">
-                {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                  <a key={i} href="#" className="w-10 h-10 bg-white rounded-xl flex items-center justify-center border border-emerald-100 hover:bg-emerald-600 hover:text-white transition-all shadow-sm group">
-                    <Icon className="w-4 h-4" />
-                  </a>
-                ))}
-              </div>
-            </div>
- 
-            {/* Navigation */}
-            <div className="lg:pl-12">
-              <h3 className="font-bold text-emerald-950 mb-6 lg:mb-8 uppercase tracking-widest text-[10px]">Main Menu</h3>
-              <ul className="space-y-3 lg:space-y-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
-                {["Home", "About Us", "Our Work", "News", "Contact Us"].map((item) => (
-                  <li key={item}>
-                    <a href="#" className="hover:text-emerald-600 transition-colors flex items-center gap-2 group">
-                      <div className="w-0 group-hover:w-3 h-0.5 bg-emerald-600 transition-all duration-300"></div>
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
- 
-            {/* Contact */}
-            <div>
-              <h3 className="font-bold text-emerald-950 mb-6 lg:mb-8 uppercase tracking-widest text-[10px]">Contact</h3>
-              <ul className="space-y-5 lg:space-y-6">
-                {[
-                  { icon: MapPin, text: "456 Unity Tower, Galle Road, Colombo 03, SL" },
-                  { icon: Phone, text: "+94 11 234 5678" },
-                  { icon: Mail, text: "hello@hopelink.org" }
-                ].map((item, i) => (
-                  <li key={i} className="flex gap-4">
-                    <div className="w-9 h-9 bg-white rounded-xl flex items-center justify-center shrink-0 border border-emerald-50">
-                      <item.icon className="w-4 h-4 text-emerald-600" />
-                    </div>
-                    <span className="text-sm font-medium text-gray-500 leading-relaxed">{item.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
- 
-            {/* Newsletter */}
-            <div className="space-y-4 lg:space-y-6">
-              <h3 className="font-bold text-emerald-950 mb-6 lg:mb-8 uppercase tracking-widest text-[10px]">Newsletter</h3>
-              <div className="space-y-3">
-                <input 
-                  type="email" 
-                  placeholder="Enter your email" 
-                  className="w-full bg-white border border-emerald-100 rounded-xl px-5 py-3.5 text-sm outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all"
-                />
-                <button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-xl font-bold text-[10px] uppercase tracking-[0.2em] transition-all shadow-lg shadow-emerald-200">
-                  Subscribe
-                </button>
-              </div>
-            </div>
-          </div>
- 
-          <div className="pt-6 lg:pt-8 border-t border-emerald-100 flex flex-col md:flex-row justify-between items-center gap-4 lg:gap-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em]">
-            <p className="text-center md:text-left">© 2026 Hopelink Foundation. All Rights Reserved.</p>
-            <div className="flex gap-6 lg:gap-8">
-              <a href="#" className="hover:text-emerald-600 transition-colors">Privacy</a>
-              <a href="#" className="hover:text-emerald-600 transition-colors">Terms</a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
