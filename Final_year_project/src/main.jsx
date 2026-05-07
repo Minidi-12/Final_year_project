@@ -19,29 +19,31 @@ import Campaigns from './pages/Campaigns.page';
 import UpcomingActivities from './pages/Upcomingactivities.page';
 import ReportsResearches from './pages/Reports.page';
 import ContactUs from './pages/Contactus.page';
+import VerificationDetail from './pages/Verificationdetail.page';
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <StrictMode>
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home/>}/>
-            <Route path="/about-us" element={<About/>}/>
-            <Route path="/request-support" element={<RequestSupport/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/volunteer" element={<Volunteer/>}/>
-            <Route path="/verify" element={<GNDashboard/>}/>
-            <Route path="/projects" element={<Projects/>}/>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/verify" element={<GNDashboard />} />
+          <Route path="/verify/:id" element={<VerificationDetail />} />
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about-us" element={<About />} />
+            <Route path="/request-support" element={<RequestSupport />} />
+            <Route path="/volunteer" element={<Volunteer />} />
+            <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:id" element={<ProjectDetail />} />
-            <Route path="/achievements" element={<Achievements/>}/>
-            <Route path="/activities" element={<Activities/>}/>
-            <Route path="/campaigns" element={<Campaigns/>}/>
-            <Route path="/upcoming-activities" element={<UpcomingActivities/>}/>
-            <Route path="/reports-and-researches" element={<ReportsResearches/>}/>
-            <Route path="/contact-us" element={<ContactUs/>}/>
-          </Routes>
-        </Layout>
+            <Route path="/achievements" element={<Achievements />} />
+            <Route path="/activities" element={<Activities />} />
+            <Route path="/campaigns" element={<Campaigns />} />
+            <Route path="/upcoming-activities" element={<UpcomingActivities />} />
+            <Route path="/reports-and-researches" element={<ReportsResearches />} />
+            <Route path="/contact-us" element={<ContactUs />} />
+          </Route>
+        </Routes>
       </BrowserRouter>
     </StrictMode>
   </Provider>

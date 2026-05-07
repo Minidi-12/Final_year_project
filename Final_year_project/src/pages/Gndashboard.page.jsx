@@ -1,132 +1,225 @@
-import React from "react";
+import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
-import { 
-  Heart, 
-  Users, 
-  MapPin, 
-  Search, 
-  Bell, 
-  CheckCircle2, 
-  Clock, 
-  AlertCircle,
-  MoreVertical,
-  Filter,
-  LogOut,
-  LayoutDashboard,
-  FileText,
-  Settings
+import {
+  Heart, Users, MapPin, Search,
+  CheckCircle2, AlertCircle, Filter, LogOut,
+  LayoutDashboard, FileText, History, Calendar,
+  RefreshCw, Clock
 } from "lucide-react";
 import { useNavigate } from "react-router";
+import { useGetAllb_reqsQuery } from "../lib/api";
 
 export default function GNDashboard() {
   const navigate = useNavigate();
-  const userName = localStorage.getItem("userName") || "GN Officer";
+
+  //Officer info from localStorage (saved at login)
+  const userName   = localStorage.getItem("userName")   || "GN Officer";
+  const gnDivision = localStorage.getItem("gnDivision") || "";
+
+  const [view, setView]               = useState("dashboard");
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Fetch all requests from real API
+  const { data: allRequests = [], isLoading, isError, refetch } = useGetAllb_reqsQuery();
+
+  // Filter by officer's GN division 
+  const divisionRequests = allRequests.filter(req => {
+    const profile = req.b_profile?.[0];
+    if (!profile) return false;
+    return gnDivision
+      ? profile.gn_division?.toLowerCase() === gnDivision.toLowerCase()
+      : true;
+  });
+
+  const filteredRequests = divisionRequests.filter(req => {
+    const profile = req.b_profile?.[0];
+    if (!profile) return false;
+    const activeStatuses  = ["pending", "gn_assigned"];
+    const historyStatuses = ["verified", "flagged", "rejected", "resolved"];
+    const matchesView     = view === "dashboard"
+      ? activeStatuses.includes(req.status)
+      : historyStatuses.includes(req.status);
+    const matchesSearch   = searchQuery === "" ||
+      profile.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      profile.nic?.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesView && matchesSearch;
+  });
+
+  const stats = {
+    pending:  divisionRequests.filter(r => ["pending", "gn_assigned"].includes(r.status)).length,
+    verified: divisionRequests.filter(r => r.status === "verified").length,
+    flagged:  divisionRequests.filter(r => r.status === "flagged").length,
+    total:    divisionRequests.length,
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("userRole");
     localStorage.removeItem("userName");
-    navigate("/");
+    localStorage.removeItem("gnDivision");
+    localStorage.removeItem("userId");
+    navigate("/login");
   };
 
-  const requests = [
-    { id: "REQ-001", name: "H.G. Kusumawathi", type: "Medical Aid", status: "Pending", date: "2 Hours ago", location: "Walpita" },
-  ];
+  // Officer initials avatar
+  const initials = userName.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2);
 
   return (
-    <div className="min-h-screen bg-[#FDFCFB] flex font-sans">
-      {/* Sidebar */}
-      <aside className="w-72 bg-emerald-950 text-white p-8 flex flex-col hidden lg:flex">
-        <div className="flex items-center gap-3 mb-12">
-          <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center">
-            <Heart className="w-6 h-6 text-white" />
+    <div className="min-h-screen bg-[#F8FAF9] flex font-sans">
+
+      <aside className="w-64 bg-emerald-950 text-white flex flex-col hidden lg:flex">
+        {/* Logo */}
+        <div className="p-7 flex items-center gap-3 border-b border-emerald-900/50">
+          <div className="w-9 h-9 bg-emerald-500 rounded-xl flex items-center justify-center">
+            <Heart className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-bold font-display tracking-tight uppercase">HOPE<span className="text-emerald-400 italic">LINK</span></span>
+          <span className="text-lg font-black tracking-tight uppercase">
+            HOPE<span className="text-emerald-400 italic">LINK</span>
+          </span>
         </div>
 
-        <nav className="flex-1 space-y-2">
+        {/* Nav */}
+        <nav className="flex-1 p-5 space-y-2">
           {[
-            { icon: LayoutDashboard, label: "Dashboard", active: true },
-            { icon: Clock, label: "History" },
-          ].map((item, i) => (
-            <button key={i} className={`w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest transition-all ${item.active ? 'bg-emerald-600 text-white shadow-xl shadow-emerald-900/40' : 'text-emerald-400/60 hover:bg-white/5 hover:text-white'}`}>
-              <item.icon className="w-5 h-5" />
+            { id: "dashboard", icon: LayoutDashboard, label: "Dashboard" },
+            { id: "history",   icon: History,         label: "All History" },
+          ].map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setView(item.id)}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[11px] font-bold uppercase tracking-widest transition-all ${
+                view === item.id
+                  ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/30"
+                  : "text-white/50 hover:bg-white/5 hover:text-white/80"
+              }`}
+            >
+              <item.icon className="w-4 h-4" />
               {item.label}
             </button>
           ))}
         </nav>
 
-        <button 
-          onClick={handleLogout}
-          className="flex items-center gap-4 px-5 py-4 text-red-400 hover:text-red-300 text-[11px] font-bold uppercase tracking-widest mt-auto border-t border-white/5 pt-8"
-        >
-          <LogOut className="w-5 h-5" />
-          Sign Out
-        </button>
+        {/* Logout */}
+        <div className="p-5 border-t border-emerald-900/50">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[11px] font-bold uppercase tracking-widest text-white/40 hover:bg-white/5 hover:text-red-400 transition-all"
+          >
+            <LogOut className="w-4 h-4" /> Logout
+          </button>
+        </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        {/* Top Header */}
-        <header className="h-20 bg-white border-b border-emerald-50 px-10 flex items-center justify-between sticky top-0 z-30">
-          <div className="flex items-center gap-4">
-            <span className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase tracking-widest">Walpita</span>
+      <div className="flex-1 flex flex-col">
+
+        <header className="bg-white border-b border-gray-100 px-8 py-5 flex items-center justify-between">
+          <div>
+            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-[0.3em] mb-1">
+              Administrative Node
+            </p>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+              GN Division Overview
+            </h1>
           </div>
-          
-          <div className="flex items-center gap-6">
-            <div className="relative hidden md:block">
-              <Search className="w-4 h-4 text-gray-300 absolute left-4 top-1/2 -translate-y-1/2" />
-              <input 
-                placeholder="Search NIC or Name..." 
-                className="bg-gray-50 border border-gray-100 rounded-full pl-12 pr-6 py-2.5 text-xs font-medium focus:ring-2 focus:ring-emerald-500/10 outline-none w-64 transition-all"
-              />
-            </div>
-            <button className="relative w-10 h-10 flex items-center justify-center bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
-              <Bell className="w-5 h-5 text-gray-400" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+
+          {/* Officer Name + Avatar */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={refetch}
+              className="w-9 h-9 flex items-center justify-center bg-gray-50 border border-gray-100 rounded-xl hover:bg-emerald-50 transition-all"
+              title="Refresh"
+            >
+              <RefreshCw className="w-4 h-4 text-gray-400" />
             </button>
-            <div className="flex items-center gap-3 pl-6 border-l border-emerald-50">
-              <div className="text-right">
-                <div className="text-xs font-bold text-emerald-950">{userName}</div>
-                <div className="text-[9px] font-bold text-emerald-600/60 uppercase tracking-widest">GN Officer</div>
+
+            <div className="text-right hidden md:block">
+              <div className="text-sm font-bold text-slate-900">
+                {userName.startsWith("Mr.") || userName.startsWith("Ms.") ? userName : `Mr. ${userName}`}
               </div>
-              <img src="" className="w-10 h-10 rounded-xl shadow-lg shadow-emerald-900/10" alt="Profile" />
+              <div className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">
+                Divisional Officer
+              </div>
+            </div>
+
+            {/* Avatar */}
+            <div className="w-11 h-11 bg-emerald-100 rounded-full flex items-center justify-center ring-2 ring-emerald-200 overflow-hidden">
+              <span className="text-sm font-black text-emerald-700">{initials}</span>
             </div>
           </div>
         </header>
 
-        <div className="p-10 space-y-10">
-          {/* Stats Bar */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <main className="flex-1 p-8 overflow-auto">
+
+          {/* Division badge */}
+          {gnDivision && (
+            <div className="flex items-center gap-2 mb-6">
+              <MapPin className="w-4 h-4 text-emerald-500" />
+              <span className="text-sm font-bold text-slate-600">{gnDivision} Division</span>
+            </div>
+          )}
+
+          {/* Error Banner */}
+          {isError && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3">
+              <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
+              <p className="text-sm text-red-600 font-medium flex-1">
+                Failed to load requests. Make sure your backend is running on port 3000.
+              </p>
+              <button onClick={refetch} className="text-xs font-bold text-red-600 underline">Retry</button>
+            </div>
+          )}
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             {[
-              { label: "Pending Tasks", val: "12", icon: Clock, color: "text-amber-500", bg: "bg-amber-50" },
-              { label: "Verified Today", val: "24", icon: CheckCircle2, color: "text-emerald-500", bg: "bg-emerald-50" },
-              { label: "Flagged", val: "03", icon: AlertCircle, color: "text-red-500", bg: "bg-red-50" },
-              { label: "Total Managed", val: "1.2K", icon: Users, color: "text-blue-500", bg: "bg-blue-50" }
+              { label: "Pending Tasks",    val: stats.pending,  icon: Clock,         color: "text-amber-500",   bg: "bg-amber-50",   border: "border-amber-100" },
+              { label: "Verified Today",   val: stats.verified, icon: CheckCircle2,  color: "text-emerald-500", bg: "bg-emerald-50", border: "border-emerald-100" },
+              { label: "Flagged Case",     val: stats.flagged,  icon: AlertCircle,   color: "text-red-500",     bg: "bg-red-50",     border: "border-red-100" },
+              { label: "Total Managed",    val: stats.total,    icon: Users,         color: "text-blue-500",    bg: "bg-blue-50",    border: "border-blue-100" },
             ].map((stat, i) => (
-              <div key={i} className="bg-white p-6 rounded-[2rem] border border-emerald-50 shadow-sm flex items-center gap-5">
-                <div className={`w-14 h-14 ${stat.bg} rounded-2xl flex items-center justify-center shrink-0`}>
-                  <stat.icon className={`w-7 h-7 ${stat.color}`} />
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+                className={`bg-white p-6 rounded-2xl border ${stat.border} shadow-sm flex items-center gap-4`}
+              >
+                <div className={`w-12 h-12 ${stat.bg} rounded-xl flex items-center justify-center shrink-0`}>
+                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
                 </div>
                 <div>
-                  <div className="text-2xl font-bold font-display text-emerald-950">{stat.val}</div>
-                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">{stat.label}</div>
+                  <div className="text-2xl font-bold text-slate-900">{stat.val}</div>
+                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">{stat.label}</div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
-          {/* List Section */}
-          <div className="bg-white rounded-[2.5rem] border border-emerald-50 shadow-2xl shadow-emerald-900/5 overflow-hidden">
-            <div className="p-8 border-b border-gray-50 flex items-center justify-between">
+          {/* Table Card */}
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="p-6 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <h3 className="text-lg font-bold text-emerald-950 tracking-tight">Recent Verification Requests</h3>
-                <p className="text-xs text-gray-400 font-medium mt-1 uppercase tracking-widest shrink-0">Incoming from Hopelink NGO Platform</p>
+                <h3 className="text-lg font-bold text-slate-900">
+                  {view === "dashboard" ? "Active Worklist" : "Historical Archive"}
+                </h3>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">
+                  {filteredRequests.length} record{filteredRequests.length !== 1 ? "s" : ""} found
+                </p>
               </div>
-              <div className="flex gap-3">
-                <button className="p-3 bg-gray-50 rounded-xl text-gray-400 hover:text-emerald-600 transition-colors">
-                  <Filter className="w-5 h-5" />
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300" />
+                  <input
+                    type="text"
+                    placeholder="Search name or NIC..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-emerald-200 w-60"
+                  />
+                </div>
+                <button className="flex items-center gap-2 px-4 py-2.5 bg-gray-50 rounded-xl text-[10px] font-bold text-gray-400 border border-gray-100">
+                  <Filter className="w-3.5 h-3.5" /> Filters
                 </button>
               </div>
             </div>
@@ -135,73 +228,117 @@ export default function GNDashboard() {
               <table className="w-full">
                 <thead>
                   <tr className="bg-gray-50/50">
-                    <th className="px-8 py-5 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Beneficiary</th>
-                    <th className="px-8 py-5 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Type</th>
-                    <th className="px-8 py-5 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">GN Division</th>
-                    <th className="px-8 py-5 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Date</th>
-                    <th className="px-8 py-5 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Status</th>
-                    <th className="px-8 py-5 text-right text-[10px] font-bold text-gray-400 uppercase tracking-widest">Action</th>
+                    {["Beneficiary", "Main Need", "Division", "Submitted", "Status", "Action"].map(h => (
+                      <th key={h} className={`px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest ${h === "Action" ? "text-right" : "text-left"}`}>
+                        {h}
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {requests.map((req, i) => (
-                    <tr key={i} className="hover:bg-emerald-50/20 transition-colors group">
-                      <td className="px-8 py-6">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center font-bold text-emerald-600 uppercase text-xs">
-                            {req.name.split(' ').map(n => n[0]).join('')}
+                  <AnimatePresence>
+                    {isLoading ? (
+                      [...Array(4)].map((_, i) => (
+                        <tr key={i} className="animate-pulse">
+                          <td colSpan={6} className="px-6 py-5">
+                            <div className="h-7 bg-gray-100 rounded-lg w-full" />
+                          </td>
+                        </tr>
+                      ))
+                    ) : filteredRequests.length === 0 ? (
+                      <tr>
+                        <td colSpan={6} className="px-6 py-16 text-center">
+                          <div className="flex flex-col items-center gap-3 opacity-20">
+                            <FileText className="w-12 h-12" />
+                            <p className="text-xs font-bold uppercase tracking-widest">No records found</p>
                           </div>
-                          <div>
-                            <div className="text-sm font-bold text-emerald-950">{req.name}</div>
-                            <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">{req.id}</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-8 py-6">
-                        <span className="text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full uppercase tracking-tighter shrink-0">{req.type}</span>
-                      </td>
-                      <td className="px-8 py-6">
-                        <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
-                          <MapPin className="w-3 h-3" /> {req.location}
-                        </div>
-                      </td>
-                      <td className="px-8 py-6">
-                        <span className="text-xs font-bold text-emerald-600/60 uppercase tracking-widest">{req.date}</span>
-                      </td>
-                      <td className="px-8 py-6">
-                        <div className="flex items-center gap-2">
-                          <div className={`w-2 h-2 rounded-full ${
-                            req.status === 'Verified' ? 'bg-emerald-500' : 
-                            req.status === 'Pending' ? 'bg-amber-500 animate-pulse' : 'bg-red-500'
-                          }`}></div>
-                          <span className={`text-[10px] font-bold uppercase tracking-widest ${
-                            req.status === 'Verified' ? 'text-emerald-600' : 
-                            req.status === 'Pending' ? 'text-amber-600' : 'text-red-600'
-                          }`}>{req.status}</span>
-                        </div>
-                      </td>
-                      <td className="px-8 py-6 text-right">
-                        <button className="w-9 h-9 items-center justify-center bg-gray-50 rounded-lg text-gray-400 hover:text-emerald-600 transition-colors hidden sm:inline-flex shrink-0">
-                          <MoreVertical className="w-4 h-4" />
-                        </button>
-                        <button 
-                          onClick={() => navigate(`/verify/${req.id}`)}
-                          className="ml-3 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all shadow-lg shadow-emerald-900/10 active:scale-95"
+                        </td>
+                      </tr>
+                    ) : filteredRequests.map((req) => {
+                      const profile = req.b_profile?.[0];
+                      if (!profile) return null;
+                      const date = req.created_at
+                        ? new Date(req.created_at).toLocaleDateString()
+                        : "—";
+                      return (
+                        <motion.tr
+                          key={req._id}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          className="hover:bg-emerald-50/20 transition-colors group"
                         >
-                          Review
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                          <td className="px-6 py-5">
+                            <div className="flex items-center gap-3">
+                              <div className="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center font-bold text-emerald-700 text-xs ring-1 ring-emerald-100">
+                                {profile.name?.[0]?.toUpperCase()}
+                              </div>
+                              <div>
+                                <div className="text-sm font-bold text-slate-900">{profile.name}</div>
+                                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{profile.nic}</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-5">
+                            <div className="flex flex-wrap gap-1.5">
+                              {profile.support_types?.slice(0, 1).map(type => (
+                                <span key={type} className="text-[10px] font-black text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-lg uppercase tracking-widest">{type}</span>
+                              ))}
+                              {profile.support_types?.length > 1 && (
+                                <span className="text-[10px] font-bold text-gray-300 bg-gray-50 px-2 py-1 rounded-lg">+{profile.support_types.length - 1}</span>
+                              )}
+                            </div>
+                          </td>
+                          <td className="px-6 py-5">
+                            <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                              <MapPin className="w-3 h-3 text-emerald-300" /> {profile.gn_division}
+                            </div>
+                          </td>
+                          <td className="px-6 py-5">
+                            <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+                              <Calendar className="w-3 h-3 text-emerald-300" /> {date}
+                            </div>
+                          </td>
+                          <td className="px-6 py-5">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-2 h-2 rounded-full ${
+                                req.status === "verified"    ? "bg-emerald-500" :
+                                req.status === "pending"     ? "bg-amber-500 animate-pulse" :
+                                req.status === "gn_assigned" ? "bg-indigo-500 animate-pulse" :
+                                req.status === "flagged"     ? "bg-orange-500" :
+                                req.status === "resolved"    ? "bg-blue-500" :
+                                "bg-red-500"
+                              }`} />
+                              <span className={`text-[11px] font-black uppercase tracking-wider ${
+                                req.status === "verified"    ? "text-emerald-600" :
+                                req.status === "pending"     ? "text-amber-600" :
+                                req.status === "gn_assigned" ? "text-indigo-600" :
+                                req.status === "flagged"     ? "text-orange-600" :
+                                req.status === "resolved"    ? "text-blue-600" :
+                                "text-red-600"
+                              }`}>
+                                {req.status.replace("_", " ")}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-5 text-right">
+                            <button
+                              onClick={() => navigate(`/verify/${req._id}`)}
+                              className="px-5 py-2 bg-emerald-950 hover:bg-black text-white rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all active:scale-95 inline-flex items-center gap-1.5"
+                            >
+                              {view === "dashboard" ? "Verify" : "View"} <FileText className="w-3 h-3 opacity-50" />
+                            </button>
+                          </td>
+                        </motion.tr>
+                      );
+                    })}
+                  </AnimatePresence>
                 </tbody>
               </table>
             </div>
-            <div className="p-8 bg-gray-50/50 border-t border-gray-50 text-center">
-              <button className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest hover:underline">Load All Verification Requests</button>
-            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
