@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import React from "react";
 
+
 export default function AboutUs() {
   const [activeValue, setActiveValue] = React.useState(0);
 
@@ -43,15 +44,15 @@ export default function AboutUs() {
   ];
 
   const team = [
-    { name: "Dr. Rohitha Perera", role: "Executive Director", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200&h=200" },
-    { name: "Samanthi Silva", role: "Head of Operations", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200&h=200" },
-    { name: "Dr. Anura Kumara", role: "Medical Advisor", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200" },
-    { name: "Nilukshi Bandara", role: "Community Outreach", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200" }
+    { name: "Dr. Rohitha Perera", role: "CHAIRMAN", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200&h=200" },
+    { name: "Samanthi Silva", role: "VICE CHAIRMAN", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200&h=200" },
+    { name: "Dr. Anura Kumara", role: "EXECUTIVE DIRECTOR", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200" },
+    { name: "Nilukshi Bandara", role: "ADMINISTRATIVE SECRETARY", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200" }
   ];
 
   return (
     <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pt-32 pb-20">
-      {/* 1. HERO: The Mission Statement */}
+      {/* The Mission Statement */}
       <section className="max-w-7xl mx-auto px-6 mb-32">
         <div className="flex flex-col lg:flex-row items-center gap-20">
           <div className="lg:w-3/5">
@@ -118,7 +119,7 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* 2. OUR VALUES: Interactive Grid */}
+      {/*  Interactive Grid */}
       <section className="bg-emerald-950 py-32 overflow-hidden mb-32 rounded-[4rem] mx-4">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-24">
@@ -161,7 +162,7 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* 3. THE INNOVATION: The Digital Bridge */}
+      {/*The Digital Bridge */}
       <section className="max-w-7xl mx-auto px-6 py-32">
         <div className="flex flex-col lg:flex-row-reverse items-center gap-20">
           <div className="lg:w-1/2">
@@ -215,7 +216,7 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* 4. TEAM: The Human Factor */}
+      {/* The Human Factor */}
       <section className="bg-gray-50 py-32 rounded-[4rem] mx-4 mb-32">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-24">
@@ -247,7 +248,7 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* 5. CTA: Join the Movement */}
+      {/*  Join the Movement */}
       <section className="max-w-4xl mx-auto px-6 text-center">
         <h3 className="text-4xl md:text-5xl font-bold text-emerald-950 mb-8 tracking-tight">Ready to rewrite <br />the story of <span className="text-emerald-600 italic font-serif">local aid?</span></h3>
         <p className="text-lg text-gray-500 mb-12 font-serif italic">Your expertise, your time, or your funding can change a life today through a verified channel.</p>
