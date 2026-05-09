@@ -138,21 +138,21 @@ export const PROJECTS = [
 export const ACTIVITIES = [
   {
     id: "nysc-colombo",
-    title: "Awareness Programme for NYSC Youth – Colombo District",
+    title: "Awareness Programme for NYSC Youth - Colombo District",
     date: "November 2024",
     location: "Colombo",
     description: "Another successful programme, another group having their minds enlightened. This was a two-day training programme which was conducted for the youth of the National Youth Services Council in Colombo. The sessions focused on identifying different forms of exploitation and understanding the legal frameworks available for protection.",
     shortDescription: "A two-day training session empowering Colombo's youth with knowledge on exploitation prevention and legal protections.",
-    image: "https://images.unsplash.com/photo-1524178232363-1fb28f74b671?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1743611847941-79f1b9bd5626?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHlvdXRoJTIwc3JpJTIwbGFua2F8ZW58MHx8MHx8fDA%3D"
   },
   {
     id: "symposium-2024",
-    title: "First Global Academic Symposium on Monitoring & Evaluation Education – 2024",
+    title: "First Global Academic Symposium on Monitoring & Evaluation Education - 2024",
     date: "October 2024",
     location: "Global",
     description: "Our Monitoring and Evaluation Officer (MEAL), Pradeep participated at the first-ever global Academic Symposium on Monitoring & Evaluation Education, which brought together experts from across the world to discuss innovative strategies for measuring social impact and ensuring transparency in humanitarian projects.",
     shortDescription: "Global experts gathered to share innovative strategies for measuring social impact and improving project transparency.",
-    image: "https://images.unsplash.com/photo-1540575861501-7ad05823c9f5?q=80&w=800&auto=format&fit=crop"
+    image: "https://media.istockphoto.com/id/2258642801/photo/sri-lankan-school-children-using-a-laptop-in-classroom.jpg?s=612x612&w=0&k=20&c=uYG9OLy0BIK1Z6Run4FkhGxCM-PmhDtLsj130VXwUvk="
   },
   {
     id: "childrens-day-2024",

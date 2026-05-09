@@ -20,6 +20,8 @@ import UpcomingActivities from './pages/Upcomingactivities.page';
 import ReportsResearches from './pages/Reports.page';
 import ContactUs from './pages/Contactus.page';
 import VerificationDetail from './pages/Verificationdetail.page';
+import Donate from './pages/Donate.page';
+import AdminDashboard from './pages/Admindashboard.page';
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
@@ -29,10 +31,11 @@ createRoot(document.getElementById('root')).render(
           <Route path="/login" element={<Login />} />
           <Route path="/verify" element={<GNDashboard />} />
           <Route path="/verify/:id" element={<VerificationDetail />} />
+          <Route path="/request-support" element={<RequestSupport />} />
+          <Route path="/dashboard" element={<AdminDashboard/>}/>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/about-us" element={<About />} />
-            <Route path="/request-support" element={<RequestSupport />} />
             <Route path="/volunteer" element={<Volunteer />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:id" element={<ProjectDetail />} />
@@ -42,6 +45,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/upcoming-activities" element={<UpcomingActivities />} />
             <Route path="/reports-and-researches" element={<ReportsResearches />} />
             <Route path="/contact-us" element={<ContactUs />} />
+            <Route path="/donate" element={<Donate/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

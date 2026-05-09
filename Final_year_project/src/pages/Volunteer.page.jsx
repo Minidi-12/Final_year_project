@@ -21,7 +21,7 @@ import {
   MapPin,
   Target,
 } from "lucide-react";
-// ✅ FIX 1: Changed "react-router" → "react-router-dom"
+
 import { useNavigate, Link } from "react-router";
  
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
@@ -124,7 +124,7 @@ export default function Volunteer() {
     }
   };
  
-  // ─── Success Screen ────────────────────────────────────────────────────────
+  // Success Screen 
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-[#FDFCFB] flex items-center justify-center p-6 text-center">
@@ -155,7 +155,7 @@ export default function Volunteer() {
     );
   }
  
-  // ─── Main Page ─────────────────────────────────────────────────────────────
+  // Main Page
   return (
     <div className="min-h-screen bg-[#FDFCFB] font-sans">
       {/* Navbar */}

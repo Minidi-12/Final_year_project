@@ -231,7 +231,7 @@ export default function Home() {
               <div className="absolute -top-10 -left-10 w-40 h-40 bg-emerald-50 rounded-full blur-3xl opacity-60"></div>
               <div className="relative z-10 bg-emerald-50 rounded-[3rem] p-4">
                 <img
-                  src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800"
+                  src="https://plus.unsplash.com/premium_photo-1664461348296-2dc2207b1c82?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTgyfHx0cnVzdHxlbnwwfHwwfHx8MA%3D%3D"
                   alt="Official Verification"
                   className="rounded-[2.5rem] w-full aspect-[4/5] object-cover shadow-2xl"
                 />
