@@ -158,31 +158,6 @@ export default function Volunteer() {
   // Main Page
   return (
     <div className="min-h-screen bg-[#FDFCFB] font-sans">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-emerald-50 h-20">
-        <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center">
-              <Heart className="w-5 h-5 text-white fill-current" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-bold text-emerald-950 leading-none">
-                HOPELINK
-              </span>
-              <span className="text-[8px] font-bold text-emerald-600 tracking-[0.3em] uppercase">
-                Foundations
-              </span>
-            </div>
-          </Link>
-          <Link
-            to="/"
-            className="text-[10px] font-bold text-gray-400 hover:text-emerald-600 uppercase tracking-widest flex items-center gap-2 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" /> Exit to Website
-          </Link>
-        </div>
-      </nav>
- 
       <main className="pt-32 pb-20 px-6 max-w-5xl mx-auto flex flex-col lg:flex-row gap-16">
         {/* ── Left: Hero Info ── */}
         <div className="lg:w-2/5 space-y-10">
@@ -201,7 +176,7 @@ export default function Volunteer() {
               </span>
             </h1>
             <p className="text-gray-500 font-medium leading-relaxed italic text-lg font-serif">
-              Join our network of 500+ volunteers making a difference across Sri
+              Join our network of 75+ volunteers making a difference across Sri
               Lanka. Whether you have 2 hours or 20, your skills can change
               lives.
             </p>
@@ -266,7 +241,7 @@ export default function Volunteer() {
                 <input
                   required
                   type="text"
-                  placeholder="John Doe"
+                  placeholder="Minidi Sathpiyumi"
                   className="w-full bg-gray-50 border border-emerald-50 rounded-2xl px-6 py-4 text-sm font-semibold focus:bg-white outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
                   value={formData.name}
                   onChange={(e) =>
@@ -283,7 +258,7 @@ export default function Volunteer() {
                 <input
                   required
                   type="email"
-                  placeholder="john@example.com"
+                  placeholder="mini@example.com"
                   className="w-full bg-gray-50 border border-emerald-50 rounded-2xl px-6 py-4 text-sm font-semibold focus:bg-white outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all"
                   value={formData.email}
                   onChange={(e) =>

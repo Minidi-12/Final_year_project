@@ -20,7 +20,7 @@ const UPCOMING_ACTIVITIES = [
     time: "09:00 AM - 04:00 PM",
     location: "Monaragala District Hall",
     description: "A specialized training session for teachers and school administrators in rural districts focusing on identifying psychological signs of abuse and establishing school-based support systems. This workshop will provide practical tools for early intervention and creating safe learning environments for all students.",
-    image: "https://images.unsplash.com/photo-1544531585-9837b9884657?q=80&w=800&auto=format&fit=crop",
+    image: "https://plus.unsplash.com/premium_photo-1722945655480-dcabf331faeb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YXdhcmVuZXNzJTIwc2Vzc2lvbiUyMGZvciUyMHRlYWNoZXJzfGVufDB8fDB8fHww",
     capacity: "50 Participants",
     tag: "WORKSHOP"
   },

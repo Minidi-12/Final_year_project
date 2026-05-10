@@ -99,7 +99,7 @@ export default function Donate() {
                       <div className="grid md:grid-cols-2 gap-4 text-sm font-medium text-gray-600">
                         <div>
                           <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Account Name</p>
-                          <p className="font-bold text-emerald-950">Foundation of Goodness</p>
+                          <p className="font-bold text-emerald-950">HopeConnect Foundation</p>
                         </div>
                         <div>
                           <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Account Number</p>
@@ -107,7 +107,7 @@ export default function Donate() {
                         </div>
                         <div>
                           <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Bank & Branch</p>
-                          <p className="font-bold text-emerald-950">HNB (Thimbirigasyaya)</p>
+                          <p className="font-bold text-emerald-950">HNB (Homagama)</p>
                         </div>
                         <div>
                           <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">SWIFT Code</p>
@@ -124,8 +124,8 @@ export default function Donate() {
                             <span className="text-[10px] font-bold uppercase tracking-widest">Mail by Cheque</span>
                           </div>
                           <p className="text-xs text-emerald-100/60 leading-relaxed font-serif italic">
-                            Address to "Foundation of Goodness" <br />
-                            30/32 Longden Place, Colombo 7, Sri Lanka
+                            Address to "HopeConnect Foundation" <br />
+                            456 Unity Tower, Galle Road, Colombo 03, Sri Lanka
                           </p>
                         </div>
                         <div className="shrink-0">
@@ -224,7 +224,7 @@ export default function Donate() {
                          </div>
                          <div>
                             <p className="text-gray-400 font-bold uppercase tracking-widest mb-1">Account Name</p>
-                            <p className="font-bold text-slate-800">FOUNDATION OF GOODNESS</p>
+                            <p className="font-bold text-slate-800">HopeConnect Foundation</p>
                          </div>
                          <div>
                             <p className="text-gray-400 font-bold uppercase tracking-widest mb-1">Account Number</p>
@@ -234,7 +234,7 @@ export default function Donate() {
                       <div className="space-y-4 text-[11px]">
                          <div>
                             <p className="text-gray-400 font-bold uppercase tracking-widest mb-1">Branch</p>
-                            <p className="font-bold text-slate-800">Thimbirigasyaya</p>
+                            <p className="font-bold text-slate-800">Homagama</p>
                          </div>
                          <div>
                             <p className="text-gray-400 font-bold uppercase tracking-widest mb-1">Bank / Branch Code</p>

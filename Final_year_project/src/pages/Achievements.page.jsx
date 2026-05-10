@@ -77,9 +77,9 @@ export default function Achievements() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { label: "Transparency", val: "100%", sub: "Verified Fund Trail", icon: Globe },
-              { label: "Successful Deliveries", val: "25+", sub: "Completed Projects", icon: CheckCircle2 },
-              { label: "Lives Impacted", val: "15k+", sub: "Communities Reached", icon: Users },
-              { label: "Island-Wide", val: "25/25", sub: "Districts Served", icon: Award },
+              { label: "Successful Deliveries", val: "20+", sub: "Completed Projects", icon: CheckCircle2 },
+              { label: "Lives Impacted", val: "40+", sub: "Communities Reached", icon: Users },
+              { label: "Island-Wide", val: "3/25", sub: "Districts Served", icon: Award },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}

@@ -43,7 +43,7 @@ export default function Navbar() {
               <Heart className="w-5 h-5 text-white animate-pulse" />
             </div>
             <span className="text-xl font-bold font-display tracking-tight text-emerald-950 uppercase">
-              HOPELINK
+              HOPECONNECT
             </span>
           </Link>
 

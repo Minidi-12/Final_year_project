@@ -100,7 +100,7 @@ export default function ContactUs() {
                   { 
                     icon: Mail, 
                     title: "Digital Inquiries", 
-                    value: "hello@hopelink.org",
+                    value: "hello@hopeconnect.org",
                     desc: "General and partnership requests"
                   }
                 ].map((item, i) => (
@@ -281,7 +281,7 @@ export default function ContactUs() {
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-emerald-950 mb-12 leading-tight tracking-tight">Our Privacy <br /><span className="text-emerald-600 font-serif italic">Commitment</span></h2>
             <p className="text-xl text-emerald-900/40 leading-relaxed font-serif italic">
-              "We prioritize your safety above all else. Communication with Hopelink is protected by end-to-end security protocols. We do not share your contact information with external agencies without explicit legal mandate or prior consent."
+              "We prioritize your safety above all else. Communication with HopeConnect is protected by end-to-end security protocols. We do not share your contact information with external agencies without explicit legal mandate or prior consent."
             </p>
          </div>
       </section>
