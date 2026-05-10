@@ -8,7 +8,7 @@ import {
   Briefcase, Download, Eye, ChevronRight, FileText,
   ShieldCheck, Flag, Activity, User, DollarSign,
   MapPin, Phone, RefreshCw, Zap, Award, Calendar,
-  Settings, X, UserPlus
+  Settings, X, UserPlus, Trash2, AlertTriangle
 } from "lucide-react";
 import { useNavigate } from "react-router";
 import {
@@ -24,7 +24,9 @@ import {
   useGetAllgn_divisionsQuery,
   useGetAllprojectsQuery,
   useCreateprojectMutation,
+  useDeleteprojectMutation,
   useCreateGnOfficerMutation,
+  useDeleteGnOfficerMutation,
 } from "@/lib/api";
 
 
@@ -150,7 +152,7 @@ export default function AdminDashboard() {
             <Heart className="w-5 h-5 text-white" />
           </div>
           <span className="text-base font-black text-slate-900 uppercase tracking-tight">
-            HOPE<span className="text-emerald-600">LINK</span>
+            HOPE<span className="text-emerald-600">CONNECT</span>
           </span>
         </div>
 
@@ -768,212 +770,81 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
   );
 }
 
-// ML INSIGHTS VIEW — removed, kept for reference
-function MLView({ allRequests }) { return null; }
-function _MLViewUnused({ allRequests }) {
-  // Build PCA scatter from real data
-  const pcaData = useMemo(() => {
-    const clusters = { 1: [], 2: [], 3: [] };
-    allRequests.forEach(r => {
-      if (r.pca_x !== null && r.pca_x !== undefined && r.pca_y !== null && r.pca_y !== undefined) {
-        const c = r.clusterId || 1;
-        if (!clusters[c]) clusters[c] = [];
-        clusters[c].push({
-          x: parseFloat(r.pca_x?.toFixed(3)),
-          y: parseFloat(r.pca_y?.toFixed(3)),
-          name: r.b_profile?.[0]?.name || "Unknown",
-          urgency: r.urgency_label || "Unknown",
-          score: r.urgency_score ?? 0,
-        });
-      }
-    });
-    return clusters;
-  }, [allRequests]);
-
-  const clusterStats = useMemo(() => {
-    const c1 = allRequests.filter(r => r.clusterId === 1).length;
-    const c2 = allRequests.filter(r => r.clusterId === 2).length;
-    const c3 = allRequests.filter(r => r.clusterId === 3).length;
-    return [
-      { cluster: 1, label: "High-Need Families",      count: c1, color: "#ef4444", pct: c1 + c2 + c3 > 0 ? Math.round((c1 / (c1 + c2 + c3)) * 100) : 0 },
-      { cluster: 2, label: "Moderate-Need",           count: c2, color: "#f59e0b", pct: c1 + c2 + c3 > 0 ? Math.round((c2 / (c1 + c2 + c3)) * 100) : 0 },
-      { cluster: 3, label: "Stable with Support",     count: c3, color: "#10b981", pct: c1 + c2 + c3 > 0 ? Math.round((c3 / (c1 + c2 + c3)) * 100) : 0 },
-    ];
-  }, [allRequests]);
-
-  const modelMetrics = [
-    { label: "Model Accuracy",      val: "87%",    sub: "5-fold cross-validation" },
-    { label: "Training Samples",    val: "115",    sub: "15 real + 100 synthetic" },
-    { label: "PCA Variance",        val: "56%",    sub: "PC1: 34.2% · PC2: 21.8%" },
-    { label: "Clusters Found",      val: "3",      sub: "Ward linkage, d=8.62" },
-    { label: "Features Used",       val: "15",     sub: "Engineered features" },
-    { label: "Hybrid Weight",       val: "60/40",  sub: "Rules / ML" },
-  ];
-
-  const hasPCAData = Object.values(pcaData).some(arr => arr.length > 0);
-
-  return (
-    <div className="space-y-8">
-      {/* Model metrics */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {modelMetrics.map((m, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-            className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm text-center">
-            <p className="text-2xl font-bold text-slate-900">{m.val}</p>
-            <p className="text-xs font-bold text-slate-600 mt-1">{m.label}</p>
-            <p className="text-[9px] text-slate-400 mt-0.5">{m.sub}</p>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* PCA Scatter — real data */}
-        <ChartCard title="PCA Cluster Visualization" sub="Real beneficiary data — 2D dimensionality reduction (PC1 vs PC2)">
-          {hasPCAData ? (
-            <>
-              <ResponsiveContainer width="100%" height={320}>
-                <ScatterChart margin={{ top: 10, right: 20, bottom: 10, left: 10 }}>
-                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
-                  <XAxis type="number" dataKey="x" name="PC1" tick={{ fontSize: 10, fill: "#94a3b8" }} label={{ value: "PC1", position: "bottom", fontSize: 11 }} />
-                  <YAxis type="number" dataKey="y" name="PC2" tick={{ fontSize: 10, fill: "#94a3b8" }} label={{ value: "PC2", angle: -90, position: "left", fontSize: 11 }} />
-                  <ZAxis range={[80, 80]} />
-                  <Tooltip cursor={{ strokeDasharray: "3 3" }}
-                    contentStyle={{ borderRadius: "10px", border: "none", boxShadow: "0 4px 20px rgba(0,0,0,0.1)" }}
-                    content={({ payload }) => {
-                      if (!payload?.length) return null;
-                      const d = payload[0].payload;
-                      return (
-                        <div className="bg-white p-3 rounded-xl shadow-lg border border-slate-100 text-xs">
-                          <p className="font-bold text-slate-900">{d.name}</p>
-                          <p className="text-slate-500">Urgency: <span className="font-semibold">{d.urgency}</span></p>
-                          <p className="text-slate-500">Score: <span className="font-semibold">{d.score}</span></p>
-                        </div>
-                      );
-                    }}
-                  />
-                  {[1, 2, 3].map(c => (
-                    <Scatter key={c} name={`Cluster ${c}`} data={pcaData[c] || []} fill={CLUSTER_COLORS[c]} />
-                  ))}
-                </ScatterChart>
-              </ResponsiveContainer>
-              <div className="flex gap-4 mt-2">
-                {[1, 2, 3].map(c => (
-                  <div key={c} className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: CLUSTER_COLORS[c] }} />
-                    <span className="text-[10px] font-bold text-slate-600">Cluster {c} ({(pcaData[c] || []).length})</span>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            // Fallback: show the static ML image
-            <div className="relative">
-              <img src={pcaImg} alt="PCA Cluster Plot" className="w-full rounded-xl object-contain" />
-              <div className="absolute top-2 right-2 px-2 py-1 bg-amber-50 border border-amber-200 rounded-lg text-[9px] font-bold text-amber-700">
-                Static ML Output
-              </div>
-            </div>
-          )}
-        </ChartCard>
-
-        {/* Dendrogram — static image */}
-        <ChartCard title="Hierarchical Clustering Dendrogram" sub="Ward linkage · Cutoff d=8.62 · 3 optimal clusters identified">
-          <img src={dendrogramImg} alt="Dendrogram" className="w-full rounded-xl object-contain" style={{ maxHeight: "340px" }} />
-          <p className="text-[10px] text-slate-400 text-center mt-2 italic">
-            Red dashed line shows optimal Euclidean distance threshold separating 3 clusters
-          </p>
-        </ChartCard>
-      </div>
-
-      {/* Cluster Summary */}
-      <ChartCard title="Cluster Profile Summary" sub="Characteristics of each identified beneficiary group">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {clusterStats.map((c) => (
-            <div key={c.cluster} className="p-5 rounded-xl border-2 border-dashed" style={{ borderColor: c.color + "40", backgroundColor: c.color + "08" }}>
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-4 h-4 rounded-full" style={{ backgroundColor: c.color }} />
-                <span className="text-xs font-bold text-slate-700 uppercase tracking-wide">Cluster {c.cluster}</span>
-              </div>
-              <p className="text-2xl font-bold text-slate-900">{c.count}</p>
-              <p className="text-sm font-semibold text-slate-600 mt-1">{c.label}</p>
-              <p className="text-xs text-slate-400 mt-1">{c.pct}% of total</p>
-            </div>
-          ))}
-        </div>
-      </ChartCard>
-
-      {/* Feature Importance */}
-      <ChartCard title="Top Feature Importance" sub="Random Forest classifier — which factors matter most">
-        <div className="space-y-3">
-          {[
-            { feature: "Monthly Income",       importance: 0.24, color: "#10b981" },
-            { feature: "Chronic Illness",       importance: 0.18, color: "#3b82f6" },
-            { feature: "Family Size",           importance: 0.15, color: "#8b5cf6" },
-            { feature: "Housing Type",          importance: 0.12, color: "#f59e0b" },
-            { feature: "Safe Water Access",     importance: 0.11, color: "#ef4444" },
-            { feature: "Hospital Distance",     importance: 0.09, color: "#06b6d4" },
-            { feature: "Self-Rated Urgency",    importance: 0.08, color: "#ec4899" },
-          ].map((f, i) => (
-            <div key={i} className="flex items-center gap-4">
-              <span className="text-xs font-semibold text-slate-600 w-40 shrink-0">{f.feature}</span>
-              <div className="flex-1 bg-slate-100 rounded-full h-2 overflow-hidden">
-                <motion.div initial={{ width: 0 }} animate={{ width: `${f.importance * 100 * 4}%` }} transition={{ delay: i * 0.05, duration: 0.6 }}
-                  className="h-full rounded-full" style={{ backgroundColor: f.color }} />
-              </div>
-              <span className="text-xs font-bold text-slate-700 w-10 text-right">{f.importance.toFixed(2)}</span>
-            </div>
-          ))}
-        </div>
-      </ChartCard>
-    </div>
-  );
-}
-// END unused MLView
-
 // ── PROJECTS VIEW ────────────────────────────────────────────────
 function ProjectsView() {
   const { data: projects = [], isLoading, refetch } = useGetAllprojectsQuery();
-  const [showForm,   setShowForm]   = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
-  const [formError,  setFormError]  = useState("");
+  const [showForm,      setShowForm]      = useState(false);
+  const [selectedProj,  setSelectedProj]  = useState(null);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [successMsg,    setSuccessMsg]    = useState("");
+  const [formError,     setFormError]     = useState("");
   const [createproject, { isLoading: isCreating }] = useCreateprojectMutation();
-  const EMPTY = { title: "", budget: "", fundsRaised: "0", volunteers_needed: "", status: "Active", description: "", start_date: "", location: "" };
+  const [deleteproject, { isLoading: isDeleting }] = useDeleteprojectMutation();
+  const EMPTY = {
+    title: "", budget: "", volunteers_needed: "",
+    status: "active",
+    description: "", location: "", category: ""
+  };
   const [form, setForm] = useState(EMPTY);
 
-  const handleCreate = async (e) => {
-    e.preventDefault();
-    setFormError("");
-
-    // Basic validation
-    if (!form.title.trim())          return setFormError("Project title is required.");
-    if (!form.budget || Number(form.budget) <= 0) return setFormError("Please enter a valid budget.");
-
+  const handleDelete = async () => {
     try {
-      await createproject({
-        title:             form.title.trim(),
-        description:       form.description.trim() || "",
-        budget:            Number(form.budget),
-        fundsRaised:       Number(form.fundsRaised) || 0,
-        volunteers_needed: Number(form.volunteers_needed) || 0,
-        status:            form.status,
-        start_date:        form.start_date || new Date().toISOString(),
-        location:          form.location.trim() || "",
-        category:          "community_development",
-        image:             "",
-        requiredSkills:    [],
-        longDescription:   form.description.trim() || "",
-      }).unwrap();
-
-      // Success
-      setShowForm(false);
-      setForm(EMPTY);
-      setSuccessMsg(`✅ Project "${form.title}" launched successfully!`);
+      await deleteproject(selectedProj._id).unwrap();
+      setDeleteConfirm(false);
+      setSelectedProj(null);
+      setSuccessMsg(` "${selectedProj.title}" deleted successfully.`);
       refetch();
       setTimeout(() => setSuccessMsg(""), 4000);
     } catch (err) {
-      setFormError(err.data?.message || err.message || "Failed to create project. Please try again.");
+      alert("Delete failed: " + (err.data?.message || err.message));
     }
   };
+
+  const handleCreate = async (e) => {
+  e.preventDefault();
+  setFormError("");
+
+  if (!form.title.trim())                       return setFormError("Project title is required.");
+  if (!form.budget || Number(form.budget) <= 0) return setFormError("Please enter a valid budget.");
+  if (!form.category)                           return setFormError("Please select a category.");
+  if (form.description.trim().length < 10)      return setFormError("Description must be at least 10 characters.");
+
+  // Force exact enum values the backend expects
+  const statusMap = {
+    "active": "active", "Active": "active",
+    "completed": "completed", "Completed": "completed",
+    "on_hold": "on_hold", "On Hold": "on_hold",
+    "On-hold": "on_hold", "Ongoing": "on_hold",
+  };
+  const safeStatus = statusMap[form.status] ?? "active";
+
+  const payload = {
+    title:             form.title.trim(),
+    description:       form.description.trim(),
+    category:          form.category,
+    budget:            Number(form.budget),
+    fundsRaised:       0,
+    volunteers_needed: Number(form.volunteers_needed) || 0,
+    status:            safeStatus,
+    location:          form.location.trim() || "Sri Lanka",
+    start_date:        new Date().toISOString(),
+    requiredSkills:    [],
+    skillsText:        "",
+  };
+
+  console.log(" Sending to API:", payload);
+
+  try {
+    await createproject(payload).unwrap();
+    setShowForm(false);
+    setForm(EMPTY);
+    setSuccessMsg(`✅ Project "${form.title}" launched successfully!`);
+    refetch();
+    setTimeout(() => setSuccessMsg(""), 4000);
+  } catch (err) {
+    setFormError(err.data?.message || err.message || "Failed to create project.");
+  }
+};
 
   const statusColor = (s) => {
     if (s?.toLowerCase() === "active")    return "bg-emerald-50 text-emerald-700 border-emerald-200";
@@ -1053,12 +924,10 @@ function ProjectsView() {
                     </div>
                   </div>
                 </div>
-                <div className="px-6 pb-6 flex items-center gap-3">
-                  <button className="flex-1 py-3 bg-slate-900 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold uppercase tracking-wide transition-all active:scale-95">
+                <div className="px-6 pb-6">
+                  <button onClick={() => { setSelectedProj(project); setDeleteConfirm(false); }}
+                    className="w-full py-3 bg-slate-900 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold uppercase tracking-wide transition-all active:scale-95">
                     Project Details
-                  </button>
-                  <button className="w-10 h-10 flex items-center justify-center bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors">
-                    <Settings className="w-4 h-4 text-slate-500" />
                   </button>
                 </div>
               </motion.div>
@@ -1067,7 +936,125 @@ function ProjectsView() {
         </div>
       )}
 
-      {/* ── Launch Project Modal ─────────────────────────────────── */}
+      {/* ── Project Detail Modal ──────────────────────────────────── */}
+      <AnimatePresence>
+        {selectedProj && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={e => e.target === e.currentTarget && setSelectedProj(null)}>
+            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+
+              {/* Header */}
+              <div className="p-6 border-b border-slate-100 flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">
+                    <Briefcase className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900">{selectedProj.title}</h3>
+                    <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md border ${
+                      selectedProj.status?.toLowerCase() === "active"    ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
+                      selectedProj.status?.toLowerCase() === "completed" ? "bg-slate-100 text-slate-600 border-slate-200" :
+                      "bg-amber-50 text-amber-700 border-amber-200"
+                    }`}>
+                      {selectedProj.status?.replace("_", " ")}
+                    </span>
+                  </div>
+                </div>
+                <button onClick={() => setSelectedProj(null)}
+                  className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-400 transition-colors shrink-0">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="p-6 space-y-5">
+                {/* Budget */}
+                {(() => {
+                  const pct = selectedProj.budget > 0
+                    ? Math.min(Math.round(((selectedProj.fundsRaised || 0) / selectedProj.budget) * 100), 100) : 0;
+                  return (
+                    <div className="bg-slate-50 rounded-2xl p-5 border border-slate-100">
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">Financial Progress</p>
+                      <div className="flex items-end gap-2 mb-3">
+                        <span className="text-2xl font-bold text-slate-900">LKR {(selectedProj.fundsRaised || 0).toLocaleString()}</span>
+                        <span className="text-sm text-slate-400 mb-0.5">of {(selectedProj.budget || 0).toLocaleString()}</span>
+                      </div>
+                      <div className="h-2.5 bg-slate-200 rounded-full overflow-hidden mb-1.5">
+                        <div style={{ width: `${pct}%` }}
+                          className={`h-full rounded-full ${pct >= 90 ? "bg-red-500" : pct >= 70 ? "bg-amber-500" : "bg-emerald-500"}`} />
+                      </div>
+                      <p className="text-xs font-semibold text-slate-500">{pct}% of target reached</p>
+                    </div>
+                  );
+                })()}
+
+                {/* Info grid */}
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    ["Category",   selectedProj.category?.replace(/_/g, " ") || "—"],
+                    ["Location",   selectedProj.location || "—"],
+                    ["Volunteers", `${selectedProj.volunteers_needed || 0} needed`],
+                    ["Start Date", selectedProj.start_date ? new Date(selectedProj.start_date).toLocaleDateString("en-GB") : "—"],
+                  ].map(([label, val]) => (
+                    <div key={label} className="bg-slate-50 rounded-xl p-3 border border-slate-100">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-0.5">{label}</p>
+                      <p className="text-sm font-semibold text-slate-800 capitalize truncate">{val}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Description */}
+                {selectedProj.description && (
+                  <div>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">Description</p>
+                    <p className="text-sm text-slate-700 leading-relaxed bg-slate-50 rounded-xl p-4 border border-slate-100">
+                      {selectedProj.description}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="p-6 border-t border-slate-100">
+                {deleteConfirm ? (
+                  <div className="bg-red-50 border border-red-200 rounded-2xl p-4">
+                    <p className="text-sm font-bold text-red-800 mb-1">⚠️ Delete "{selectedProj.title}"?</p>
+                    <p className="text-xs text-red-600 mb-4">This action cannot be undone.</p>
+                    <div className="flex gap-3">
+                      <button onClick={() => setDeleteConfirm(false)}
+                        className="flex-1 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl text-sm font-semibold hover:bg-slate-50 transition-colors">
+                        Cancel
+                      </button>
+                      <button onClick={handleDelete} disabled={isDeleting}
+                        className="flex-1 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+                        {isDeleting
+                          ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Deleting…</>
+                          : "Yes, Delete"
+                        }
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-3">
+                    <button onClick={() => setSelectedProj(null)}
+                      className="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-semibold transition-colors">
+                      Close
+                    </button>
+                    <button onClick={() => setDeleteConfirm(true)}
+                      className="flex-1 py-3 bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2">
+                      <Flag className="w-4 h-4" /> Delete Project
+                    </button>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Launch Project Modal*/}
       <AnimatePresence>
         {showForm && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -1109,6 +1096,24 @@ function ProjectsView() {
                     placeholder="Briefly describe the project goals and target community…"
                     rows={3} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-emerald-400 resize-none" />
                 </div>
+               
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 block mb-1.5">
+                    Category <span className="text-red-400">*</span>
+                  </label>
+                  <select value={form.category}
+                  onChange={e => { setForm(p => ({ ...p, category: e.target.value })); setFormError(""); }}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-200 appearance-none">
+                    <option value="">Select a category</option>
+                    <option value="health">Health</option>
+                    <option value="education">Education</option>
+                    <option value="environment">Environment</option>
+                    <option value="community_development">Community Development</option>
+                    <option value="disaster_relief">Disaster Relief</option>
+                    <option value="infrastructure">Infrastructure</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="text-xs font-semibold text-slate-600 block mb-1.5">Total Budget (LKR) <span className="text-red-400">*</span></label>
@@ -1131,12 +1136,10 @@ function ProjectsView() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="text-xs font-semibold text-slate-600 block mb-1.5">Status</label>
-                    <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value }))}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-200 appearance-none">
-                      <option value="Active">Active</option>
-                      <option value="Ongoing">Ongoing</option>
-                      <option value="On-hold">On Hold</option>
-                      <option value="Completed">Completed</option>
+                    <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value }))}>
+                      <option value="active">Active</option>
+                      <option value="on_hold">On Hold</option>
+                      <option value="completed">Completed</option>
                     </select>
                   </div>
                   <div>
@@ -1168,12 +1171,17 @@ function ProjectsView() {
   );
 }
 
-// ── GN OFFICERS VIEW ─────────────────────────────────────────────
+// GN OFFICERS VIEW 
 function OfficersView({ gnOfficers, gnDivisions }) {
-  const [showModal, setShowModal] = useState(false);
-  const { data: allDivisions = [] } = useGetAllgn_divisionsQuery();
+  const [showModal, setShowModal]         = useState(false);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null); // officer id pending deletion
+  const { data: allDivisions = [] }       = useGetAllgn_divisionsQuery();
   const [createGnOfficer, { isLoading: isCreating }] = useCreateGnOfficerMutation();
+  const [deleteGnOfficer, { isLoading: isDeleting }] = useDeleteGnOfficerMutation();
   const [form, setForm] = useState({ name: "", phone_no: "", gn_division_id: "", isActive: true });
+
+  // The officer object for the confirm modal
+  const officerToDelete = gnOfficers.find(o => (o._id || o.id) === confirmDeleteId);
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -1187,6 +1195,16 @@ function OfficersView({ gnOfficers, gnDivisions }) {
       setForm({ name: "", phone_no: "", gn_division_id: "", isActive: true });
     } catch (err) {
       alert("Failed: " + (err.data?.message || err.message));
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!confirmDeleteId) return;
+    try {
+      await deleteGnOfficer(confirmDeleteId).unwrap();
+      setConfirmDeleteId(null);
+    } catch (err) {
+      alert("Delete failed: " + (err.data?.message || err.message));
     }
   };
 
@@ -1216,7 +1234,18 @@ function OfficersView({ gnOfficers, gnDivisions }) {
           </div>
         ) : gnOfficers.map((officer, i) => (
           <motion.div key={officer._id || i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-            className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all">
+            className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all group relative">
+
+            {/* ── Remove button (top-right corner) ── */}
+            <button
+              onClick={() => setConfirmDeleteId(officer._id || officer.id)}
+              title="Remove officer"
+              className="absolute top-4 right-4 w-7 h-7 flex items-center justify-center rounded-lg
+                         text-slate-300 hover:text-red-500 hover:bg-red-50 border border-transparent
+                         hover:border-red-100 opacity-0 group-hover:opacity-100 transition-all">
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+
             <div className="flex items-center gap-4 mb-5">
               <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-700 font-bold text-lg ring-1 ring-emerald-100">
                 {officer.name?.[0]?.toUpperCase()}
@@ -1259,7 +1288,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
         </div>
       </div>
 
-      {/* Add Officer Modal */}
+      {/* ── Add Officer Modal ── */}
       <AnimatePresence>
         {showModal && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -1316,6 +1345,62 @@ function OfficersView({ gnOfficers, gnDivisions }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ── Delete Confirmation Modal ── */}
+      <AnimatePresence>
+        {confirmDeleteId && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={(e) => e.target === e.currentTarget && !isDeleting && setConfirmDeleteId(null)}>
+            <motion.div initial={{ scale: 0.9, opacity: 0, y: 10 }} animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 10 }} transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 text-center">
+
+              {/* Icon */}
+              <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-5 border border-red-100">
+                <AlertTriangle className="w-8 h-8 text-red-500" />
+              </div>
+
+              <h3 className="text-lg font-bold text-slate-900 mb-1">Remove Officer</h3>
+              <p className="text-sm text-slate-500 mb-1">
+                Are you sure you want to remove
+              </p>
+              <p className="text-base font-bold text-slate-900 mb-1">
+                {officerToDelete?.name}
+              </p>
+              <p className="text-xs text-slate-400 mb-6 flex items-center justify-center gap-1">
+                <MapPin className="w-3 h-3 text-emerald-500" />
+                {officerToDelete?.gn_division_id?.gn_division_Name || "Unknown division"}
+              </p>
+
+              <div className="p-3 bg-red-50 rounded-xl border border-red-100 mb-6">
+                <p className="text-xs text-red-700 font-medium leading-relaxed">
+                  This action is permanent and cannot be undone. Any cases currently assigned to this officer may need to be reassigned.
+                </p>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setConfirmDeleteId(null)}
+                  disabled={isDeleting}
+                  className="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-semibold transition-colors disabled:opacity-50">
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                  className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold transition-all disabled:opacity-50 flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-red-200">
+                  {isDeleting
+                    ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Removing…</>
+                    : <><Trash2 className="w-4 h-4" /> Yes, Remove</>}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -1334,8 +1419,7 @@ function ReportsView({ allRequests }) {
 
   const generateReport = () => {
     const lines = [
-      "HOPELINK FOUNDATION — MONTHLY REPORT",
-      "======================================",
+      "HOPECONNECT FOUNDATION — MONTHLY REPORT",
       `Generated: ${new Date().toLocaleDateString()}`,
       "",
       "SUMMARY",
@@ -1356,7 +1440,7 @@ function ReportsView({ allRequests }) {
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement("a");
     a.href     = url;
-    a.download = `HopeLink_Report_${new Date().toISOString().slice(0, 10)}.txt`;
+    a.download = `HopeConnect_Report_${new Date().toISOString().slice(0, 10)}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };

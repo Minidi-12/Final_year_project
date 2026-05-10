@@ -46,7 +46,7 @@ export default function AboutUs() {
   const team = [
     { name: "Dr. Rohitha Perera", role: "CHAIRMAN", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=200&h=200" },
     { name: "Samanthi Silva", role: "VICE CHAIRMAN", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=200&h=200" },
-    { name: "Dr. Anura Kumara", role: "EXECUTIVE DIRECTOR", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200" },
+    { name: "Dr. Anura Disanayaka", role: "EXECUTIVE DIRECTOR", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200&h=200" },
     { name: "Nilukshi Bandara", role: "ADMINISTRATIVE SECRETARY", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200" }
   ];
 
@@ -77,7 +77,7 @@ export default function AboutUs() {
               transition={{ delay: 0.2 }}
               className="text-xl text-gray-500 leading-relaxed max-w-2xl font-serif italic mb-12"
             >
-              HopeLink isn't just a donation platform. It is a digital bridge built to eliminate the 'verification gap' that leaves thousands of genuine needs unheard.
+              HopeConnect isn't just a donation platform. It is a digital bridge built to eliminate the 'verification gap' that leaves thousands of genuine needs unheard.
             </motion.p>
             
             <div className="grid grid-cols-2 gap-8 border-t border-gray-100 pt-12">
@@ -198,7 +198,7 @@ export default function AboutUs() {
                    </div>
                    <div className="bg-blue-50 rounded-[2.5rem] p-8">
                       <Scale className="w-8 h-8 text-blue-600 mb-4" />
-                      <div className="text-2xl font-bold text-blue-950">99%</div>
+                      <div className="text-2xl font-bold text-blue-950">95%</div>
                       <div className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Verification Accuracy</div>
                    </div>
                 </div>

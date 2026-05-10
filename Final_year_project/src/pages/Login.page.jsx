@@ -82,7 +82,7 @@ export default function Login() {
             </div>
             <div className="flex flex-col">
               <span className="text-2xl font-bold tracking-tight text-white leading-none uppercase">
-                HOPE<span className="text-emerald-400 italic">LINK</span>
+                HOPE<span className="text-emerald-400 italic">CONNECT</span>
               </span>
               <span className="text-[10px] font-bold text-emerald-400 tracking-[0.3em] uppercase mt-1">Foundations</span>
             </div>
@@ -119,7 +119,7 @@ export default function Login() {
         </div>
 
         <div className="relative z-10 text-[10px] font-bold text-emerald-800 uppercase tracking-widest">
-          © 2025 HopeLink Foundations · Secure Portal
+          © 2025 HopeConnect Foundations · Secure Portal
         </div>
       </div>
 
@@ -136,7 +136,7 @@ export default function Login() {
                 <Heart className="w-6 h-6 text-white" />
               </div>
               <span className="text-xl font-bold text-emerald-950 uppercase">
-                HOPE<span className="text-emerald-500 italic">LINK</span>
+                HOPE<span className="text-emerald-500 italic">CONNECT</span>
               </span>
             </Link>
           </div>
@@ -204,7 +204,7 @@ export default function Login() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder={role === "GN_OFFICER" ? "officer.gn@gov.lk" : "admin@hopelink.org"}
+                    placeholder={role === "GN_OFFICER" ? "officer.gn@gov.lk" : "admin@hopeconnect.org"}
                     className="w-full bg-gray-50 border border-gray-100 rounded-2xl pl-12 pr-5 py-4 text-sm focus:bg-white focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-300 font-semibold"
                   />
                 </div>

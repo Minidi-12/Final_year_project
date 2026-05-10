@@ -391,7 +391,7 @@ export default function VerificationDetail() {
         <div className="max-w-7xl mx-auto px-10 flex items-center justify-between opacity-20">
           <div className="flex items-center gap-2">
             <Heart className="w-5 h-5 text-emerald-950" />
-            <span className="text-sm font-black uppercase text-emerald-950">HOPE<span className="text-emerald-500 italic">LINK</span></span>
+            <span className="text-sm font-black uppercase text-emerald-950">HOPE<span className="text-emerald-500 italic">CONNECT</span></span>
           </div>
           <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">GN Officer Portal · Ver 5.0</span>
         </div>

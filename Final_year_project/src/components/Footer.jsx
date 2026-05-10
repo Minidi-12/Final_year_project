@@ -16,14 +16,14 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 lg:gap-24 mb-24">
-          {/* Column 1: Branding & Mission */}
+          {/*Branding & Mission */}
           <div className="space-y-10">
             <div>
               <div className="flex items-center gap-3 mb-8">
                 <div className="w-11 h-11 bg-emerald-950 rounded-2xl flex items-center justify-center -rotate-3 hover:rotate-0 transition-transform shadow-xl shadow-emerald-900/10">
                   <Heart className="w-6 h-6 text-emerald-400" />
                 </div>
-                <span className="text-2xl font-bold tracking-tight text-emerald-950 uppercase">HOPELINK</span>
+                <span className="text-2xl font-bold tracking-tight text-emerald-950 uppercase">HOPECONNECT</span>
               </div>
               <p className="text-xl text-emerald-900/60 leading-relaxed font-serif italic max-w-sm">
                 "Empowering the unheard, rebuilding lives through the intersection of empathy and modern advocacy."
@@ -43,7 +43,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2: Navigation */}
+          {/* Navigation */}
           <div>
             <h3 className="text-[10px] font-bold text-emerald-950 uppercase tracking-[0.2em] mb-12 flex items-center gap-3">
               <span className="w-8 h-px bg-emerald-200"></span>
@@ -67,7 +67,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Contact & Registry */}
+          {/* Contact & Registry */}
           <div>
             <h3 className="text-[10px] font-bold text-emerald-950 uppercase tracking-[0.2em] mb-12 flex items-center gap-3">
               <span className="w-8 h-px bg-emerald-200"></span>
@@ -77,7 +77,7 @@ export default function Footer() {
               {[
                 { icon: MapPin, text: "456 Unity Tower, Galle Road, Colombo 03, Sri Lanka" },
                 { icon: Phone, text: "+94 11 234 5678" },
-                { icon: Mail, text: "hello@hopelink.org" }
+                { icon: Mail, text: "hello@hopeconnect.org" }
               ].map((item, i) => (
                 <li key={i} className="flex gap-6 group">
                   <div className="w-11 h-11 bg-white rounded-2xl flex items-center justify-center shrink-0 border border-gray-100 group-hover:border-emerald-100 transition-colors shadow-sm">
@@ -94,7 +94,7 @@ export default function Footer() {
 
         <div className="pt-12 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em]">
-            © 2026 Hopelink Foundation. Sri Lankan NGO Registry: NGO-7821.
+            © 2026 Hopeconnect Foundation. Sri Lankan NGO Registry: NGO-7821.
           </div>
           <div className="flex gap-10 text-[10px] font-bold text-gray-300 uppercase tracking-[0.2em]">
             <a href="#" className="hover:text-emerald-600 transition-colors">Privacy Policy</a>

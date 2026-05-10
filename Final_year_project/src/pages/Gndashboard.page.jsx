@@ -75,7 +75,7 @@ export default function GNDashboard() {
             <Heart className="w-5 h-5 text-white" />
           </div>
           <span className="text-lg font-black tracking-tight uppercase">
-            HOPE<span className="text-emerald-400 italic">LINK</span>
+            HOPE<span className="text-emerald-400 italic">CONNECT</span>
           </span>
         </div>
 

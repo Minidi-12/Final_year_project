@@ -112,38 +112,38 @@ export default function Home() {
   const testimonials = [
     {
       quote:
-        "When we were struggling with medical expenses for my daughter, Hopelink stepped in with kindness and speed. Their support didn't just provide medicine; it gave us hope for her future.",
+        "When we were struggling with medical expenses for my daughter, Hopeconnect stepped in with kindness and speed. Their support didn't just provide medicine, it gave us hope for her future.",
       author: "Sanduni Perera",
       role: "Member of family supported",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d",
+      avatar: "https://i.pravatar.cc/400?img=16",
     },
     {
       quote:
-        "Participating in the flood relief mission opened my eyes. Hopelink's coordination was flawless, ensuring that aid reached the most remote families within hours.",
-      author: "Aruna Kumara",
+        "Participating in the flood relief mission opened my eyes. Hopeconnect's coordination was flawless, ensuring that aid reached the most remote families within hours.",
+      author: "Aruna Gunawardana",
       role: "Volunteer, Galle",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704e",
+      avatar: "https://i.pravatar.cc/400?img=68",
     },
     {
       quote:
-        "Getting my kids ready for school was a constant worry until Hopelink provided the supplies they needed. Seeing my children go to school with confidence is the greatest gift we've received.",
+        "Getting my kids ready for school was a constant worry until Hopeconnect provided the supplies they needed. Seeing my children go to school with confidence is the greatest gift we've received.",
       author: "Fathima Rizwan",
       role: "Member of family supported",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704f",
+      avatar: "https://i.pravatar.cc/400?img=47",
     },
     {
       quote:
-        "I've always been wary of where my donations go, but Hopelink's transparency is refreshing. Seeing exactly how my contribution helped a family in Nuwara Eliya was a powerful experience.",
-      author: "Dilan de Silva",
+        "I've always been wary of where my donations go, but Hopeconnect's transparency is refreshing. Seeing exactly how my contribution helped a family in Nuwara was a powerful experience.",
+      author: "Dulan de Silva",
       role: "Donor, Colombo",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e290267050",
+      avatar: "https://i.pravatar.cc/400?img=17",
     },
     {
       quote:
-        "As a local officer, I value the integrity of the verification process. Hopelink works closely with us to identify the most vulnerable members of our community.",
+        "As a local officer, I value the integrity of the verification process. Hopeconnect works closely with us to identify the most vulnerable members of our community.",
       author: "Lakshman Perera",
-      role: "Grama Niladhari, Matara",
-      avatar: "https://i.pravatar.cc/150?u=a042581f4e290267051",
+      role: "Grama Niladhari, Walpita",
+      avatar: "https://i.pravatar.cc/400?img=59",
     },
   ];
 
@@ -262,7 +262,7 @@ export default function Home() {
               </h3>
               <p className="text-lg text-gray-600 mb-10 leading-relaxed font-serif italic">
                 In a world of information overload, we ensure every story you
-                see on Hopelink is authenticated. We've built the first digital
+                see on Hopeconnect is authenticated. We've built the first digital
                 bridge between grassroots needs and official government
                 verification.
               </p>
@@ -311,7 +311,7 @@ export default function Home() {
                     Live Statistics
                   </div>
                   <div className="text-2xl font-bold text-emerald-950">
-                    99.8% Success Rate
+                    95% Success Rate
                   </div>
                   <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
                     In authentic aid delivery
@@ -517,26 +517,26 @@ export default function Home() {
             {[
               {
                 label: "Families Supported",
-                value: 12400,
+                value: 40,
                 suffix: "+",
                 icon: Users,
               },
               {
                 label: "Funds Raised",
-                value: 8.2,
+                value: 1,
                 suffix: "M",
                 prefix: "LKR ",
                 icon: BarChart3,
               },
               {
                 label: "Total Requests",
-                value: 45000,
+                value: 500,
                 suffix: "+",
                 icon: Globe2,
               },
               {
                 label: "Districts Covered",
-                value: 25,
+                value: 4,
                 suffix: "/25",
                 icon: MapPin,
               },

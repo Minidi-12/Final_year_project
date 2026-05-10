@@ -16,7 +16,7 @@ const CAMPAIGNS = [
     id: "end-violence",
     title: "National Campaign to End Violence Against Women",
     description: "Launched as a nationwide initiative, this campaign focuses on mobilizing communities to stand against all forms of gender-based violence. Through street drama and local advocacy, we aim to create a Sri Lanka where every woman lives without fear.",
-    image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1633354582314-9a15261c9287?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dmlvbGVuY2UlMjBhZ2FpbnN0JTIwd29tZW58ZW58MHx8MHx8fDA%3D",
     impact: "1M+ Aware",
     tag: "AWARENESS"
   },
@@ -24,7 +24,7 @@ const CAMPAIGNS = [
     id: "respect-her",
     title: "Respect Her: Awareness Campaign in Public Transport",
     description: "In collaboration with transport authorities, we've initiated the 'Respect Her' campaign to address harassment in buses and trains. We are training conductors on bystander intervention and providing immediate reporting hotlines.",
-    image: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?q=80&w=800&auto=format&fit=crop",
+    image: "https://plus.unsplash.com/premium_photo-1681131450325-f2060627bb2e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dmlvbGVuY2UlMjBhZ2FpbnN0JTIwd29tZW58ZW58MHx8MHx8fDA%3D",
     impact: "500+ Routes",
     tag: "TRANSIT"
   },
@@ -32,7 +32,7 @@ const CAMPAIGNS = [
     id: "break-silence",
     title: "Break the Silence: Community Outreach Program",
     description: "Encouraging neighbours and family members to identify signs of domestic abuse and safely report incidents. We have established 24/7 safe zones and counselling centres in over 10 districts for immediate protection.",
-    image: "https://images.unsplash.com/photo-1516534775068-ba3e84529519?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1620077399971-431e7ea0cf0c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZG9tZXN0aWMlMjBhYnVzZXxlbnwwfHwwfHx8MA%3D%3D",
     impact: "10 Districts",
     tag: "OUTREACH"
   }

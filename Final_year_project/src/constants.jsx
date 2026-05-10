@@ -68,7 +68,7 @@ export const PROJECTS = [
     fundsRaised: 950000,
     volunteers_needed: 10,
     start_date: "2023-11-20",
-    image: "https://images.unsplash.com/photo-1577896851231-70ef1460375e?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1600106622040-908ed99571eb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2hpbGQlMjB2aWN0aW1zfGVufDB8fDB8fHww=crop"
   },
   {
     id: "combating-ccsea",
@@ -179,7 +179,7 @@ export const ACTIVITIES = [
     location: "Multiple Locations",
     description: "On 26th September 2024, a special puppet show aimed to educate a gathering of school students from a number of schools in rural areas. This creative medium was highly effective in conveying sensitive messages about personal safety and hygiene to younger children in an engaging way.",
     shortDescription: "Creative puppet shows educating rural students on personal safety and hygiene through engaging storytelling.",
-    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1605980045919-4abfbb1c3260?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHVwcGV0JTIwc2hvd3xlbnwwfHwwfHx8MA%3D%3D"
   },
   {
     id: "elipitiya-awareness",
@@ -188,7 +188,7 @@ export const ACTIVITIES = [
     location: "Elpitiya",
     description: "As part of the ongoing FVF-funded programme to raise awareness on Prevention of Child Sexual Exploitation and Abuse, an awareness session was conducted in Elpitiya. The direct engagement with parents proved crucial in establishing a collaborative network for child protection at the local household level.",
     shortDescription: "Collaborative sessions in Elpitiya engaging parents and students in building local child protection networks.",
-    image: "https://images.unsplash.com/photo-1509062522246-37559ee23c75?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1720944519195-76650ee46844?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8c3R1ZGVudCUyMGFuZCUyMHBhcmVudHMlMjBzcmlsYW5rYXxlbnwwfHwwfHx8MA%3D%3D"
   }
 ];
 
