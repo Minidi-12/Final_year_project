@@ -1,150 +1,101 @@
-import { 
-  Heart, 
-  Stethoscope, 
-  GraduationCap, 
-  Sprout, 
-  Users, 
-  AlertTriangle, 
-  Hammer 
+import {
+  Heart,
+  Stethoscope,
+  GraduationCap,
+  Sprout,
+  Users,
+  AlertTriangle,
+  Hammer
 } from "lucide-react";
 
 export const PROJECTS = [
-  // ... existing projects
   {
     id: "children-floods",
     title: "Standing with Children in the Aftermath of the Floods",
-    category: "disaster_relief",
-    description: "In the wake of Cyclone Ditwah, which caused severe flooding and displacement across large parts of Sri Lanka, PEacE...",
-    longDescription: "The recent floods have left thousands of families displaced and schools destroyed. Children are among the most vulnerable, facing risks of disease, malnutrition, and trauma. This project aims to provide immediate relief and long-term recovery support for 5,000 children across affected districts. \n\nWe are focusing on: \n1. Distribution of emergency educational kits to ensure learning doesn't stop. \n2. Setting up temporary child-friendly spaces for psychological support. \n3. Repairing and refurbishing damaged school infrastructure. \n4. Implementing clean water and sanitation (WASH) programs in schools. \n\nYour support will directly contribute to rebuilding the lives of these children and giving them a safe environment to grow and learn despite the tragedy they have faced.",
-    status: "active",
-    location: "Sabaragamuwa & Southern Provinces",
-    requiredSkills: ["Logistics", "Child Psychology", "Teaching", "Construction"],
-    budget: 1500000,
-    fundsRaised: 450000,
-    volunteers_needed: 50,
-    start_date: "2024-03-15",
-    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop",
+    longDescription:
+      "In the wake of Cyclone Ditwah, which caused severe flooding and displacement across large parts of Sri Lanka, thousands of families were left homeless and schools were destroyed overnight. Children are among the most vulnerable in any disaster — facing immediate risks of waterborne disease, malnutrition, trauma, and interrupted education.\n\nThis project was launched within 72 hours of the flooding to provide both immediate emergency relief and structured long-term recovery support for over 5,000 children across the most severely affected districts.\n\nOur Core Interventions:\n1. Emergency Educational Kits — ensuring learning never stops, even in displacement camps, by distributing school supplies, books, and recreational materials.\n2. Child-Friendly Spaces — temporary safe zones staffed by trained psychosocial support workers, giving children a place to process trauma and rebuild routine.\n3. School Rehabilitation — assessing, repairing, and fully refurbishing damaged classrooms and sanitation facilities in affected schools.\n4. WASH Programs — clean water access and hygiene training in schools and displacement sites to prevent disease outbreaks.\n\nEvery child deserves safety, education, and hope — even in the middle of a disaster. Your support makes that possible.",
   },
   {
     id: "media-monitoring",
     title: "Ethical Media Monitoring for Child Protection in Sri Lanka",
-    category: "community_development",
-    description: "In Sri Lanka, child protection is at a crucial point due to the country's economic crisis, which has led to...",
-    longDescription: "With the rise of digital media, children are increasingly exposed to harmful content and privacy violations. This initiative focuses on monitoring local media outlets and social media platforms to ensure child rights are respected and ethical reporting standards are maintained. \n\nKey objectives include: \n- Establishing a centralized monitoring hub with AI-driven detection tools. \n- Training 200 media professionals on child-safe communication. \n- Advocating for stronger legislation against online child exploitation. \n- Awareness campaigns for parents and children on digital citizenship. \n\nBy ensuring the media landscape is safe and ethical, we create a protective digital environment for the next generation of Sri Lankans.",
-    status: "active",
-    location: "Colombo / Islandwide",
-    requiredSkills: ["IT Support", "Communication", "Legal", "Social Media"],
-    budget: 800000,
-    fundsRaised: 250000,
-    volunteers_needed: 15,
-    start_date: "2024-01-10",
-    image: "https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?q=80&w=800&auto=format&fit=crop",
+    longDescription:
+      "In Sri Lanka, child protection is at a crucial point due to the country's economic crisis, which has led to increased vulnerability of children. The rapid growth of digital media has created new and complex risks — from exploitative reporting and exposure of child identities, to harmful content, cyberbullying, and the normalization of child abuse material online.\n\nThis initiative establishes Sri Lanka's first dedicated Child Media Safety Monitoring Hub, combining human expertise with AI-assisted monitoring tools to hold media outlets and digital platforms accountable to internationally recognised child rights standards.\n\nKey Objectives:\n- AI-Powered Monitoring Hub — detecting harmful content, identity exposure, and rights violations across 50+ media outlets and social platforms in real time.\n- Capacity Building — training 200 journalists, editors, and digital content creators on child-safe reporting guidelines and ethical storytelling.\n- Policy Advocacy — engaging government ministries and platform operators to strengthen child online protection legislation in Sri Lanka.\n- Parent and Child Education — rolling out digital citizenship awareness programs across 30 schools to equip families with practical online safety skills.\n\nA safe media environment is not a privilege — it is a fundamental right of every child in Sri Lanka.",
   },
   {
-    id: "voluntourism-reshaping",
-    title: "Reshaping Voluntourism for Child Protection",
-    category: "education",
-    description: "A Global Initiative Travel has become more accessible than ever, and with it, the desire to “give back” to the...",
-    longDescription: "Traditional 'voluntourism' often unintentionally harms local communities by creating dependencies or compromising child safety in institutions like orphanages. This project works to transform volunteer travel into a sustainable, child-right-centric model. \n\nOur approach involves: \n- Auditing 50 local NGOs to ensure they meet international child protection standards. \n- Developing a certification program for 'Child-Safe' volunteer placements. \n- Redirecting volunteer efforts from residential care to community-based support. \n- Educating international travelers on responsible volunteering practices. \n\nJoin us in ensuring that the desire to help translates into real, sustainable benefits for the children who need it most, without compromising their dignity or safety.",
-    status: "active",
-    location: "Tourism Hotspots (Galle, Kandy, Sigiriya)",
-    requiredSkills: ["HR Management", "Strategic Planning", "Communication", "Auditing"],
-    budget: 1200000,
-    fundsRaised: 600000,
-    volunteers_needed: 20,
-    start_date: "2024-02-01",
-    image: "https://images.unsplash.com/photo-1524069290683-0457abfe42c3?q=80&w=800&auto=format&fit=crop"
+    id: "health-clinic",
+    title: "Community Health Clinic Initiative",
+    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=800&auto=format&fit=crop",
+    longDescription:
+      "Access to basic healthcare remains one of the most pressing challenges facing remote and underserved communities across Sri Lanka. In many rural areas, the nearest medical facility can be hours away — meaning families delay or avoid treatment entirely, leading to preventable illness, untreated chronic conditions, and avoidable deaths.\n\nThe Community Health Clinic Initiative deploys a fleet of fully equipped mobile health units staffed by qualified nurses, general practitioners, and community health workers to bring essential medical services directly to the doorsteps of the communities that need them most.\n\nServices Delivered:\n- Primary Care Consultations — diagnosis and treatment of common illnesses, wounds, and infections.\n- Maternal and Child Health — antenatal checkups, nutritional screening for children under five, and vaccination drives in underserved villages.\n- Chronic Disease Management — free testing and medication support for diabetes, hypertension, and respiratory conditions.\n- Mental Health First Aid — screening and referral support for individuals experiencing anxiety, depression, and trauma.\n- Health Education Workshops — community-level sessions on hygiene, nutrition, family planning, and preventive care.\n\nHealthcare is a human right, not a geographic privilege. This initiative ensures no community in Sri Lanka is left behind.",
   },
   {
     id: "sexual-exploitation-justice",
     title: "Right to Justice for Child Victims of Sexual Exploitation and Abuse",
-    category: "health",
-    description: "Why This Project Matters Child sexual exploitation and abuse (CSEA) is one of the gravest human rights violations affecting children...",
-    longDescription: "The legal path for child victims is often re-traumatizing and slow. This project provides comprehensive legal aid and holistic support to help survivors and their families navigate the justice system and begin the healing process. \n\nWe provide: \n- Pro-bono legal representation for child victims in court cases. \n- Court accompaniment and prep for children by trained social workers. \n- Financial assistance for medical and travel expenses related to cases. \n- Long-term counseling and reintegration programs. \n\nJustice is a crucial component of healing. Your contribution helps ensure that no child victim has to stand alone against their abuser.",
-    status: "active",
-    location: "Western & Central Provinces",
-    requiredSkills: ["Legal", "Counseling", "Social Work", "Case Management"],
-    budget: 2000000,
-    fundsRaised: 950000,
-    volunteers_needed: 10,
-    start_date: "2023-11-20",
-    image: "https://images.unsplash.com/photo-1600106622040-908ed99571eb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Y2hpbGQlMjB2aWN0aW1zfGVufDB8fDB8fHww=crop"
+    image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=800&auto=format&fit=crop",
+    longDescription:
+      "Child sexual exploitation and abuse (CSEA) is one of the gravest human rights violations affecting children across Sri Lanka. Yet the path to justice for survivors is often as painful as the abuse itself — riddled with procedural delays, insensitive questioning, lack of legal support, and inadequate follow-up care that re-traumatises the most vulnerable.\n\nThis project provides comprehensive, trauma-informed legal aid and holistic psychosocial support to child survivors and their families, ensuring that every victim has access to justice — regardless of their financial situation or location.\n\nWhat We Provide:\n- Pro-Bono Legal Representation — qualified lawyers accompany survivors through every stage of the court process at no cost.\n- Trained Social Work Accompaniment — dedicated caseworkers prepare children for court, attend hearings, and provide emotional support throughout proceedings.\n- Financial Assistance — covering medical examinations, travel, and accommodation costs incurred during the legal process.\n- Long-Term Psychosocial Recovery — individual counseling, group therapy, and community reintegration programs tailored to each child's needs.\n- Systemic Advocacy — working with law enforcement and the judiciary to reform processes that currently re-traumatise survivors.\n\nJustice is not optional. Every child who has suffered abuse deserves to be heard, believed, and supported on the road to healing.",
   },
   {
     id: "combating-ccsea",
     title: "Combating Child Sexual Exploitation and Abuse (CCSEA)",
-    category: "community_development",
-    description: "PEacE is spearheading the CCSEA project, a nationwide initiative targeting all 25 districts to combat child sexual exploitation and abuse...",
-    longDescription: "CCSEA is a multi-sectoral approach to building a protective shield around Sri Lanka's children. By working with schools, local law enforcement, religious leaders, and community groups, we aim to normalize conversations about safety and reporting. \n\nProgram Pillars: \n1. Community-led surveillance networks in high-risk areas. \n2. Age-appropriate empowerment workshops for school-going children. \n3. Training for religious and community leaders on reporting mechanisms. \n4. Hotline support and rapid response protocols for case management. \n\nChanging the culture of silence is our biggest challenge. Together, we can build a society where children are heard and protected.",
-    status: "active",
-    location: "Islandwide (25 Districts)",
-    requiredSkills: ["Training", "Public Speaking", "Counseling", "Event Coordination"],
-    budget: 3500000,
-    fundsRaised: 1800000,
-    volunteers_needed: 100,
-    start_date: "2023-12-01",
-    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop",
+    longDescription:
+      "PEaCE is spearheading the CCSEA project, a nationwide initiative targeting all 25 districts of Sri Lanka to combat child sexual exploitation and abuse through a powerful combination of community mobilisation, education, technology, and multi-agency collaboration.\n\nCSEA thrives in silence. Our response is to dismantle that silence at every level of society — from the classroom to the courtroom, from the family home to the national policy framework.\n\nFour Program Pillars:\n1. Community Surveillance Networks — training trusted community volunteers and leaders in 25 districts to identify, report, and respond to CSEA through structured rapid-response protocols.\n2. Child Empowerment Workshops — age-appropriate safety education delivered to 50,000+ school-going children, giving them the language and confidence to recognise abuse and seek help.\n3. Faith and Community Leader Training — mobilising religious leaders, elders, and community influencers as child protection advocates within their own communities.\n4. Case Management Hotline — a 24/7 child protection support line linking survivors and families directly with case managers, legal advisors, and emergency responders.\n\nProtecting children is not the job of any single institution — it is the shared responsibility of every community in Sri Lanka. Together, we can build a country where every child is safe.",
+  },
+
+  // ── COMPLETED ──────────────────────────────────────────────────
+  {
+    id: "rural-education",
+    title: "Rural Education Support Program",
+    image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop",
+    longDescription:
+      "The Rural Education Support Program was a landmark initiative that directly addressed the persistent learning gap between urban and rural schools across Sri Lanka. In many rural communities, children entered secondary school unable to read confidently, perform basic arithmetic, or access digital tools — severely limiting their future opportunities.\n\nOver three years, the program delivered intensive educational support to 6,500 students across 42 rural schools in seven of Sri Lanka's most educationally underserved districts.\n\nWhat We Achieved:\n- Literacy Improvement — structured phonics and reading comprehension programs brought 78% of participating students to grade-appropriate reading levels within 18 months.\n- Numeracy Development — interactive mathematics interventions reduced the secondary school math gap by over 60% in target schools.\n- Digital Skills Access — donated and refurbished computer labs in 20 schools, alongside coding bootcamps and digital literacy training for over 2,000 students.\n- Teacher Development — 150 rural teachers received professional development training in inclusive pedagogy and differentiated instruction techniques.\n- Parent Engagement — community sessions were held to involve families in their children's learning journeys and reduce dropout rates.\n\nThis program has now been handed over to local school management committees, ensuring its legacy continues beyond our direct involvement.",
   },
   {
-    id: "coastal-restoration",
-    title: "Coastal Ecosystem Restoration & Protection",
-    category: "environment",
-    description: "Successfully replanted 50 hectares of mangroves along the eastern coast to protect against storm surges and restore natural marine habitats.",
-    longDescription: "Our Coastal Restoration project was a major milestone in environmental conservation in the Eastern Province. Over two years, we mobilized local communities to replant 50 hectares of mangroves and restore coral reefs. This has significantly enhanced the natural defense against erosion and storm surges, while also providing a sanctuary for local marine life. The project also included sustainable livelihood training for 200 fishing families to ensure long-term ecological balance.",
-    status: "completed",
-    location: "Batticaloa District",
-    requiredSkills: ["Marine Biology", "Project Management", "Community Outreach"],
-    budget: 2500000,
-    fundsRaised: 2500000,
-    volunteers_needed: 40,
-    start_date: "2022-01-15",
-    end_date: "2023-12-20",
-    image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=800&auto=format&fit=crop"
+    id: "voluntourism-reshaping",
+    title: "Reshaping Voluntourism for Child Protection",
+    image: "https://images.unsplash.com/photo-1524069290683-0457abfe42c3?q=80&w=800&auto=format&fit=crop",
+    longDescription:
+      "A Global Initiative — travel has become more accessible than ever, and with it, the desire to give back to communities abroad. However, traditional voluntourism — particularly in orphanages and residential care settings — has been shown to cause significant harm to children, creating attachment disorders, increasing vulnerability to exploitation, and sustaining a cycle of manufactured poverty.\n\nThis project worked to fundamentally reshape how international volunteers engage with Sri Lanka's children, replacing well-intentioned but harmful models with a sustainable, rights-based framework.\n\nKey Achievements:\n- NGO Audit and Certification — 50 local organisations were independently audited against international child safeguarding standards. Those meeting criteria were awarded the 'Child-Safe Organisation' certification, creating a trusted directory for ethical voluntourism.\n- Placement Redirection — volunteer efforts were systematically redirected away from residential care settings and toward community development, educational support, and environmental projects where skills-based contributions create genuine, lasting value.\n- International Traveler Education — comprehensive pre-departure briefings and responsible voluntourism guidelines were adopted by 12 international placement agencies.\n- Policy Impact — our findings and recommendations were submitted to the Sri Lanka Tourism Development Authority, contributing to a new national code of practice for volunteer travel.",
   },
   {
-    id: "rural-water",
-    title: "Clean Water for Rural Schools",
-    category: "infrastructure",
-    description: "Provided sustainable solar-powered water filtration systems to 15 rural schools in the Anuradhapura district, ensuring safe drinking water for 4,500 students.",
-    longDescription: "Access to clean drinking water was a critical challenge for many schools in the dry zone. This project successfully installed solar-powered water filtration and storage systems in 15 schools, benefiting over 4,500 students and staff. We also conducted comprehensive hygiene awareness programs. The systems are now managed by local school boards, ensuring sustainability and health for the next generation.",
-    status: "completed",
-    location: "Anuradhapura District",
-    requiredSkills: ["Civil Engineering", "Health Education", "Maintenance"],
-    budget: 1800000,
-    fundsRaised: 1800000,
-    volunteers_needed: 15,
-    start_date: "2023-05-10",
-    end_date: "2024-01-30",
-    image: "https://images.unsplash.com/photo-1541544537156-7627a7a4aa1c?q=80&w=800&auto=format&fit=crop"
+    id: "environmental-youth",
+    title: "Environmental Conservation Youth Program",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop",
+    longDescription:
+      "Sri Lanka is one of the world's biodiversity hotspots — home to dozens of endemic species, rich coastal ecosystems, and vital forest reserves that are under increasing threat from deforestation, coastal erosion, plastic pollution, and unsustainable land use. The Environmental Conservation Youth Program was created to put young Sri Lankans at the forefront of the response.\n\nOver two years, the program mobilised 3,500 young volunteers aged 14 to 26 from across Sri Lanka's coastal and forest regions in hands-on conservation work — building a generation of environmental stewards who see themselves as guardians of their own natural heritage.\n\nProgram Highlights:\n- Reforestation Drives — 150,000 native trees planted across 12 deforested areas in the Central and Uva Provinces, in collaboration with the Forest Department.\n- Beach and Waterway Cleanups — 48 major cleanup events conducted along the Western, Southern, and Eastern coastlines, removing over 85 tonnes of plastic and waste.\n- Wildlife Protection Training — 200 youth trained as community wildlife monitors in partnership with the Department of Wildlife Conservation, reporting illegal poaching and habitat encroachment.\n- Environmental Education Hubs — 15 school-based eco-clubs established, incorporating environmental science into extracurricular learning.\n- Sustainable Livelihoods — 80 coastal youth trained in eco-friendly fishing practices and marine conservation-based income generation.\n\nThe young people who led this program are now its greatest legacy — active advocates, educators, and protectors of Sri Lanka's natural world.",
   },
-  {
-    id: "youth-mentorship",
-    title: "Urban Youth Professional Mentorship Program",
-    category: "community_development",
-    description: "Connected 100 urban youth with industry leaders for a successful 6-month career development journey, resulting in high employment outcomes.",
-    longDescription: "The Youth Mentorship Program aimed to bridge the gap between education and employment for underprivileged urban youth. We successfully paired 100 students with mentors from the technology, finance, and creative industries. The program included soft skills workshops, internship placements, and career coaching. Over 70% of participants secured employment or advanced training opportunities within three months of completion.",
-    status: "completed",
-    location: "Colombo Municipal Area",
-    requiredSkills: ["Mentoring", "Corporate Relations", "Career Coaching"],
-    budget: 500000,
-    fundsRaised: 505000,
-    volunteers_needed: 120,
-    start_date: "2023-06-01",
-    end_date: "2023-12-01",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop"
-  }
 ];
 
+// ---------------------------------------------------------------------------
+// Title-keyed lookup for Projects page and Details page
+// ---------------------------------------------------------------------------
+export const PROJECT_EXTRAS_MAP = Object.fromEntries(
+  PROJECTS.map((p) => [
+    p.title,
+    { id: p.id, image: p.image, longDescription: p.longDescription },
+  ])
+);
+
+// ---------------------------------------------------------------------------
+// Category fallback images
+// ---------------------------------------------------------------------------
+export const CATEGORY_IMAGES = {
+  health:                "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=800&auto=format&fit=crop",
+  education:             "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=800&auto=format&fit=crop",
+  environment:           "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop",
+  community_development: "https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?q=80&w=800&auto=format&fit=crop",
+  disaster_relief:       "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop",
+  infrastructure:        "https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=800&auto=format&fit=crop",
+  other:                 "https://images.unsplash.com/photo-1560252829-804f1aedf1be?q=80&w=800&auto=format&fit=crop",
+};
+
+// ---------------------------------------------------------------------------
+// Activities
+// ---------------------------------------------------------------------------
 export const ACTIVITIES = [
-  {
-    id: "nysc-colombo",
-    title: "Awareness Programme for NYSC Youth - Colombo District",
-    date: "November 2024",
-    location: "Colombo",
-    description: "Another successful programme, another group having their minds enlightened. This was a two-day training programme which was conducted for the youth of the National Youth Services Council in Colombo. The sessions focused on identifying different forms of exploitation and understanding the legal frameworks available for protection.",
-    shortDescription: "A two-day training session empowering Colombo's youth with knowledge on exploitation prevention and legal protections.",
-    image: "https://images.unsplash.com/photo-1743611847941-79f1b9bd5626?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHlvdXRoJTIwc3JpJTIwbGFua2F8ZW58MHx8MHx8fDA%3D"
-  },
   {
     id: "symposium-2024",
     title: "First Global Academic Symposium on Monitoring & Evaluation Education - 2024",
@@ -179,7 +130,7 @@ export const ACTIVITIES = [
     location: "Multiple Locations",
     description: "On 26th September 2024, a special puppet show aimed to educate a gathering of school students from a number of schools in rural areas. This creative medium was highly effective in conveying sensitive messages about personal safety and hygiene to younger children in an engaging way.",
     shortDescription: "Creative puppet shows educating rural students on personal safety and hygiene through engaging storytelling.",
-    image: "https://images.unsplash.com/photo-1605980045919-4abfbb1c3260?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHVwcGV0JTIwc2hvd3xlbnwwfHwwfHx8MA%3D%3D"
+    image: "https://images.unsplash.com/photo-1605980045919-4abfbb1c3260?w=600&auto=format&fit=crop"
   },
   {
     id: "elipitiya-awareness",
@@ -188,10 +139,13 @@ export const ACTIVITIES = [
     location: "Elpitiya",
     description: "As part of the ongoing FVF-funded programme to raise awareness on Prevention of Child Sexual Exploitation and Abuse, an awareness session was conducted in Elpitiya. The direct engagement with parents proved crucial in establishing a collaborative network for child protection at the local household level.",
     shortDescription: "Collaborative sessions in Elpitiya engaging parents and students in building local child protection networks.",
-    image: "https://images.unsplash.com/photo-1720944519195-76650ee46844?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8c3R1ZGVudCUyMGFuZCUyMHBhcmVudHMlMjBzcmlsYW5rYXxlbnwwfHwwfHx8MA%3D%3D"
+    image: "https://images.unsplash.com/photo-1720944519195-76650ee46844?w=600&auto=format&fit=crop"
   }
 ];
 
+// ---------------------------------------------------------------------------
+// Reports
+// ---------------------------------------------------------------------------
 export const REPORTS = [
   {
     id: "annual-report-2023",
@@ -222,25 +176,30 @@ export const REPORTS = [
     title: "Community Resilience in Flood-Prone Districts",
     year: "2023",
     type: "research",
-    description: "Examining the effective of local response mechanisms and the role of youth in disaster risk reduction.",
+    description: "Examining the effectiveness of local response mechanisms and the role of youth in disaster risk reduction.",
     downloadUrl: "#"
   }
 ];
 
-
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 export const getCategoryIcon = (category) => {
   switch (category) {
-    case "health": return Stethoscope;
-    case "education": return GraduationCap;
-    case "environment": return Sprout;
+    case "health":                return Stethoscope;
+    case "education":             return GraduationCap;
+    case "environment":           return Sprout;
     case "community_development": return Users;
-    case "disaster_relief": return AlertTriangle;
-    case "infrastructure": return Hammer;
-    case "other": return Heart;
-    default: return Heart;
+    case "disaster_relief":       return AlertTriangle;
+    case "infrastructure":        return Hammer;
+    default:                      return Heart;
   }
 };
 
 export const getCategoryLabel = (category) => {
-  return category.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  if (!category) return "Uncategorized";
+  return category
+    .split("_")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
 };

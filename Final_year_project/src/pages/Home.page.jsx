@@ -29,10 +29,19 @@ import {
   Truck,
   Sparkles,
   Fingerprint,
+  Loader2,
+  AlertCircle,
 } from "lucide-react";
 import { useNavigate, Link } from "react-router";
-import { PROJECTS, ACTIVITIES, getCategoryLabel } from "../constants";
+import {
+  ACTIVITIES,
+  getCategoryLabel,
+  PROJECT_EXTRAS_MAP,
+  CATEGORY_IMAGES,
+} from "../constants";
 import { useRef } from "react";
+import Preloader from "../components/Preloader";
+import { useGetAllprojectsQuery } from "../lib/api";
 
 // Animated Counter Component
 const CountUp = ({ value, suffix = "" }) => {
@@ -108,11 +117,47 @@ export default function Home() {
   };
 
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // ── Fetch live projects from the backend ──────────────────────────────────
+  const {
+    data: backendProjects = [],
+    isLoading: projectsLoading,
+    isError: projectsError,
+  } = useGetAllprojectsQuery();
+
+  // Merge backend data with local image / longDescription extras (same logic as Projects page)
+  const activeProjects = backendProjects
+    .map((project) => {
+      const extras   = PROJECT_EXTRAS_MAP[project.title] ?? {};
+      const category = project.category ?? "other";
+      return {
+        ...project,
+        category,
+        status:      project.status      ?? "active",
+        title:       project.title       ?? "Untitled Project",
+        description: project.description ?? "",
+        budget:      project.budget      ?? 0,
+        fundsRaised: project.fundsRaised  ?? 0,
+        image:       extras.image        ?? CATEGORY_IMAGES[category] ?? CATEGORY_IMAGES.other,
+      };
+    })
+    .sort((a, b) => {
+      if (a.status === "active" && b.status !== "active") return -1;
+      if (a.status !== "active" && b.status === "active") return 1;
+      return 0;
+    })
+    .slice(0, 3);
 
   const testimonials = [
     {
       quote:
-        "When we were struggling with medical expenses for my daughter, Hopeconnect stepped in with kindness and speed. Their support didn't just provide medicine, it gave us hope for her future.",
+        "When we struggled with our daughter's medical expenses, Hopeconnect stepped in with kindness and speed. Their support provided not just medicine, but hope for her future.",
       author: "Sanduni Perera",
       role: "Member of family supported",
       avatar: "https://i.pravatar.cc/400?img=16",
@@ -126,14 +171,14 @@ export default function Home() {
     },
     {
       quote:
-        "Getting my kids ready for school was a constant worry until Hopeconnect provided the supplies they needed. Seeing my children go to school with confidence is the greatest gift we've received.",
+        "Getting my kids ready for school was a constant worry until Hopeconnect provided the supplies they needed. Seeing them go to school with confidence was the greatest gift we received.",
       author: "Fathima Rizwan",
       role: "Member of family supported",
       avatar: "https://i.pravatar.cc/400?img=47",
     },
     {
       quote:
-        "I've always been wary of where my donations go, but Hopeconnect's transparency is refreshing. Seeing exactly how my contribution helped a family in Nuwara was a powerful experience.",
+        "I've always been wary of where my donations go, but Seeing exactly how my contribution helped a family in Nuwara was a powerful experience.",
       author: "Dulan de Silva",
       role: "Donor, Colombo",
       avatar: "https://i.pravatar.cc/400?img=17",
@@ -166,7 +211,11 @@ export default function Home() {
   }, [testimonials.length]);
 
   return (
-    <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pt-14">
+    <>
+      <AnimatePresence>
+        {isLoading && <Preloader />}
+      </AnimatePresence>
+      <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pt-14">
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
         {/* Background Overlay */}
@@ -186,10 +235,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl text-left"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 backdrop-blur-md text-emerald-300 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 border border-white/10">
-              <Globe2 className="w-3 h-3" />{" "}
-              <span>Direct Community Support</span>
-            </div>
+
             <h1 className="flex flex-col text-5xl md:text-7xl lg:text-8xl font-bold font-display text-white mb-6 tracking-tight leading-[1.05]">
               <span className="text-white/90">Empowring</span>
               <span className="text-emerald-400">the unheard.</span>
@@ -208,7 +254,7 @@ export default function Home() {
               </Link>
               <Link
                 to="/donate"
-                className="w-full sm:w-auto px-12 py-5 bg-white/5 backdrop-blur-xl border-2 border-white/20 hover:border-white/40 hover:bg-white/10 text-white rounded-2xl font-bold transition-all transform hover:-translate-y-1.5 active:scale-95 uppercase tracking-widest text-[11px] flex items-center justify-center gap-3"
+                className="w-full sm:w-auto px-12 py-5 bg-white/5 backdrop-blur-xl border-2 border-white/20 hover:border-white/40 hover:bg-white/10 text-white rounded-2xl font-bold transition-all transform hover:-translate-y-1.5 active:scale-95 uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 duration-300"
               >
                 <Heart className="w-4 h-4 text-emerald-400 group-hover:scale-125 transition-transform" />
                 Donate Now
@@ -219,7 +265,7 @@ export default function Home() {
       </section>
 
       {/* Integrity & GN Verification Focus */}
-      <section className="py-32 bg-white">
+      <section className="py-16 md:py-28 bg-emerald-50/30">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-20">
             <motion.div
@@ -253,17 +299,17 @@ export default function Home() {
             </motion.div>
 
             <div className="lg:w-1/2">
-              <h2 className="text-xs font-bold tracking-[0.3em] text-emerald-600 uppercase mb-4">
+              <h2 className="text-xs font-bold tracking-[0.3em] text-emerald-600 uppercase pb-4">
                 UNCOMPROMISING INTEGRITY
               </h2>
               <h3 className="text-4xl md:text-5xl font-bold text-emerald-950 mb-8 leading-[1.1] tracking-tight">
                 Trust is our{" "}
                 <span className="text-emerald-600 italic">Foundation.</span>
               </h3>
-              <p className="text-lg text-gray-600 mb-10 leading-relaxed font-serif italic">
+              <p className="text-lg text-gray-600 pb-8 leading-relaxed font-serif italic">
                 In a world of information overload, we ensure every story you
-                see on Hopeconnect is authenticated. We've built the first digital
-                bridge between grassroots needs and official government
+                see on Hopeconnect is authenticated. We've built the first
+                digital bridge between grassroots needs and official government
                 verification.
               </p>
 
@@ -304,75 +350,31 @@ export default function Home() {
                   </motion.div>
                 ))}
               </div>
-
-              <div className="mt-12 p-8 bg-emerald-50 rounded-3xl border border-emerald-100 flex items-center justify-between gap-6 group">
-                <div>
-                  <div className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-1">
-                    Live Statistics
-                  </div>
-                  <div className="text-2xl font-bold text-emerald-950">
-                    95% Success Rate
-                  </div>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                    In authentic aid delivery
-                  </p>
-                </div>
-                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform">
-                  <Sparkles className="w-8 h-8 text-emerald-600" />
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* How it Works / The Process */}
       <section className="py-24 bg-emerald-950 text-white overflow-hidden relative">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-emerald-900/20 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2"></div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-20">
-            <h2 className="text-xs font-bold tracking-[0.4em] text-emerald-400 uppercase mb-4">
-              THE PROCESS
-            </h2>
-            <h3 className="text-4xl font-bold mb-4 tracking-tight">
-              How Hope is Delivered
-            </h3>
-            <p className="text-emerald-100/60 max-w-xl mx-auto font-serif italic">
-              A transparent, secure, and respectful journey for every request.
-            </p>
+            <h2 className="text-xs font-bold tracking-[0.4em] uppercase mb-4"><span className="text-emerald-400">PROCESS</span></h2>
+            <h3 className="text-4xl font-bold mb-4 tracking-tight">How Hope is Delivered</h3>
+            <h4 className="text-emerald-100/60 max-w-xl mx-auto font-serif italic">A transparent, secure, and respectful journey for every request.</h4>
           </div>
 
           <div className="grid md:grid-cols-4 gap-12 relative">
             {/* Connecting Lines (Desktop) */}
             <div className="hidden lg:block absolute top-12 left-0 w-full h-0.5 bg-gradient-to-r from-emerald-800/0 via-emerald-800 to-emerald-800/0"></div>
-
+            
             {[
-              {
-                step: "01",
-                title: "Submit Request",
-                icon: Search,
-                desc: "Submit a need with supporting documents for medical, education, or disaster relief.",
-              },
-              {
-                step: "02",
-                title: "Official Verification",
-                icon: Fingerprint,
-                desc: "Local Grama Niladhari officers verify the authenticity and urgency of each case.",
-              },
-              {
-                step: "03",
-                title: "Community Funding",
-                icon: Users,
-                desc: "Verified projects are published for transparent public donations and support.",
-              },
-              {
-                step: "04",
-                title: "Direct Impact",
-                icon: Truck,
-                desc: "Resources are delivered directly to beneficiaries with documented impact reports.",
-              },
+              { step: "01", title: "Submit Request", icon: Search, desc: "Submit a need with supporting documents for medical, education, or disaster relief." },
+              { step: "02", title: "Official Verification", icon: Fingerprint, desc: "Local Grama Niladhari officers verify the authenticity and urgency of each case." },
+              { step: "03", title: "Community Funding", icon: Users, desc: "Verified projects are published for transparent public donations and support." },
+              { step: "04", title: "Direct Impact", icon: Truck, desc: "Resources are delivered directly to beneficiaries with documented impact reports." }
             ].map((item, i) => (
-              <motion.div
+              <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -384,34 +386,28 @@ export default function Home() {
                   <item.icon className="w-5 h-5" />
                 </div>
                 <div className="text-center">
-                  <div className="text-[10px] font-bold text-emerald-500 mb-2 uppercase tracking-widest">
-                    {item.step}
-                  </div>
-                  <h4 className="text-lg font-bold mb-4 text-white group-hover:text-emerald-400 transition-colors">
-                    {item.title}
-                  </h4>
-                  <p className="text-sm text-emerald-100/50 leading-relaxed font-medium">
-                    {item.desc}
-                  </p>
+                  <div className="text-[10px] font-bold text-emerald-500 mb-2 uppercase tracking-widest">{item.step}</div>
+                  <h4 className="text-lg font-bold mb-4 text-white group-hover:text-emerald-400 transition-colors">{item.title}</h4>
+                  <p className="text-sm text-emerald-100/50 leading-relaxed font-medium">{item.desc}</p>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Ongoing Projects */}
-      <section className="py-24 bg-emerald-50/30">
+      
+      {/* ── Ongoing Projects ─────────────────────────────────────────────────── */}
+      <section className="py-16 md:py-24 bg-emerald-50/30">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-end mb-12">
             <div>
               <h2 className="text-xs font-bold tracking-[0.3em] text-emerald-600 uppercase mb-4">
                 IMMEDIATE NEED
               </h2>
-              <h3 className="text-3xl font-bold text-emerald-950 mb-2 tracking-tight">
+              <h3 className="text-3xl font-bold text-emerald-950 mb-4 tracking-tight">
                 Ongoing Projects
               </h3>
-              <div className="w-20 h-1.5 bg-emerald-600 rounded-full"></div>
+              <div className="w-65 h-1 bg-emerald-600 rounded-full"></div>
             </div>
             <Link
               to="/projects"
@@ -421,12 +417,36 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {PROJECTS.filter((p) => p.status === "active")
-              .slice(0, 3)
-              .map((project, i) => (
+          {/* Loading state */}
+          {projectsLoading && (
+            <div className="flex flex-col items-center justify-center py-24 gap-4 text-emerald-700">
+              <Loader2 className="w-10 h-10 animate-spin" />
+              <p className="text-sm font-medium">Loading projects…</p>
+            </div>
+          )}
+
+          {/* Error state */}
+          {projectsError && (
+            <div className="flex flex-col items-center justify-center py-24 gap-4 text-red-500">
+              <AlertCircle className="w-10 h-10" />
+              <p className="text-sm font-medium">Failed to load projects. Please try again.</p>
+            </div>
+          )}
+
+          {/* Empty state */}
+          {!projectsLoading && !projectsError && activeProjects.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-24 gap-3 text-gray-400">
+              <Search className="w-10 h-10" />
+              <p className="text-sm font-medium">No active projects at the moment.</p>
+            </div>
+          )}
+
+          {/* Project cards */}
+          {!projectsLoading && !projectsError && activeProjects.length > 0 && (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {activeProjects.map((project, i) => (
                 <motion.div
-                  key={project.id}
+                  key={project._id}
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
@@ -446,7 +466,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="p-8 flex flex-col flex-1">
-                    <h4 className="text-xl font-bold text-emerald-950 mb-4 leading-tight group-hover:text-emerald-600 transition-colors">
+                    <h4 className="text-xl font-bold text-emerald-950 mb-4 leading-tight group-hover:text-emerald-600 transition-all duration-300">
                       {project.title}
                     </h4>
                     <p className="text-gray-500 text-sm leading-relaxed mb-8 font-medium line-clamp-3">
@@ -455,40 +475,48 @@ export default function Home() {
 
                     <div className="mt-auto pt-6 border-t border-emerald-50">
                       <div className="flex flex-col space-y-6">
-                        <div className="space-y-3">
-                          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
-                            <span className="text-gray-400">
-                              Raised:{" "}
-                              <span className="text-emerald-600">
-                                LKR {project.fundsRaised.toLocaleString()}
+                        {project.budget > 0 && (
+                          <div className="space-y-3">
+                            <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
+                              <span className="text-gray-400">
+                                Raised:{" "}
+                                <span className="text-emerald-600">
+                                  LKR {project.fundsRaised.toLocaleString()}
+                                </span>
                               </span>
-                            </span>
-                            <span className="text-emerald-950">
-                              {Math.round(
-                                (project.fundsRaised / project.budget) * 100,
-                              )}
-                              %
-                            </span>
+                              <span className="text-emerald-950">
+                                {Math.min(
+                                  Math.round(
+                                    (project.fundsRaised / project.budget) * 100,
+                                  ),
+                                  100,
+                                )}
+                                %
+                              </span>
+                            </div>
+                            <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+                              <motion.div
+                                initial={{ width: 0 }}
+                                whileInView={{
+                                  width: `${Math.min((project.fundsRaised / project.budget) * 100, 100)}%`,
+                                }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 1, delay: 0.5 }}
+                                className="h-full bg-emerald-600 rounded-full"
+                              />
+                            </div>
                           </div>
-                          <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-emerald-600 rounded-full"
-                              style={{
-                                width: `${(project.fundsRaised / project.budget) * 100}%`,
-                              }}
-                            ></div>
-                          </div>
-                        </div>
+                        )}
                         <div className="flex items-center gap-3">
                           <Link
-                            to={`/projects/${project.id}`}
-                            className="inline-flex items-center gap-2 font-bold hover:gap-3 transition-all text-xs uppercase tracking-widest px-4 py-2 border border-emerald-200 text-emerald-600 rounded-lg hover:bg-emerald-50 w-fit"
+                            to={`/projects/${project._id}`}
+                            className="inline-flex items-center gap-2 font-bold hover:gap-3 transition-all text-xs uppercase tracking-widest px-4 py-2 border border-emerald-200 text-emerald-600 rounded-lg hover:bg-emerald-50 w-fit duration-300"
                           >
                             Read More <ArrowRight className="w-4 h-4" />
                           </Link>
                           <Link
                             to="/donate"
-                            className="inline-flex items-center gap-2 font-bold transition-all text-xs uppercase tracking-widest px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 w-fit shadow-md shadow-emerald-200"
+                            className="inline-flex items-center gap-2 font-bold transition-all text-xs uppercase tracking-widest px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 w-fit shadow-md shadow-emerald-200 duration-300"
                           >
                             Donate
                           </Link>
@@ -498,18 +526,20 @@ export default function Home() {
                   </div>
                 </motion.div>
               ))}
-          </div>
+            </div>
+          )}
         </div>
       </section>
+      {/* ──────────────────────────────────────────────────────────────────────── */}
 
       {/* Impact Numbers */}
-      <section className="py-24 bg-emerald-950 text-white relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-emerald-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.2),transparent)] opacity-50"></div>
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-[11px] font-bold tracking-[0.4em] text-emerald-400 uppercase mb-4">
+          <h3 className="text-[11px] font-bold tracking-[0.4em] text-emerald-400/80 uppercase mb-4">
             OUR IMPACT IN NUMBERS
-          </h2>
-          <p className="text-lg text-emerald-100/60 mb-16 max-w-2xl mx-auto italic font-serif">
+          </h3>
+          <p className="text-lg text-emerald-100/60 pb-14  mx-auto italic font-serif">
             "Since 2021, we have been working tirelessly across SRI LANKA."
           </p>
 
@@ -563,16 +593,16 @@ export default function Home() {
       </section>
 
       {/* Recent Activities */}
-      <section className="py-24 bg-white">
+      <section className="py-16 md:py-24 bg-emerald-50/30">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className=" mb-12">
             <h2 className="text-xs font-bold tracking-[0.3em] text-emerald-600 uppercase mb-4">
               MOMENTS OF HOPE
             </h2>
             <h3 className="text-3xl font-bold text-emerald-950 mb-4 tracking-tight">
               Recent Activities
             </h3>
-            <div className="w-12 h-1.5 bg-emerald-600 mx-auto rounded-full"></div>
+            <div className="w-60 h-1 bg-emerald-600  rounded-full"></div>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -583,7 +613,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-white border border-gray-100 flex flex-col group hover:shadow-2xl hover:shadow-emerald-900/5 transition-all h-full"
+                className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 flex flex-col group hover:shadow-2xl hover:shadow-emerald-900/5 transition-all h-full"
               >
                 {/* Image */}
                 <div className="relative aspect-[4/3] overflow-hidden">
@@ -601,7 +631,7 @@ export default function Home() {
 
                 {/* Content */}
                 <div className="p-8 flex flex-col flex-1 border-t-4 border-emerald-600">
-                  <h3 className="text-lg font-bold text-emerald-900 mb-4 leading-tight group-hover:text-emerald-600 transition-colors line-clamp-2">
+                  <h3 className="text-lg font-bold text-emerald-900 mb-4 leading-tight group-hover:text-emerald-600 transition-all line-clamp-2 duration-300">
                     {activity.title}
                   </h3>
 
@@ -623,16 +653,16 @@ export default function Home() {
       </section>
 
       {/* Partners Section */}
-      <section className="py-24 bg-white border-y border-gray-50">
+      <section className="py-16 md:py-24 bg-emerald-950 border-y border-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-[10px] font-bold tracking-[0.4em] text-gray-400 uppercase mb-2">
+            <h3 className="text-[10px] font-bold tracking-[0.4em] text-emerald-400/80 uppercase mb-2">
               STRATEGIC PARTNERS
-            </h2>
-            <div className="w-20 h-1 bg-emerald-100 mx-auto rounded-full"></div>
+            </h3>
+            <div className="w-20 h-1 bg-emerald-100/60 mx-auto rounded-full"></div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-12 md:gap-24 opacity-40 grayscale group-hover:grayscale-0 transition-all duration-700">
+          <div className=" flex flex-wrap items-center justify-center gap-12 md:gap-24 transition-all duration-700">
             {[
               { name: "Global Relief", icon: Globe2 },
               { name: "Digital Trust", icon: ShieldCheck },
@@ -642,10 +672,10 @@ export default function Home() {
             ].map((partner, i) => (
               <div
                 key={i}
-                className="flex items-center gap-3 group/partner cursor-default hover:opacity-100 hover:grayscale-0 transition-all"
+                className="flex items-center gap-3 group/partner cursor-default opacity-70 hover:opacity-100 hover:scale-105 transition-all duration-300"
               >
-                <partner.icon className="w-8 h-8 text-emerald-950" />
-                <span className="font-bold text-xl tracking-tighter text-emerald-950 uppercase">
+                <partner.icon className="w-8 h-8 text-white" />
+                <span className="font-bold text-xl tracking-tighter text-white uppercase">
                   {partner.name}
                 </span>
               </div>
@@ -655,15 +685,15 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-32 bg-[#FDFCFB]">
+      <section className="py-16 md:py-24 bg-emerald-50/30">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            className="p-12 md:p-20 bg-white rounded-[3rem] shadow-2xl shadow-emerald-900/5 relative text-center border border-emerald-50 min-h-[500px] flex flex-col justify-center"
+            className="p-12 md:p-20 bg-white rounded-[3rem] shadow-2xl shadow-emerald-900/10 relative text-center border border-emerald-100 min-h-125 flex flex-col justify-center"
           >
-            <div className="absolute top-0 right-0 p-10 opacity-5">
-              <MessageSquare className="w-32 h-32 text-emerald-600" />
+            <div className="absolute top-0 right-0 p-10 opacity-50">
+              <MessageSquare className="w-16 h-16 md:w-28 md:h-28 text-emerald-400" />
             </div>
 
             <AnimatePresence mode="wait">
@@ -716,38 +746,36 @@ export default function Home() {
       </section>
 
       {/* Pride Section */}
-      <section className="py-32 bg-white px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-emerald-900 rounded-[4rem] p-12 md:p-24 relative overflow-hidden text-center shadow-2xl">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(16,185,129,0.2),transparent)]"></div>
-            <motion.div
+      <section className="bg-emerald-950 p-12 md:p-24 relative overflow-hidden text-center shadow-2xl">
+        <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               className="relative z-10"
             >
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-12 max-w-2xl mx-auto leading-tight tracking-tight flex flex-wrap items-center justify-center gap-3">
+              <h3 className="text-3xl md:text-4xl font-bold text-white/90 mb-12 max-w-2xl mx-auto leading-tight tracking-tight flex flex-wrap items-center justify-center gap-3">
                 We are really proud of our kind volunteers & donors{" "}
-                <Heart className="w-8 h-8 md:w-10 md:h-10 text-emerald-400 fill-current shrink-0" />
-              </h2>
+                <div className="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center ">
+                  <Heart className="w-7 h-7 text-white animate-pulse" />
+                </div>
+              </h3>
               <div className="flex flex-col sm:flex-row justify-center gap-6">
                 <Link
                   to="/donate"
-                  className="px-12 py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-[1.5rem] font-bold shadow-2xl shadow-emerald-950/40 transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs"
+                  className="px-12 py-5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-[1.5rem] font-bold shadow-2xl shadow-emerald-950/40 transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs hover:shadow-lg hover:shadow-black/30 hover:scale-105 duration-300"
                 >
                   Donate Now
                 </Link>
                 <button
                   onClick={() => navigate("/volunteer")}
-                  className="px-12 py-5 bg-white/10 hover:bg-white/20 text-white rounded-[1.5rem] font-bold transition-all flex items-center justify-center gap-2 backdrop-blur-md border border-white/20 uppercase tracking-widest text-xs"
+                  className="px-12 py-5 bg-white/10 hover:bg-white/20 text-white rounded-[1.5rem] font-bold transition-all flex items-center justify-center gap-2 backdrop-blur-md border border-white/20 uppercase tracking-widest text-xs hover:shadow-lg hover:shadow-black/30 hover:scale-105 duration-300"
                 >
                   <Users className="w-5 h-5" /> Be a Volunteer
                 </button>
               </div>
             </motion.div>
-          </div>
-        </div>
       </section>
     </div>
+    </>
   );
 }

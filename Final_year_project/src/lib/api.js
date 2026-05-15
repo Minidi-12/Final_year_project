@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3000';
 
 export const Api = createApi({
   reducerPath: 'Api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}/api` }),
   tagTypes: ['B_Req', 'GnOfficer'],
   endpoints: (build) => ({
     getAllb_reqs: build.query({

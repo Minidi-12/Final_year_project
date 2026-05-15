@@ -22,7 +22,6 @@ export default function FloatingActions() {
   return (
     <div className="fixed bottom-8 right-8 z-50">
       <AnimatePresence>
-        {/* Back to Top */}
         {showScrollTop && (
           <motion.button
             initial={{ opacity: 0, scale: 0.8 }}
