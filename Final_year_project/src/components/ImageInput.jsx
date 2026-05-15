@@ -1,7 +1,7 @@
 import { putImage } from "@/lib/b_req";
 import { Input } from "./ui/input";
 
-function ImageInput({ onChange, value }) {
+function ImageInput({ onChange }) {
   const handleFileChange = async (e) => {
 
     console.log(e.target.files);
@@ -13,13 +13,10 @@ function ImageInput({ onChange, value }) {
       if (!file) {
         return;
       }
-      //const url = "https://via.placeholder.com/150";
       const publicUrl = await putImage({ file });
 
       console.log(publicUrl);
-      //console.log(url);
       onChange(publicUrl);
-      //onChange(url);
     } catch (error) {
       console.log(error);
     }

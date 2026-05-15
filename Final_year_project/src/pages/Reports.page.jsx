@@ -29,19 +29,19 @@ export default function ReportsResearches() {
     <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pt-20">
       {/* Hero Section */}
       <section className="bg-emerald-950 py-32 md:py-40 text-white relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2000" 
+            alt="Research and documentation"
+            className="w-full h-full object-cover opacity-30"
+          />
+        </div>
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-emerald-800/20 rounded-full blur-3xl opacity-50 z-0"></div>
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] bg-emerald-400/10 rounded-full blur-3xl opacity-30 z-0"></div>
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] mb-8"
-          >
-            <BookOpen className="w-3 h-3 text-emerald-400" /> 
-            <span>Knowledge Base & Impact</span>
-          </motion.div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -49,8 +49,8 @@ export default function ReportsResearches() {
             transition={{ delay: 0.1 }}
             className="text-5xl md:text-7xl font-bold mb-8 leading-[1.1] tracking-tight max-w-4xl"
           >
-            Evidence-Based <br />
-            <span className="text-emerald-400 font-serif italic font-medium">Research</span> & Insights
+           <span className="text-white">Evidence-Based <br />
+            <span className="text-emerald-400 font-serif italic font-medium">Research</span> & Insights </span>
           </motion.h1>
           
           <motion.p
@@ -194,4 +194,3 @@ export default function ReportsResearches() {
     </div>
   );
 }
-

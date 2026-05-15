@@ -165,10 +165,7 @@ export default function Volunteer() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6">
-              <Sparkles className="w-3 h-3" />
-              <span>Humanitarian Impact</span>
-            </div>
+            
             <h1 className="text-5xl font-bold text-emerald-950 mb-6 leading-[1.1] tracking-tight">
               Small acts, <br />
               <span className="text-emerald-600 font-serif italic font-medium">

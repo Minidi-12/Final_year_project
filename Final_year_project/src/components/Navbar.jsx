@@ -17,7 +17,7 @@ export default function Navbar() {
     {
       label: "OUR WORK",
       href: "#",
-      dropdown: ["PROJECTS", "PROJECT ACHIEVEMENTS", "ACTIVITIES", "CAMPAIGNS"],
+      dropdown: ["PROJECTS", "ACTIVITIES", "CAMPAIGNS"],
     },
     {
       label: "LATEST",
@@ -35,7 +35,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-emerald-100">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/60 backdrop-blur-md border-b border-emerald-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14">
           <Link to="/" className="flex items-center gap-2">
@@ -105,8 +105,8 @@ export default function Navbar() {
                         <Link
                           key={subItem}
                           to={
-                            subItem === "PROJECT ACHIEVEMENTS"
-                              ? "/achievements"
+                            subItem === "PROJECTS"
+                              ? "/projects"
                               : subItem === "ACTIVITIES"
                                 ? "/activities"
                                 : subItem === "CAMPAIGNS"
@@ -188,7 +188,6 @@ export default function Navbar() {
             className="fixed inset-0 top-14 bg-white z-40 md:hidden overflow-y-auto"
           >
             <div className="px-4 py-6 space-y-4">
-              {/* ADDED: Mobile Navigation Items */}
               {navItems.map((item) => (
                 <div key={item.label} className="space-y-2">
                   {item.href.startsWith("/") ? (
@@ -222,8 +221,6 @@ export default function Navbar() {
                       )}
                     </button>
                   )}
-
-                  {/* ADDED: Mobile Dropdown Items */}
                   {item.dropdown && activeDropdown === item.label && (
                     <div className="pl-4 space-y-1">
                       {item.dropdown.map((subItem) => (
@@ -253,7 +250,6 @@ export default function Navbar() {
                 </div>
               ))}
 
-              {/* ADDED: Mobile Action Buttons */}
               <div className="pt-4 border-t border-emerald-100 space-y-3">
                 <Link
                   to="/login"
@@ -279,7 +275,6 @@ export default function Navbar() {
                   />
                 </button>
 
-                {/* ADDED: Get Involved Dropdown in Mobile */}
                 {activeDropdown === "GET INVOLVED" && (
                   <div className="space-y-2 pl-4">
                     {getInvolvedDropdown.map((subItem) => (

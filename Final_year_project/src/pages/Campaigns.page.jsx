@@ -43,19 +43,19 @@ export default function Campaigns() {
     <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pt-20">
       {/* Hero Section */}
       <section className="bg-emerald-950 py-32 md:py-40 text-white relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://t4.ftcdn.net/jpg/00/88/80/69/360_F_88806982_UL5RAjPfA1ybunkK8ChcNe4icFjoexny.jpg" 
+            alt="Women empowerment campaign"
+            className="w-full h-full object-cover opacity-20"
+          />
+        </div>
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-emerald-800/20 rounded-full blur-3xl opacity-50 z-0"></div>
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] bg-emerald-400/10 rounded-full blur-3xl opacity-30 z-0"></div>
         
         <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] mb-8"
-          >
-            <Megaphone className="w-3 h-3 text-emerald-400" /> 
-            <span>Advocacy & Movements</span>
-          </motion.div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -63,8 +63,8 @@ export default function Campaigns() {
             transition={{ delay: 0.1 }}
             className="text-5xl md:text-7xl font-bold mb-8 leading-[1.1] tracking-tight max-w-4xl mx-auto"
           >
-            Mobilizing <br />
-            <span className="text-emerald-400 font-serif italic font-medium">National</span> Movements
+           <span className="text-white">Mobilizing <br />
+            <span className="text-emerald-400 font-serif italic font-medium">National</span> Movements </span>
           </motion.h1>
           
           <motion.p
@@ -155,4 +155,3 @@ export default function Campaigns() {
     </div>
   );
 }
-

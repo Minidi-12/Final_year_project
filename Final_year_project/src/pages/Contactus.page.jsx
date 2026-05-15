@@ -28,19 +28,18 @@ export default function ContactUs() {
     <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pt-20">
       {/* Hero Section */}
       <section className="bg-emerald-950 py-32 md:py-40 text-white relative overflow-hidden">
+         <div className="absolute inset-0 z-0">
+          <img 
+            src="https://t4.ftcdn.net/jpg/05/85/98/03/360_F_585980340_geg6GaDREebGe3cGAjtuElD6gS7HBvGr.jpg" 
+            alt="Research and documentation"
+            className="w-full h-full object-cover opacity-20"
+          />
+        </div>
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-emerald-800/20 rounded-full blur-3xl opacity-50 z-0"></div>
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] bg-emerald-400/10 rounded-full blur-3xl opacity-30 z-0"></div>
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] mb-8"
-          >
-            <MessageSquare className="w-3 h-3 text-emerald-400" /> 
-            <span>Open Communication</span>
-          </motion.div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -48,8 +47,8 @@ export default function ContactUs() {
             transition={{ delay: 0.1 }}
             className="text-5xl md:text-7xl font-bold mb-8 leading-[1.1] tracking-tight max-w-4xl"
           >
-            We're Here to <br />
-            <span className="text-emerald-400 font-serif italic font-medium">Listen</span> & Support
+           <span className="text-white">We're Here to <br />
+            <span className="text-emerald-400 font-serif italic font-medium">Listen</span> & Support </span>
           </motion.h1>
           
           <motion.p
@@ -273,18 +272,7 @@ export default function ContactUs() {
         </div>
       </section>
 
-      {/* Trust Quote */}
-      <section className="py-32 bg-[#FAFAFA] rounded-t-[5rem]">
-         <div className="max-w-4xl mx-auto px-6 text-center">
-            <div className="w-20 h-20 bg-white rounded-3xl shadow-xl shadow-emerald-900/5 flex items-center justify-center mx-auto mb-12">
-              <Sparkles className="w-10 h-10 text-emerald-600" />
-            </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-emerald-950 mb-12 leading-tight tracking-tight">Our Privacy <br /><span className="text-emerald-600 font-serif italic">Commitment</span></h2>
-            <p className="text-xl text-emerald-900/40 leading-relaxed font-serif italic">
-              "We prioritize your safety above all else. Communication with HopeConnect is protected by end-to-end security protocols. We do not share your contact information with external agencies without explicit legal mandate or prior consent."
-            </p>
-         </div>
-      </section>
+      
     </div>
   );
 }
