@@ -2,7 +2,7 @@ export const translations = {
   en: {
     brand: "HOPECONNECT",
 
-    // Steps 
+    
     steps: {
       identity:  "Identity",
       location:  "Location",
@@ -13,7 +13,7 @@ export const translations = {
     },
     stepLabel: (step, label) => `Step ${step} of 6 — ${label}`,
 
-    // Shared
+    
     required:    "required",
     optional:    "optional",
     selectAll:   "select all that apply",
@@ -26,7 +26,7 @@ export const translations = {
     km:          "km",
     min10chars:  "min 10 characters",
 
-    //Validation errors
+    
     err: {
       nameReq:        "Full name is required",
       nicReq:         "NIC number is required",
@@ -52,7 +52,7 @@ export const translations = {
       urgencyReq:     "Please rate your urgency level",
     },
 
-    // Step 1 — Identity
+    
     s1: {
       heading:       "Personal Identity",
       subheading:    "Enter your legal identification details as they appear on your NIC.",
@@ -70,7 +70,7 @@ export const translations = {
       phoneHint:     "Enter 10-digit Sri Lankan number starting with 07",
     },
 
-    //Step 2 — Location
+   
     s2: {
       heading:       "Location & Living",
       subheading:    "Your residential details help us assign the right GN Officer.",
@@ -93,7 +93,7 @@ export const translations = {
       electricity:   "Electricity",
     },
 
-    // Step 3 — Financial
+    
     s3: {
       heading:       "Financial Status",
       subheading:    "Income details help us determine the right level of support.",
@@ -118,7 +118,7 @@ export const translations = {
       },
     },
 
-    //Step 4 — Health
+    
     s4: {
       heading:       "Health & Education",
       subheading:    "Health and education factors are key indicators for assessing support needs.",
@@ -142,7 +142,7 @@ export const translations = {
       droppedSub:    "Due to financial reasons",
     },
 
-    // Step 5 — Support 
+    
     s5: {
       heading:       "Support Request",
       subheading:    "Tell us what kind of help your family needs most.",
@@ -171,7 +171,7 @@ export const translations = {
       filesReady:    (n) => ` ${n} file${n > 1 ? "s" : ""} ready`,
     },
 
-    // Step 6 — Review 
+    
     s6: {
       heading:       "Review & Submit",
       subheading:    "Verify everything before submitting. You cannot edit after submission.",
@@ -192,13 +192,13 @@ export const translations = {
       disclaimer:   "By submitting, you confirm all information is truthful. Falsifying welfare documents is a punishable offense under Sri Lankan law.",
     },
 
-    // Success 
+  
     success: {
       title:    "Application Submitted!",
       body:     "Your application has been received. Our team will coordinate with your local GN division for verification. You will receive WhatsApp updates.",
     },
 
-    // Footer 
+   
     footer: "Your data is encrypted and securely stored. Used only for welfare assessment.",
   },
 
@@ -322,7 +322,7 @@ export const translations = {
       education:     "ඉහළම අධ්‍යාපන මට්ටම",
       edu: {
         none:   "විධිමත් අධ්‍යාපනයක් නැත",
-        grade:  "ශ්‍රේණිය 1 – 10",
+        grade:  "ශ්‍රේණිය 1 - 10",
         olevel: "සා.පෙළ",
         alevel: "උ.පෙළ",
         degree: "උපාධිය",
@@ -395,7 +395,7 @@ export const translations = {
   },
 };
 
-/** Returns the translation object for the given language code ("en" | "si"). */
+
 export function getT(lang) {
   return translations[lang] ?? translations.en;
 }

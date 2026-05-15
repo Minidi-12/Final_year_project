@@ -136,7 +136,7 @@ function DecisionBtn({ icon: Icon, label, color, onClick }) {
   );
 }
 
-//Status Badge
+
 function StatusBadge({ status }) {
   const c = STATUS_META[status] || STATUS_META.pending;
   return (
@@ -149,7 +149,7 @@ function StatusBadge({ status }) {
   );
 }
 
-// Chart Card wrapper
+
 function ChartCard({ title, sub, children, action }) {
   return (
     <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-5">
@@ -165,7 +165,7 @@ function ChartCard({ title, sub, children, action }) {
   );
 }
 
-// Stat card
+
 function StatCard({ label, val, detail, icon: Icon, color, bg, delay = 0 }) {
   return (
     <motion.div
@@ -188,7 +188,7 @@ function StatCard({ label, val, detail, icon: Icon, color, bg, delay = 0 }) {
   );
 }
 
-// Main Dashboard
+
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
@@ -202,7 +202,7 @@ export default function AdminDashboard() {
     .toUpperCase()
     .slice(0, 2);
 
-  // Real API data
+  
   const { data: allRequests = [], isLoading, refetch } = useGetAllb_reqsQuery();
   const { data: gnOfficers = [] } = useGetAllGnOfficersQuery();
   const { data: gnDivisions = [] } = useGetAllgn_divisionsQuery();
@@ -279,7 +279,7 @@ export default function AdminDashboard() {
     <>
       <AnimatePresence>{isLoading && <Preloader />}</AnimatePresence>
       <div className="min-h-screen bg-[#F8FAFB] flex font-sans">
-        {/* Sidebar */}
+        
         <aside className="w-64 bg-white border-r border-slate-100 flex flex-col hidden lg:flex sticky top-0 h-screen">
           <div className="p-6 flex items-center gap-3 border-b border-slate-100">
             <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center">
@@ -333,9 +333,9 @@ export default function AdminDashboard() {
           </div>
         </aside>
 
-        {/* Main */}
+        
         <main className="flex-1 overflow-y-auto">
-          {/* Header */}
+          
           <header className="h-16 bg-white/80 backdrop-blur-sm border-b border-slate-100 px-8 flex items-center justify-between sticky top-0 z-30">
             <h1 className="text-lg font-bold text-slate-900 capitalize">
               {activeTab === "queue"
@@ -385,9 +385,9 @@ export default function AdminDashboard() {
   );
 }
 
-// OVERVIEW VIEW
+
 function OverviewView({ allRequests, gnDivisions, isLoading }) {
-  //Compute real stats
+  
   const stats = useMemo(() => {
     const now = new Date();
     const thisMonth = allRequests.filter((r) => {
@@ -411,7 +411,7 @@ function OverviewView({ allRequests, gnDivisions, isLoading }) {
     };
   }, [allRequests]);
 
-  // Monthly trend from real created_at
+  
   const monthlyTrend = useMemo(() => {
     const months = [
       "Jan",
@@ -437,7 +437,7 @@ function OverviewView({ allRequests, gnDivisions, isLoading }) {
       .map((m) => ({ name: m, count: counts[m] || 0 }));
   }, [allRequests]);
 
-  // Requests per GN division
+  
   const divisionData = useMemo(() => {
     const map = {};
     allRequests.forEach((r) => {
@@ -450,7 +450,7 @@ function OverviewView({ allRequests, gnDivisions, isLoading }) {
     return Object.values(map);
   }, [allRequests]);
 
-  //Support type distribution
+  
   const supportData = useMemo(() => {
     const map = {};
     allRequests.forEach((r) => {
@@ -464,7 +464,7 @@ function OverviewView({ allRequests, gnDivisions, isLoading }) {
     }));
   }, [allRequests]);
 
-  //Urgency distribution
+  
   const urgencyData = useMemo(
     () => [
       {
@@ -501,7 +501,7 @@ function OverviewView({ allRequests, gnDivisions, isLoading }) {
 
   return (
     <div className="space-y-8">
-      {/* Stat Cards Row 1 */}
+     
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           label="Total Requests"
@@ -540,7 +540,7 @@ function OverviewView({ allRequests, gnDivisions, isLoading }) {
           delay={0.15}
         />
       </div>
-      {/* Stat Cards Row 2 */}
+      
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           label="Resolved"
@@ -580,9 +580,9 @@ function OverviewView({ allRequests, gnDivisions, isLoading }) {
         />
       </div>
 
-      {/* Charts */}
+     
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Monthly Trend */}
+       
         <ChartCard
           title="Submission Trends"
           sub="Monthly intake volume from real data"
@@ -630,7 +630,7 @@ function OverviewView({ allRequests, gnDivisions, isLoading }) {
           </ResponsiveContainer>
         </ChartCard>
 
-        {/* Division Requests */}
+        
         <ChartCard
           title="Requests by GN Division"
           sub="Total requests vs verified cases per division"
@@ -679,7 +679,7 @@ function OverviewView({ allRequests, gnDivisions, isLoading }) {
           </ResponsiveContainer>
         </ChartCard>
 
-        {/* Support Type Pie */}
+       
         <ChartCard
           title="Support Type Distribution"
           sub="Breakdown of requested aid categories"
@@ -726,7 +726,7 @@ function OverviewView({ allRequests, gnDivisions, isLoading }) {
           </div>
         </ChartCard>
 
-        {/* Urgency Distribution */}
+      
         <ChartCard
           title="Urgency Distribution"
           sub="ML-assessed case severity breakdown"
@@ -767,7 +767,7 @@ function OverviewView({ allRequests, gnDivisions, isLoading }) {
           </div>
         </ChartCard>
       </div>
-      {/* District Poverty Map — Leaflet / OpenStreetMap */}
+      
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
         <div className="p-5 border-b border-slate-100 flex items-center justify-between">
           <div>
@@ -832,15 +832,15 @@ function QueueView({
         return matchSearch && matchStatus && matchUrgency && matchDivision;
       })
       .sort((a, b) => {
-        // Move verified and rejected cases to the bottom
+        
         const aIsProcessed = a.status === "verified" || a.status === "rejected";
         const bIsProcessed = b.status === "verified" || b.status === "rejected";
 
-        // If one is processed and the other isn't, processed goes to bottom
+        
         if (aIsProcessed && !bIsProcessed) return 1;
         if (!aIsProcessed && bIsProcessed) return -1;
 
-        // If both have same processed status, sort by original criteria
+        
         return sortBy === "score"
           ? (b.urgency_score ?? 0) - (a.urgency_score ?? 0)
           : (a.b_profile?.[0]?.name || "").localeCompare(
@@ -858,7 +858,7 @@ function QueueView({
 
   return (
     <div className="space-y-6">
-      {/* Filters */}
+     
       <div className="bg-white rounded-2xl border border-slate-100 p-5 flex flex-wrap gap-4 items-center">
         <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wide">
           <Filter className="w-4 h-4" /> Filters
@@ -909,7 +909,7 @@ function QueueView({
         </span>
       </div>
 
-      {/* Table */}
+    
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -1037,7 +1037,7 @@ function QueueView({
   );
 }
 
-// DETAIL VIEW
+
 function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
   const req = allRequests.find((r) => r._id === id);
   const [notes, setNotes] = useState("");
@@ -1094,7 +1094,7 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
 
   return (
     <div className="space-y-6">
-      {/* Back button + header */}
+     
       <div className="flex items-center gap-4">
         <button
           onClick={onBack}
@@ -1112,9 +1112,9 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left: details */}
+       
         <div className="lg:col-span-8 space-y-5">
-          {/* Demographics */}
+          
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-4">
             <div className="flex items-center gap-2 mb-2">
               <User className="w-4 h-4 text-emerald-600" />
@@ -1132,8 +1132,7 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
             ])}
           </div>
 
-          {/* Financial */}
-          <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-4">
+         <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-4">
             <div className="flex items-center gap-2 mb-2">
               <DollarSign className="w-4 h-4 text-emerald-600" />
               <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wide">
@@ -1155,7 +1154,7 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
             ])}
           </div>
 
-          {/* Health */}
+         
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-4">
             <div className="flex items-center gap-2 mb-2">
               <Activity className="w-4 h-4 text-emerald-600" />
@@ -1184,7 +1183,7 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
             ])}
           </div>
 
-          {/* Housing */}
+        
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-4">
             <div className="flex items-center gap-2 mb-2">
               <MapPin className="w-4 h-4 text-emerald-600" />
@@ -1213,7 +1212,7 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
             </div>
           </div>
 
-          {/* Support description */}
+         
           <div className="bg-slate-900 rounded-2xl p-6 text-white">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
               Beneficiary Statement
@@ -1223,7 +1222,7 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
             </p>
           </div>
 
-          {/* Evidence */}
+         
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
             <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wide mb-4 flex items-center gap-2">
               <FileText className="w-4 h-4 text-emerald-600" />
@@ -1266,9 +1265,9 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
           </div>
         </div>
 
-        {/* Right: sidebar */}
+       
         <div className="lg:col-span-4 space-y-4">
-          {/* Urgency + ML Score */}
+         
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">
               Urgency Score
@@ -1314,7 +1313,7 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
             )}
           </div>
 
-          {/* 3-Month Forecast */}
+         
           {req.Predictions?.length > 0 && (
             <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
               <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">
@@ -1353,7 +1352,7 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
             </div>
           )}
 
-          {/* Action Panel */}
+        
           {isActionable && !actionDone ? (
             <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm space-y-4">
               <p className="text-sm font-bold text-slate-800 flex items-center gap-2">
@@ -1413,7 +1412,7 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
             </div>
           )}
 
-          {/* Contact */}
+          
           <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
             <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">
               Contact
@@ -1431,7 +1430,7 @@ function DetailView({ id, allRequests, isUpdating, onUpdate, onBack }) {
   );
 }
 
-// ── PROJECTS VIEW ────────────────────────────────────────────────
+
 function ProjectsView() {
   const { data: projects = [], isLoading, refetch } = useGetAllprojectsQuery();
   const [showForm, setShowForm] = useState(false);
@@ -1476,7 +1475,7 @@ function ProjectsView() {
     if (form.description.trim().length < 10)
       return setFormError("Description must be at least 10 characters.");
 
-    // Force exact enum values the backend expects
+    
     const statusMap = {
       active: "active",
       Active: "active",
@@ -1527,7 +1526,7 @@ function ProjectsView() {
     return "bg-amber-50 text-amber-700 border-amber-200";
   };
 
-  // Fallback mock data if no projects in DB yet
+ 
   const displayProjects =
     projects.length > 0
       ? projects
@@ -1560,7 +1559,7 @@ function ProjectsView() {
 
   return (
     <div className="space-y-6">
-      {/* Success banner */}
+     
       <AnimatePresence>
         {successMsg && (
           <motion.div
@@ -1575,7 +1574,7 @@ function ProjectsView() {
         )}
       </AnimatePresence>
 
-      {/* Header */}
+      
       <div className="flex items-start justify-between">
         <div>
           <h2 className="text-2xl font-bold text-slate-900">
@@ -1596,7 +1595,7 @@ function ProjectsView() {
         </button>
       </div>
 
-      {/* Project Cards */}
+    
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
@@ -1687,7 +1686,7 @@ function ProjectsView() {
         </div>
       )}
 
-      {/* ── Project Detail Modal ──────────────────────────────────── */}
+      
       <AnimatePresence>
         {selectedProj && (
           <motion.div
@@ -1705,7 +1704,7 @@ function ProjectsView() {
               exit={{ scale: 0.95, opacity: 0 }}
               className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
             >
-              {/* Header */}
+             
               <div className="p-6 border-b border-slate-100 flex items-start justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0">
@@ -1736,9 +1735,8 @@ function ProjectsView() {
                 </button>
               </div>
 
-              {/* Body */}
               <div className="p-6 space-y-5">
-                {/* Budget */}
+              
                 {(() => {
                   const pct =
                     selectedProj.budget > 0
@@ -1777,7 +1775,7 @@ function ProjectsView() {
                   );
                 })()}
 
-                {/* Info grid */}
+              
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     [
@@ -1812,7 +1810,7 @@ function ProjectsView() {
                   ))}
                 </div>
 
-                {/* Description */}
+               
                 {selectedProj.description && (
                   <div>
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">
@@ -1825,7 +1823,7 @@ function ProjectsView() {
                 )}
               </div>
 
-              {/* Footer */}
+            
               <div className="p-6 border-t border-slate-100">
                 {deleteConfirm ? (
                   <div className="bg-red-50 border border-red-200 rounded-2xl p-4">
@@ -1880,7 +1878,7 @@ function ProjectsView() {
         )}
       </AnimatePresence>
 
-      {/* Launch Project Modal*/}
+     
       <AnimatePresence>
         {showForm && (
           <motion.div
@@ -1913,7 +1911,7 @@ function ProjectsView() {
                 </button>
               </div>
 
-              {/* Form error */}
+            
               <AnimatePresence>
                 {formError && (
                   <motion.div
@@ -2088,10 +2086,10 @@ function ProjectsView() {
   );
 }
 
-// GN OFFICERS VIEW
+
 function OfficersView({ gnOfficers, gnDivisions }) {
   const [showModal, setShowModal] = useState(false);
-  const [confirmDeleteId, setConfirmDeleteId] = useState(null); // officer id pending deletion
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null); 
   const { data: allDivisions = [] } = useGetAllgn_divisionsQuery();
   const [createGnOfficer, { isLoading: isCreating }] =
     useCreateGnOfficerMutation();
@@ -2108,7 +2106,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
   const [proofFile, setProofFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  // The officer object for the confirm modal
+  
   const officerToDelete = gnOfficers.find(
     (o) => (o._id || o.id) === confirmDeleteId,
   );
@@ -2116,7 +2114,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
+      
       const allowedTypes = [
         "application/pdf",
         "image/jpeg",
@@ -2127,7 +2125,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
         alert("Please upload a PDF, JPG, or PNG file");
         return;
       }
-      // Validate file size (max 5MB)
+     
       if (file.size > 5 * 1024 * 1024) {
         alert("File size must be less than 5MB");
         return;
@@ -2148,10 +2146,10 @@ function OfficersView({ gnOfficers, gnDivisions }) {
       return;
     }
     try {
-      // Upload file first to get the URL
+    
       const proofFileUrl = await putImage({ file: proofFile });
 
-      // Now submit with the actual file URL
+      
       const submissionData = {
         ...form,
         proofFileUrl,
@@ -2185,7 +2183,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+     
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-bold text-slate-900">
@@ -2204,7 +2202,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
         </button>
       </div>
 
-      {/* Officer Cards */}
+     
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {gnOfficers.length === 0 ? (
           <div className="col-span-3 text-center py-16 text-slate-400">
@@ -2226,7 +2224,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
               transition={{ delay: i * 0.05 }}
               className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all group relative"
             >
-              {/* ── Remove button (top-right corner) ── */}
+              
               <button
                 onClick={() => setConfirmDeleteId(officer._id || officer.id)}
                 title="Remove officer"
@@ -2277,7 +2275,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
         )}
       </div>
 
-      {/* GN Divisions */}
+      
       <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
         <h3 className="text-base font-bold text-slate-900 mb-4">
           GN Divisions
@@ -2299,7 +2297,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
         </div>
       </div>
 
-      {/* ── Add Officer Modal ── */}
+     
       <AnimatePresence>
         {showModal && (
           <motion.div
@@ -2456,7 +2454,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
         )}
       </AnimatePresence>
 
-      {/* ── Delete Confirmation Modal ── */}
+      
       <AnimatePresence>
         {confirmDeleteId && (
           <motion.div
@@ -2477,7 +2475,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
               className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 text-center"
             >
-              {/* Icon */}
+            
               <div className="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-5 border border-red-100">
                 <AlertTriangle className="w-8 h-8 text-red-500" />
               </div>
@@ -2539,7 +2537,7 @@ function OfficersView({ gnOfficers, gnDivisions }) {
   );
 }
 
-// VOLUNTEERS VIEW
+
 function VolunteersView({ volunteers }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSkill, setFilterSkill] = useState("all");
@@ -2586,7 +2584,7 @@ function VolunteersView({ volunteers }) {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+     
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-slate-900">
@@ -2598,7 +2596,7 @@ function VolunteersView({ volunteers }) {
         </div>
       </div>
 
-      {/* Search and Filter */}
+     
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -2627,7 +2625,7 @@ function VolunteersView({ volunteers }) {
         </div>
       </div>
 
-      {/* Volunteers Grid */}
+     
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filteredVolunteers.length === 0 ? (
           <div className="col-span-full text-center py-16 bg-white rounded-2xl border border-slate-100">
@@ -2655,7 +2653,7 @@ function VolunteersView({ volunteers }) {
                 exit={{ opacity: 0, scale: 0.9 }}
                 className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-lg transition-all group relative"
               >
-                {/* Delete Button */}
+               
                 <button
                   onClick={() => setConfirmDeleteId(volunteer._id)}
                   className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg
@@ -2666,7 +2664,7 @@ function VolunteersView({ volunteers }) {
                   <Trash2 className="w-4 h-4" />
                 </button>
 
-                {/* Top Section */}
+              
                 <div className="flex items-start gap-4 pb-5 border-b border-slate-100 mb-5">
                   <div className="w-14 h-14 bg-gradient-to-br from-indigo-100 to-indigo-50 rounded-2xl flex items-center justify-center border border-indigo-200 shadow-inner">
                     <span className="text-lg font-black text-indigo-700">
@@ -2684,7 +2682,7 @@ function VolunteersView({ volunteers }) {
                   </div>
                 </div>
 
-                {/* Contact & Project */}
+               
                 <div className="space-y-3 mb-5">
                   <div className="flex items-center gap-2 text-xs text-slate-600">
                     <Phone className="w-3.5 h-3.5 text-emerald-500" />
@@ -2704,7 +2702,7 @@ function VolunteersView({ volunteers }) {
                   </div>
                 </div>
 
-                {/* Skills */}
+              
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-2">
                     Skills
@@ -2726,7 +2724,7 @@ function VolunteersView({ volunteers }) {
                   </div>
                 </div>
 
-                {/* Message Preview (if exists) */}
+                
                 {volunteer.message && (
                   <div className="mt-4 pt-4 border-t border-slate-100">
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">
@@ -2743,7 +2741,7 @@ function VolunteersView({ volunteers }) {
         )}
       </div>
 
-      {/* Delete Confirmation Modal */}
+     
       <AnimatePresence>
         {confirmDeleteId && (
           <motion.div
@@ -2824,7 +2822,7 @@ function VolunteersView({ volunteers }) {
   );
 }
 
-// DISTRICT DATA — with lat/lng for the real Leaflet map
+
 const DISTRICT_DATA = [
   {
     name: "Nuwara Eliya",
@@ -3078,13 +3076,13 @@ const DISTRICT_DATA = [
   },
 ];
 
-// Real Leaflet map — OpenStreetMap tiles, no API key needed
+
 function DistrictLeafletMap({ height = 480 }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
 
   useEffect(() => {
-    // Inject Leaflet CSS once
+   
     if (!document.getElementById("leaflet-css")) {
       const link = document.createElement("link");
       link.id = "leaflet-css";

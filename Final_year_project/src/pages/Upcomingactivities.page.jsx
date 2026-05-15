@@ -40,9 +40,7 @@ const UPCOMING_ACTIVITIES = [
 export default function UpcomingActivities() {
   return (
     <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pt-20">
-      {/* Hero Section */}
       <section className="bg-emerald-950 py-32 md:py-40 text-white relative overflow-hidden">
-        {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2000" 
@@ -50,7 +48,6 @@ export default function UpcomingActivities() {
             className="w-full h-full object-cover opacity-30"
           />
         </div>
-        {/* Decorative elements */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-emerald-800/20 rounded-full blur-3xl opacity-50 z-0"></div>
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] bg-emerald-400/10 rounded-full blur-3xl opacity-30 z-0"></div>
         
@@ -83,7 +80,6 @@ export default function UpcomingActivities() {
         </div>
       </section>
 
-      {/* Activities Grid */}
       <section className="py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
@@ -103,7 +99,6 @@ export default function UpcomingActivities() {
                 transition={{ delay: index * 0.1 }}
                 className="group flex flex-col bg-emerald-50/30 rounded-[3.5rem] border border-transparent hover:border-emerald-100 hover:bg-white hover:shadow-2xl hover:shadow-emerald-900/5 transition-all overflow-hidden"
               >
-                {/* Visual Side */}
                 <div className="relative h-64 md:h-80 overflow-hidden">
                   <img 
                     src={activity.image} 
@@ -128,7 +123,6 @@ export default function UpcomingActivities() {
                   </div>
                 </div>
 
-                {/* Content Side */}
                 <div className="p-10 flex flex-col flex-1">
                   <div className="flex items-center gap-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">
                     <div className="flex items-center gap-1.5"><MapPin className="w-3 h-3 text-emerald-600" /> {activity.location}</div>
@@ -152,24 +146,7 @@ export default function UpcomingActivities() {
         </div>
       </section>
 
-      {/* Final Note Section */}
-      <section className="bg-emerald-50/50 py-24 mb-24 rounded-[4rem] mx-6">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-3xl shadow-xl shadow-emerald-900/5 text-emerald-600 mb-10">
-              <Info className="w-8 h-8" />
-            </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-emerald-950 mb-8 tracking-tight italic font-serif">Community <span className="text-emerald-600">Catalysts</span></h2>
-            <p className="text-lg text-emerald-900/60 leading-relaxed font-serif italic mb-12 max-w-2xl mx-auto">
-              Do you want to host an awareness program in your local community? Our expert team can provide training, resources, and guidance to help you organize impactful programs in your local area.
-            </p>
-            <Link 
-              to="/contact-us" 
-              className="px-12 py-5 bg-emerald-950 text-white rounded-2xl font-bold text-xs uppercase tracking-[0.2em] shadow-xl shadow-emerald-950/20 hover:scale-105 transition-all inline-block"
-            >
-              Collaborate With Us
-            </Link>
-        </div>
-      </section>
+      
     </div>
   );
 }

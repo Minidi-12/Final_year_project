@@ -41,9 +41,8 @@ const CAMPAIGNS = [
 export default function Campaigns() {
   return (
     <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pt-20">
-      {/* Hero Section */}
+     
       <section className="bg-emerald-950 py-32 md:py-40 text-white relative overflow-hidden">
-        {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img 
             src="https://t4.ftcdn.net/jpg/00/88/80/69/360_F_88806982_UL5RAjPfA1ybunkK8ChcNe4icFjoexny.jpg" 
@@ -51,7 +50,6 @@ export default function Campaigns() {
             className="w-full h-full object-cover opacity-20"
           />
         </div>
-        {/* Decorative elements */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-emerald-800/20 rounded-full blur-3xl opacity-50 z-0"></div>
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] bg-emerald-400/10 rounded-full blur-3xl opacity-30 z-0"></div>
         
@@ -84,7 +82,6 @@ export default function Campaigns() {
         </div>
       </section>
 
-      {/* Campaigns Grid */}
       <section className="py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
@@ -97,7 +94,6 @@ export default function Campaigns() {
                 transition={{ delay: index * 0.1 }}
                 className="group flex flex-col h-full bg-emerald-50/30 rounded-[3.5rem] border border-transparent hover:border-emerald-100 hover:bg-white hover:shadow-2xl hover:shadow-emerald-900/5 transition-all overflow-hidden"
               >
-                {/* Image Header */}
                 <div className="relative h-72 overflow-hidden">
                   <img 
                     src={campaign.image} 
@@ -116,7 +112,6 @@ export default function Campaigns() {
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="p-10 flex-1 flex flex-col">
                   <h3 className="text-2xl font-bold text-emerald-950 mb-6 leading-tight group-hover:text-emerald-700 transition-colors">
                     {campaign.title}
@@ -132,7 +127,6 @@ export default function Campaigns() {
         </div>
       </section>
 
-      {/* Shared Principles / Neat Footer Area */}
       <section className="bg-[#FAFAFA] py-24 mx-6 mb-24 rounded-[4rem]">
         <div className="max-w-4xl mx-auto px-6 text-center">
             <h2 className="text-3xl font-bold text-emerald-950 mb-12 tracking-tight">Campaign Principles</h2>

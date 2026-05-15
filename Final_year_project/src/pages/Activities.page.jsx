@@ -16,7 +16,7 @@ import { ACTIVITIES } from "../constants";
 export default function Activities() {
   return (
     <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pt-20">
-      {/* Hero Section */}
+     
       <section className="bg-emerald-950 py-32 md:py-40 text-white relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
@@ -25,7 +25,7 @@ export default function Activities() {
             className="w-full h-full object-cover opacity-20"
           />
         </div>
-        {/* Decorative elements */}
+    
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-emerald-800/20 rounded-full blur-3xl opacity-50 z-0"></div>
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] bg-emerald-400/10 rounded-full blur-3xl opacity-30 z-0"></div>
         
@@ -58,7 +58,7 @@ export default function Activities() {
         </div>
       </section>
 
-      {/* Activities Feed */}
+  
       <section className="py-24 px-6 bg-[#FAFAFA]">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
@@ -71,7 +71,7 @@ export default function Activities() {
                 transition={{ delay: index * 0.1 }}
                 className="group flex flex-col bg-white rounded-[3rem] overflow-hidden border border-gray-100 hover:shadow-2xl hover:shadow-emerald-900/5 transition-all h-full"
               >
-                {/* Visual Header */}
+            
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img 
                     src={activity.image} 
@@ -86,7 +86,7 @@ export default function Activities() {
                   </div>
                 </div>
 
-                {/* Narrative Content */}
+                
                 <div className="p-10 flex flex-col flex-1">
                   <div className="flex items-center gap-3 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6">
                     <MapPin className="w-3.5 h-3.5 text-emerald-600" />

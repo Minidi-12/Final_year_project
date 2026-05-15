@@ -55,7 +55,7 @@ export default function Volunteer() {
     "Disaster Relief",
   ];
  
-  // Fetch matching projects when skills change (debounced 500ms)
+  
   useEffect(() => {
     const fetchMatchingProjects = async () => {
       if (formData.skills.length === 0) {
@@ -88,7 +88,7 @@ export default function Volunteer() {
       skills: prev.skills.includes(skill)
         ? prev.skills.filter((s) => s !== skill)
         : [...prev.skills, skill],
-      selectedProject: "", // reset project when skills change
+      selectedProject: "", 
     }));
   };
  
@@ -124,7 +124,7 @@ export default function Volunteer() {
     }
   };
  
-  // Success Screen 
+ 
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-[#FDFCFB] flex items-center justify-center p-6 text-center">
@@ -155,11 +155,11 @@ export default function Volunteer() {
     );
   }
  
-  // Main Page
+  
   return (
     <div className="min-h-screen bg-[#FDFCFB] font-sans">
       <main className="pt-32 pb-20 px-6 max-w-5xl mx-auto flex flex-col lg:flex-row gap-16">
-        {/* ── Left: Hero Info ── */}
+     
         <div className="lg:w-2/5 space-y-10">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -220,7 +220,7 @@ export default function Volunteer() {
           </div>
         </div>
  
-        {/* ── Right: Form ── */}
+        
         <div className="lg:w-3/5">
           <motion.form
             initial={{ opacity: 0, y: 20 }}
@@ -228,9 +228,9 @@ export default function Volunteer() {
             onSubmit={handleSubmit}
             className="bg-white rounded-[3rem] p-8 md:p-14 shadow-2xl shadow-emerald-950/5 border border-emerald-50 space-y-10"
           >
-            {/* Personal Info Grid */}
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Name */}
+             
               <div className="space-y-3">
                 <label className="text-[10px] font-bold text-emerald-900/60 uppercase tracking-widest flex items-center gap-2">
                   <User className="w-3.5 h-3.5" /> Full Name
@@ -247,7 +247,7 @@ export default function Volunteer() {
                 />
               </div>
  
-              {/* Email */}
+             
               <div className="space-y-3">
                 <label className="text-[10px] font-bold text-emerald-900/60 uppercase tracking-widest flex items-center gap-2">
                   <Mail className="w-3.5 h-3.5" /> Email Address
@@ -264,7 +264,7 @@ export default function Volunteer() {
                 />
               </div>
  
-              {/* Phone */}
+             
               <div className="space-y-3">
                 <label className="text-[10px] font-bold text-emerald-900/60 uppercase tracking-widest flex items-center gap-2">
                   <Phone className="w-3.5 h-3.5" /> Phone Number
@@ -282,7 +282,6 @@ export default function Volunteer() {
                 />
               </div>
  
-              {/* Availability */}
               <div className="space-y-3">
                 <label className="text-[10px] font-bold text-emerald-900/60 uppercase tracking-widest flex items-center gap-2">
                   <Clock className="w-3.5 h-3.5" /> Availability
@@ -301,7 +300,7 @@ export default function Volunteer() {
               </div>
             </div>
  
-            {/* ── Skills Selector ── */}
+           
             <div className="space-y-4">
               <label className="text-[10px] font-bold text-emerald-900/60 uppercase tracking-widest block">
                 Select Your Skills
@@ -332,7 +331,7 @@ export default function Volunteer() {
               )}
             </div>
  
-            {/* ── Matched Projects (renders as soon as skills are selected) ── */}
+           
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <label className="text-[10px] font-bold text-emerald-900/60 uppercase tracking-widest">
@@ -350,7 +349,7 @@ export default function Volunteer() {
                 )}
               </div>
  
-              {/* State: no skills selected */}
+              
               {formData.skills.length === 0 ? (
                 <div className="p-8 rounded-2xl border-2 border-dashed border-emerald-100 text-center">
                   <Sparkles className="w-8 h-8 text-emerald-300 mx-auto mb-3" />
@@ -358,7 +357,7 @@ export default function Volunteer() {
                     Select your skills above to see matching projects
                   </p>
                 </div>
-              ) : /* State: skills selected but no matches */ matchedProjects.length ===
+              ) :  matchedProjects.length ===
                   0 && !isLoadingMatches ? (
                 <div className="p-8 rounded-2xl border-2 border-dashed border-amber-100 bg-amber-50/30 text-center">
                   <p className="text-xs text-amber-600 font-medium">
@@ -366,7 +365,7 @@ export default function Volunteer() {
                   </p>
                 </div>
               ) : (
-                /* State: matches found */
+                
                 <div className="grid grid-cols-1 gap-3 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
                   <AnimatePresence mode="popLayout">
                     {matchedProjects.map((match, index) => (
@@ -389,7 +388,7 @@ export default function Volunteer() {
                             : "bg-white border-emerald-50 hover:border-emerald-400/50 hover:shadow-sm"
                         }`}
                       >
-                        {/* Match Score Badge */}
+                       
                         <div
                           className={`absolute top-3 right-3 px-2.5 py-1 rounded-lg text-[9px] font-extrabold uppercase tracking-wider flex items-center gap-1 ${
                             match.matchScore >= 70
@@ -428,7 +427,7 @@ export default function Volunteer() {
                             </div>
                           </div>
  
-                          {/* Location & Category */}
+                         
                           <div className="flex items-center gap-3 mb-3 text-[9px] text-gray-400 font-bold uppercase">
                             <span className="flex items-center gap-1">
                               <MapPin className="w-3 h-3" />
@@ -439,7 +438,7 @@ export default function Volunteer() {
                             </span>
                           </div>
  
-                          {/* Matched Skills */}
+                         
                           {match.matchedSkills?.length > 0 && (
                             <div className="flex flex-wrap gap-1.5">
                               {match.matchedSkills.map((skill, i) => (
@@ -453,7 +452,7 @@ export default function Volunteer() {
                             </div>
                           )}
  
-                          {/* Missing Skills */}
+                         
                           {match.missingSkills?.length > 0 && (
                             <div className="mt-2 flex flex-wrap gap-1.5">
                               {match.missingSkills.slice(0, 3).map((skill, i) => (
@@ -474,7 +473,7 @@ export default function Volunteer() {
               )}
             </div>
  
-            {/* Message */}
+           
             <div className="space-y-3">
               <label className="text-[10px] font-bold text-emerald-900/60 uppercase tracking-widest flex items-center gap-2">
                 <MessageSquare className="w-3.5 h-3.5" /> Why do you want to
@@ -490,8 +489,7 @@ export default function Volunteer() {
               />
             </div>
  
-            {/* Submit */}
-            <button
+           <button
               type="submit"
               disabled={isSubmitting || !formData.selectedProject}
               className="w-full py-5 bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-200 disabled:cursor-not-allowed text-white rounded-[1.5rem] font-bold text-xs uppercase tracking-[0.25em] shadow-xl shadow-emerald-200 transition-all flex items-center justify-center gap-3 group active:scale-95"
