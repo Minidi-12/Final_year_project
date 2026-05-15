@@ -17,12 +17,10 @@ import { useGetprojectByIDQuery } from "../lib/api";
 export default function ProjectDetail() {
   const { id } = useParams();
 
-  // Fetch the single project directly by MongoDB _id
   const { data: raw, isLoading, isError } = useGetprojectByIDQuery(id, {
     skip: !id,
   });
 
-  // Merge backend data with local image + longDescription
   const project = React.useMemo(() => {
     if (!raw) return null;
     const extras   = PROJECT_EXTRAS_MAP[raw.title] ?? {};
@@ -42,7 +40,6 @@ export default function ProjectDetail() {
     };
   }, [raw]);
 
-  // ── Loading ──────────────────────────────────────────────────────
   if (isLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
@@ -54,7 +51,6 @@ export default function ProjectDetail() {
     );
   }
 
-  // ── Not found ────────────────────────────────────────────────────
   if (isError || !project) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
@@ -83,13 +79,11 @@ export default function ProjectDetail() {
   return (
     <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pb-24 pt-20">
 
-      {/* ── Hero Section ───────────────────────────────────────────── */}
       <div className="relative overflow-hidden">
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-emerald-50 rounded-full blur-3xl opacity-50 z-0" />
 
         <div className="max-w-7xl mx-auto px-6 pt-12 md:pt-20 pb-12 relative z-10">
 
-          {/* Back link */}
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
             <Link to="/projects"
               className="inline-flex items-center gap-3 text-[10px] font-bold text-emerald-600/60 hover:text-emerald-600 transition-all uppercase tracking-[0.3em] mb-12 group">
@@ -100,16 +94,13 @@ export default function ProjectDetail() {
 
           <div className="flex flex-col lg:flex-row items-end gap-12 lg:gap-20">
 
-            {/* Left — title and meta */}
             <div className="lg:w-3/5">
-              {/* Category badge */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase tracking-widest mb-8">
                 {React.createElement(getCategoryIcon(project.category), { className: "w-3 h-3" })}
                 <span>{getCategoryLabel(project.category)}</span>
               </motion.div>
 
-              {/* Title */}
               <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
                 className="text-4xl md:text-6xl lg:text-7xl font-bold text-emerald-950 mb-10 leading-[1.1] tracking-tight">
@@ -120,7 +111,6 @@ export default function ProjectDetail() {
                 ))}
               </motion.h1>
 
-              {/* Meta */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
                 className="flex flex-wrap gap-8 text-[11px] font-bold text-gray-400 uppercase tracking-widest border-t border-gray-100 pt-10">
@@ -137,7 +127,6 @@ export default function ProjectDetail() {
               </motion.div>
             </div>
 
-            {/* Right — finance card */}
             <div className="lg:w-2/5 w-full">
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
@@ -174,14 +163,11 @@ export default function ProjectDetail() {
         </div>
       </div>
 
-      {/* ── Main Content ───────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
 
-          {/* Left — narrative */}
           <div className="lg:col-span-8 space-y-24">
 
-            {/* Hero image */}
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="rounded-[4rem] overflow-hidden aspect-[16/9] shadow-2xl relative">
@@ -189,7 +175,6 @@ export default function ProjectDetail() {
               <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-[4rem]" />
             </motion.div>
 
-            {/* Long description */}
             <section>
               <div className="flex items-center gap-4 mb-10">
                 <div className="w-px h-12 bg-emerald-200" />
@@ -228,7 +213,6 @@ export default function ProjectDetail() {
             </section>
           </div>
 
-          {/* Right — sidebar */}
           <div className="lg:col-span-4 lg:sticky lg:top-32 h-fit space-y-8">
             <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -282,7 +266,6 @@ export default function ProjectDetail() {
               </div>
             </motion.div>
 
-            {/* Required skills — only show if present */}
             {project.requiredSkills.length > 0 && (
               <div className="px-6">
                 <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] mb-6">

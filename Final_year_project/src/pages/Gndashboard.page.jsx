@@ -29,7 +29,6 @@ import Preloader from "../components/Preloader";
 export default function GNDashboard() {
   const navigate = useNavigate();
 
-  //Officer info from localStorage (saved at login)
   const userName = localStorage.getItem("userName") || "GN Officer";
   const gnDivision = localStorage.getItem("gnDivision") || "";
 
@@ -37,7 +36,7 @@ export default function GNDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedEvidence, setSelectedEvidence] = useState(null);
 
-  // Fetch all requests from real API
+ 
   const {
     data: allRequests = [],
     isLoading,
@@ -45,7 +44,7 @@ export default function GNDashboard() {
     refetch,
   } = useGetAllb_reqsQuery();
 
-  // Filter by officer's GN division
+  
   const divisionRequests = allRequests.filter((req) => {
     const profile = req.b_profile?.[0];
     if (!profile) return false;
@@ -87,7 +86,7 @@ export default function GNDashboard() {
     navigate("/login");
   };
 
-  // Officer initials avatar
+  
   const initials = userName
     .split(" ")
     .map((w) => w[0])
@@ -100,7 +99,7 @@ export default function GNDashboard() {
       <AnimatePresence>{isLoading && <Preloader />}</AnimatePresence>
       <div className="min-h-screen bg-[#F8FAF9] flex font-sans">
         <aside className="w-64 bg-emerald-950 text-white flex flex-col hidden lg:flex">
-          {/* Logo */}
+          
           <div className="p-7 flex items-center gap-3 border-b border-emerald-900/50">
             <div className="w-9 h-9 bg-emerald-500 rounded-xl flex items-center justify-center">
               <Heart className="w-5 h-5 text-white" />
@@ -110,7 +109,7 @@ export default function GNDashboard() {
             </span>
           </div>
 
-          {/* Nav */}
+         
           <nav className="flex-1 p-5 space-y-2">
             {[
               { id: "dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -131,7 +130,7 @@ export default function GNDashboard() {
             ))}
           </nav>
 
-          {/* Logout */}
+         
           <div className="p-5 border-t border-emerald-900/50">
             <button
               onClick={handleLogout}
@@ -153,7 +152,7 @@ export default function GNDashboard() {
               </h1>
             </div>
 
-            {/* Officer Name + Avatar */}
+          
             <div className="flex items-center gap-4">
               <button
                 onClick={refetch}
@@ -174,7 +173,7 @@ export default function GNDashboard() {
                 </div>
               </div>
 
-              {/* Avatar */}
+             
               <div className="w-11 h-11 bg-emerald-100 rounded-full flex items-center justify-center ring-2 ring-emerald-200 overflow-hidden">
                 <span className="text-sm font-black text-emerald-700">
                   {initials}
@@ -184,7 +183,7 @@ export default function GNDashboard() {
           </header>
 
           <main className="flex-1 p-8 overflow-auto">
-            {/* Division badge */}
+          
             {gnDivision && (
               <div className="flex items-center gap-2 mb-6">
                 <MapPin className="w-4 h-4 text-emerald-500" />
@@ -194,7 +193,7 @@ export default function GNDashboard() {
               </div>
             )}
 
-            {/* Error Banner */}
+            
             {isError && (
               <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3">
                 <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
@@ -211,7 +210,7 @@ export default function GNDashboard() {
               </div>
             )}
 
-            {/* Stats Cards */}
+           
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
               {[
                 {
@@ -271,7 +270,7 @@ export default function GNDashboard() {
               ))}
             </div>
 
-            {/* Table Card */}
+           
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               <div className="p-6 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
@@ -480,7 +479,7 @@ export default function GNDashboard() {
           </main>
         </div>
 
-        {/* Evidence Modal */}
+      
         <AnimatePresence>
           {selectedEvidence && (
             <motion.div

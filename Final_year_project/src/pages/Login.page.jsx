@@ -9,9 +9,7 @@ import {
 } from "lucide-react";
 import { useNavigate, Link } from "react-router";
 
-/* ─────────────────────────────────────────────────────────
-   Font import — Cormorant Garamond (display) + Plus Jakarta Sans (body)
-───────────────────────────────────────────────────────── */
+
 const fontStyle = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
@@ -81,13 +79,11 @@ const fontStyle = `
   }
 `;
 
-/* ─────────────────────────────────────────────────────────
-   Unsplash image — Sri Lanka community / volunteering scene
-───────────────────────────────────────────────────────── */
+
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=900&q=85";
 
-/* Reusable labelled input ─────────────────────────────── */
+
 function InputField({ label, icon: Icon, children }) {
   return (
     <div className="space-y-1.5">
@@ -113,7 +109,7 @@ export default function Login() {
   const [error, setError]               = useState(null);
   const navigate = useNavigate();
 
-  /* ── all original logic preserved ── */
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -160,12 +156,9 @@ export default function Login() {
 
       <div className="min-h-screen flex font-body" style={{ background: "#F7F6F3" }}>
 
-        {/* ══════════════════════════════════════════════
-            LEFT — Hero Photo Panel
-        ══════════════════════════════════════════════ */}
         <div className="hidden lg:flex w-[46%] relative overflow-hidden grain">
 
-          {/* Photo — desaturated + darkened */}
+        
           <img
             src={HERO_IMAGE}
             alt="Community volunteers supporting families across Sri Lanka"
@@ -173,7 +166,7 @@ export default function Login() {
             style={{ filter: "saturate(0.65) brightness(0.7)" }}
           />
 
-          {/* Primary dark overlay — uniform deep tint */}
+          
           <div
             className="absolute inset-0"
             style={{
@@ -182,7 +175,7 @@ export default function Login() {
             }}
           />
 
-          {/* Directional gradient — darkest at bottom + left edge where text lives */}
+         
           <div
             className="absolute inset-0"
             style={{
@@ -192,7 +185,7 @@ export default function Login() {
             }}
           />
 
-          {/* Localized text-area scrim — radial dark patch behind headline zone */}
+         
           <div
             className="absolute inset-0"
             style={{
@@ -202,10 +195,10 @@ export default function Login() {
             }}
           />
 
-          {/* Content — z-20 to sit above grain (z-4) and all overlays */}
+       
           <div className="relative z-20 flex flex-col justify-between w-full p-12 xl:p-16">
 
-            {/* Logo */}
+           
             <Link to="/" className="flex items-center gap-3 group w-fit">
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center transition-transform duration-500 group-hover:rotate-6"
@@ -223,7 +216,7 @@ export default function Login() {
               </div>
             </Link>
 
-            {/* Central Quote — animates with role */}
+          
             <div className="flex-1 flex flex-col justify-center py-12">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -234,7 +227,7 @@ export default function Login() {
                   transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
                   className="max-w-xs"
                 >
-                  {/* Eyebrow */}
+                 
                   <div className="flex items-center gap-2 mb-5">
                     <div className="w-8 h-px bg-emerald-400/70" />
                     <span className="text-[10px] font-semibold text-emerald-300 uppercase tracking-[0.25em] hero-eyebrow">
@@ -242,7 +235,7 @@ export default function Login() {
                     </span>
                   </div>
 
-                  {/* Headline */}
+               
                   <h2
                     className="font-display text-white leading-[1.08] mb-5 hero-headline"
                     style={{ fontSize: "clamp(2.4rem, 3.5vw, 3.2rem)" }}
@@ -268,7 +261,7 @@ export default function Login() {
                     )}
                   </h2>
 
-                  {/* Quote */}
+                 
                   <p className="font-display italic text-white/80 leading-relaxed hero-quote" style={{ fontSize: "1.05rem" }}>
                     {isGN
                       ? '"Your verification ensures every rupee of support reaches the right family in your division."'
@@ -278,7 +271,7 @@ export default function Login() {
               </AnimatePresence>
             </div>
 
-            {/* Floating Impact Card */}
+           
             <div className="float-card">
               <div
                 className="rounded-2xl p-5 flex items-center gap-5 max-w-xs"
@@ -305,7 +298,7 @@ export default function Login() {
               </div>
             </div>
 
-            {/* Footer */}
+           
             <div className="mt-8">
               <p className="text-[9px] font-semibold text-white/20 uppercase tracking-[0.28em]">
                 © 2025 HopeConnect Foundations · Secure Portal
@@ -314,9 +307,7 @@ export default function Login() {
           </div>
         </div>
 
-        {/* ══════════════════════════════════════════════
-            RIGHT — Login Form Panel
-        ══════════════════════════════════════════════ */}
+        
         <div className="flex-1 flex items-center justify-center p-6 md:p-10 overflow-y-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -325,7 +316,7 @@ export default function Login() {
             className="w-full max-w-[420px] my-auto"
           >
 
-            {/* Mobile Logo */}
+          
             <div className="lg:hidden flex justify-center mb-10">
               <Link to="/" className="flex items-center gap-2.5">
                 <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center">
@@ -337,7 +328,7 @@ export default function Login() {
               </Link>
             </div>
 
-            {/* Page Heading */}
+            
             <div className="mb-8 text-center lg:text-left">
               <h1 className="font-display text-4xl font-bold text-emerald-950 leading-none mb-2">
                 Welcome back
@@ -350,7 +341,7 @@ export default function Login() {
               </p>
             </div>
 
-            {/* Form Card */}
+            
             <div
               className="bg-white rounded-3xl p-8 md:p-10"
               style={{
@@ -359,7 +350,7 @@ export default function Login() {
               }}
             >
 
-              {/* ── Role Switcher ── */}
+             
               <div
                 className="flex p-1.5 rounded-2xl mb-8"
                 style={{ background: "#F3F4F6" }}
@@ -384,7 +375,7 @@ export default function Login() {
                 ))}
               </div>
 
-              {/* ── Error Banner ── */}
+              
               <AnimatePresence>
                 {error && (
                   <motion.div
@@ -401,10 +392,10 @@ export default function Login() {
                 )}
               </AnimatePresence>
 
-              {/* ── Form ── */}
+              
               <form onSubmit={handleLogin} className="space-y-5">
 
-                {/* Email */}
+               
                 <InputField
                   label={isGN ? "GN Division Email" : "NGO Admin Email"}
                   icon={User}
@@ -423,7 +414,7 @@ export default function Login() {
                   />
                 </InputField>
 
-                {/* Password */}
+                
                 <InputField label="Password" icon={Lock}>
                   <input
                     type={showPassword ? "text" : "password"}
@@ -449,7 +440,7 @@ export default function Login() {
                   </button>
                 </InputField>
 
-                {/* Submit */}
+              
                 <button
                   type="submit"
                   disabled={isLoading}
@@ -474,7 +465,7 @@ export default function Login() {
 
             </div>
 
-            {/* Back Link */}
+          
             <div className="mt-7 text-center">
               <Link
                 to="/"
@@ -486,7 +477,7 @@ export default function Login() {
               </Link>
             </div>
 
-            {/* Footer note */}
+           
             <div className="mt-5 text-center">
               <p className="text-[9px] font-bold uppercase tracking-[0.28em] leading-relaxed" style={{ color: "#D1D5DB" }}>
                 {isGN ? "Government Internal Portal" : "Partnership Network Protocol"}

@@ -27,7 +27,7 @@ import { ChevronDown } from "lucide-react";
 import { getT } from "@/lib/i18n";
 import Preloader from "@/components/Preloader";
 
-// Error component
+
 const Err = ({ msg }) =>
   msg ? (
     <motion.p
@@ -39,7 +39,7 @@ const Err = ({ msg }) =>
     </motion.p>
   ) : null;
 
-//Language toggle button
+
 const LangToggle = ({ lang, onToggle }) => (
   <button
     type="button"
@@ -54,13 +54,13 @@ const LangToggle = ({ lang, onToggle }) => (
   </button>
 );
 
-// Steps metadata (labels resolved at render time)
+
 const STEP_ICONS = [User, MapPin, Wallet, Stethoscope, Briefcase, FileText];
 
 export default function RequestSupport() {
   const navigate = useNavigate();
-  const [lang, setLang] = useState("en"); // ← language state
-  const t = getT(lang); // ← active translations
+  const [lang, setLang] = useState("en"); 
+  const t = getT(lang);
 
   const [step, setStep] = useState(1);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -122,7 +122,7 @@ export default function RequestSupport() {
     });
   };
 
-  // Validation (uses translated error messages)
+  
   const validate = (s) => {
     const e = {};
     const err = t.err;
@@ -254,7 +254,7 @@ export default function RequestSupport() {
   const labelCls =
     "text-xs font-semibold text-slate-500 uppercase tracking-wide block mb-1.5";
 
-  // ── Steps array (labels come from translations) ─────────────────────────────
+ 
   const STEPS = [
     { id: 1, label: t.steps.identity, icon: STEP_ICONS[0] },
     { id: 2, label: t.steps.location, icon: STEP_ICONS[1] },
@@ -302,7 +302,7 @@ export default function RequestSupport() {
       >
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-100 shadow-sm">
         <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
-          {/* Brand */}
+         
           <Link to="/" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center">
               <Heart className="w-4 h-4 text-white" />
@@ -312,9 +312,9 @@ export default function RequestSupport() {
             </span>
           </Link>
 
-          {/* Right side: step indicators + language toggle */}
+          
           <div className="flex items-center gap-3">
-            {/* Step progress bubbles */}
+            
             <div className="flex items-center gap-1">
               {STEPS.map((s) => (
                 <div key={s.id} className="flex items-center">
@@ -342,7 +342,7 @@ export default function RequestSupport() {
               ))}
             </div>
 
-            {/* Language toggle */}
+            
             <LangToggle
               lang={lang}
               onToggle={() => setLang((l) => (l === "en" ? "si" : "en"))}
@@ -825,7 +825,7 @@ export default function RequestSupport() {
                         <Err msg={errors.distanceToSchoolKm} />
                       </div>
                     </div>
-                    {/* Chronic illness */}
+                    
                     <div
                       className={`p-5 rounded-xl border transition-all ${formData.chronic_illness.exists ? "bg-red-50 border-red-200" : "bg-slate-50 border-slate-200"}`}
                     >
@@ -944,7 +944,7 @@ export default function RequestSupport() {
                         {t.s5.subheading}
                       </p>
                     </div>
-                    {/* Support types */}
+                    
                     <div>
                       <label className={labelCls}>
                         {t.s5.supportType}{" "}
@@ -1012,7 +1012,7 @@ export default function RequestSupport() {
                       </div>
                       <Err msg={errors.support_types} />
                     </div>
-                    {/* Description */}
+                    
                     <div>
                       <label className={labelCls}>
                         {t.s5.describe} <span className="text-red-400">*</span>{" "}
@@ -1037,7 +1037,7 @@ export default function RequestSupport() {
                         </span>
                       </div>
                     </div>
-                    {/* Urgency */}
+                  
                     <div>
                       <label className={labelCls}>
                         {t.s5.urgency} <span className="text-red-400">*</span>
@@ -1063,7 +1063,7 @@ export default function RequestSupport() {
                       </div>
                       <Err msg={errors.selfrated_urgency} />
                     </div>
-                    {/* File upload */}
+                   
                     <div className="p-5 bg-slate-50 rounded-xl border border-slate-200 border-dashed">
                       <div className="flex items-center gap-2 mb-3">
                         <Upload className="w-4 h-4 text-slate-400" />
@@ -1232,7 +1232,6 @@ export default function RequestSupport() {
           </form>
         </div>
 
-        {/* Footer note */}
         <div className="mt-8 text-center flex items-center justify-center gap-2 text-slate-400">
           <ShieldCheck className="w-4 h-4" />
           <p className="text-xs font-medium">{t.footer}</p>

@@ -14,9 +14,6 @@ import {
   Globe2,
   Mail,
   Phone,
-  // Instagram,
-  // Facebook
-  //twitter
   ChevronLeft,
   ChevronRight,
   ShieldCheck,
@@ -43,7 +40,6 @@ import { useRef } from "react";
 import Preloader from "../components/Preloader";
 import { useGetAllprojectsQuery } from "../lib/api";
 
-// Animated Counter Component
 const CountUp = ({ value, suffix = "" }) => {
   const [count, setCount] = useState(0);
   const elementRef = useRef(null);
@@ -67,14 +63,13 @@ const CountUp = ({ value, suffix = "" }) => {
     if (!hasStarted) return;
 
     let startTime;
-    const duration = 2000; // 2 seconds
+    const duration = 2000; 
 
     const animate = (timestamp) => {
       if (!startTime) startTime = timestamp;
       const progress = timestamp - startTime;
       const percentage = Math.min(progress / duration, 1);
 
-      // Easing function (out-expo)
       const easeValue =
         percentage === 1 ? 1 : 1 - Math.pow(2, -10 * percentage);
 
@@ -99,23 +94,6 @@ const CountUp = ({ value, suffix = "" }) => {
 export default function Home() {
   const navigate = useNavigate();
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { type: "spring", stiffness: 100 },
-    },
-  };
-
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -124,14 +102,12 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // ── Fetch live projects from the backend ──────────────────────────────────
   const {
     data: backendProjects = [],
     isLoading: projectsLoading,
     isError: projectsError,
   } = useGetAllprojectsQuery();
 
-  // Merge backend data with local image / longDescription extras (same logic as Projects page)
   const activeProjects = backendProjects
     .map((project) => {
       const extras   = PROJECT_EXTRAS_MAP[project.title] ?? {};
@@ -205,7 +181,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-    }, 4000); // Change testimonial every 4 seconds
+    }, 4000); 
 
     return () => clearInterval(timer);
   }, [testimonials.length]);
@@ -216,9 +192,7 @@ export default function Home() {
         {isLoading && <Preloader />}
       </AnimatePresence>
       <div className="min-h-screen bg-white selection:bg-emerald-100 selection:text-emerald-900 pt-14">
-      {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
-        {/* Background Overlay */}
         <div className="absolute inset-0 z-0">
           <img
             src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=1920"
@@ -264,7 +238,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Integrity & GN Verification Focus */}
       <section className="py-16 md:py-28 bg-emerald-50/30">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-20">
@@ -365,7 +338,6 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-4 gap-12 relative">
-            {/* Connecting Lines (Desktop) */}
             <div className="hidden lg:block absolute top-12 left-0 w-full h-0.5 bg-gradient-to-r from-emerald-800/0 via-emerald-800 to-emerald-800/0"></div>
             
             {[
@@ -396,7 +368,6 @@ export default function Home() {
         </div>
       </section>
       
-      {/* ── Ongoing Projects ─────────────────────────────────────────────────── */}
       <section className="py-16 md:py-24 bg-emerald-50/30">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-end mb-12">
@@ -417,7 +388,6 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Loading state */}
           {projectsLoading && (
             <div className="flex flex-col items-center justify-center py-24 gap-4 text-emerald-700">
               <Loader2 className="w-10 h-10 animate-spin" />
@@ -425,7 +395,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* Error state */}
           {projectsError && (
             <div className="flex flex-col items-center justify-center py-24 gap-4 text-red-500">
               <AlertCircle className="w-10 h-10" />
@@ -433,7 +402,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* Empty state */}
           {!projectsLoading && !projectsError && activeProjects.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 gap-3 text-gray-400">
               <Search className="w-10 h-10" />
@@ -441,7 +409,6 @@ export default function Home() {
             </div>
           )}
 
-          {/* Project cards */}
           {!projectsLoading && !projectsError && activeProjects.length > 0 && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {activeProjects.map((project, i) => (
@@ -530,9 +497,7 @@ export default function Home() {
           )}
         </div>
       </section>
-      {/* ──────────────────────────────────────────────────────────────────────── */}
-
-      {/* Impact Numbers */}
+      
       <section className="py-16 md:py-24 bg-emerald-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.2),transparent)] opacity-50"></div>
         <div className="max-w-7xl mx-auto px-4 text-center">
@@ -592,7 +557,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Recent Activities */}
       <section className="py-16 md:py-24 bg-emerald-50/30">
         <div className="max-w-7xl mx-auto px-4">
           <div className=" mb-12">
@@ -615,7 +579,6 @@ export default function Home() {
                 transition={{ delay: i * 0.1 }}
                 className="bg-white rounded-[2rem] overflow-hidden border border-gray-100 flex flex-col group hover:shadow-2xl hover:shadow-emerald-900/5 transition-all h-full"
               >
-                {/* Image */}
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img
                     src={activity.image}
@@ -629,7 +592,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="p-8 flex flex-col flex-1 border-t-4 border-emerald-600">
                   <h3 className="text-lg font-bold text-emerald-900 mb-4 leading-tight group-hover:text-emerald-600 transition-all line-clamp-2 duration-300">
                     {activity.title}
@@ -652,7 +614,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Partners Section */}
       <section className="py-16 md:py-24 bg-emerald-950 border-y border-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
@@ -684,7 +645,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
       <section className="py-16 md:py-24 bg-emerald-50/30">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <motion.div
@@ -745,7 +705,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pride Section */}
       <section className="bg-emerald-950 p-12 md:p-24 relative overflow-hidden text-center shadow-2xl">
         <motion.div
               initial={{ opacity: 0, scale: 0.9 }}

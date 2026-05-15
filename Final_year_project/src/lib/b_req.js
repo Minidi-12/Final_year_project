@@ -11,13 +11,5 @@ export const putImage = async ({ file }) => {
   const { url, publicURL } = data;
   console.log(url, publicURL);
 
-  const upload = await fetch(url, {
-    method: "PUT",
-    headers: {
-      "Content-Type": file.type,
-    },
-    body: file,
-  });
-
   return publicURL;
 };

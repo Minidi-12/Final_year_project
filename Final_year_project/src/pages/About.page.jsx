@@ -73,7 +73,6 @@ export default function AboutUs() {
 
   return (
     <div className="min-h-screen bg-emerald-50/30 selection:bg-emerald-100 selection:text-emerald-900 pt-24 md:pt-32 pb-20">
-      {/* The Mission Statement */}
       <section className="max-w-7xl  mx-auto px-6 mb-32">
         <div className="flex flex-col lg:flex-row items-center gap-20">
           <div className="lg:w-3/5">
@@ -136,7 +135,7 @@ export default function AboutUs() {
                 className="w-full h-full object-cover"
               />
             </motion.div>
-            {/* Trust badge floating */}
+           
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -154,7 +153,6 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/*  Interactive Grid */}
       <section className="bg-emerald-950 py-16 md:py-24 overflow-hidden  rounded-[4rem] mx-4">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-24">
@@ -210,7 +208,6 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/*The Digital Bridge */}
       <section className="max-w-7xl mx-auto px-6 py-16 md:py-24">
         <div className="flex flex-col lg:flex-row-reverse items-center gap-20">
           <div className="lg:w-1/2">
@@ -293,7 +290,6 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* The Human Factor */}
       <section className="bg-emerald-950 py-16 md:py-24 rounded-[4rem] mx-4 mb-16 md:mb-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-24">
@@ -337,7 +333,6 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/*  Join the Movement */}
       <section className="max-w-4xl mx-auto px-6 text-center">
         <h3 className="text-4xl md:text-5xl font-bold text-emerald-950 mb-8 tracking-tight">
           Ready to rewrite <br />

@@ -17,13 +17,13 @@ export default function VerificationDetail() {
   const { id } = useParams();
   const [comment, setComment] = useState("");
 
-  // Fetch request from real API 
+
   const { data: request, isLoading, isError } = useGetb_reqByIDQuery(id);
 
-  // Update mutation 
+
   const [updateb_req, { isLoading: isSubmitting }] = useUpdateb_reqMutation();
 
-  // Handle verify / flag / reject 
+
   const handleAction = async (newStatus) => {
     try {
       await updateb_req({
@@ -34,7 +34,7 @@ export default function VerificationDetail() {
         updated_at: new Date().toISOString(),
       }).unwrap();
 
-      navigate("/verify"); // go back to dashboard — request moves to history
+      navigate("/verify"); 
     } catch (err) {
       console.error("Failed to update request:", err);
       alert("Failed to update. Please try again.");
@@ -111,7 +111,7 @@ export default function VerificationDetail() {
 
           <div className="lg:col-span-8 space-y-6">
 
-            {/* Beneficiary Card */}
+         
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -135,7 +135,7 @@ export default function VerificationDetail() {
                   </div>
                 </div>
 
-                {/* Urgency badge */}
+               
                 {request.urgency_label && (
                   <div className={`px-4 py-2 rounded-xl text-xs font-bold uppercase ${
                     request.urgency_label?.toLowerCase() === "high"     ? "bg-red-50 text-red-600 border border-red-100" :
@@ -148,7 +148,7 @@ export default function VerificationDetail() {
               </div>
             </motion.div>
 
-            {/* Info Sections Tabs */}
+            
             {[
               {
                 title: "Demographics & Family",
@@ -222,7 +222,7 @@ export default function VerificationDetail() {
               </motion.div>
             ))}
 
-            {/* Support Description */}
+            
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
               className="bg-slate-900 rounded-2xl p-8 text-white"
@@ -235,7 +235,7 @@ export default function VerificationDetail() {
               </p>
             </motion.div>
 
-            {/* Evidence Documents */}
+           
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
               className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm"
@@ -265,7 +265,7 @@ export default function VerificationDetail() {
 
           <div className="lg:col-span-4 space-y-5">
 
-            {/* Urgency Score */}
+           
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
               <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-4 text-center">Priority Score</h3>
               <div className="flex justify-center items-end gap-1 mb-4">
@@ -295,7 +295,7 @@ export default function VerificationDetail() {
               )}
             </div>
 
-            {/* Officer Console — only show if actionable */}
+           
             {isActionable ? (
               <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-5">
                 <div className="flex items-center gap-2 pb-4 border-b border-slate-100">
@@ -358,7 +358,7 @@ export default function VerificationDetail() {
               </div>
             )}
 
-            {/* Contact Info */}
+           
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
               <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 text-center">Contact</h3>
               <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
@@ -372,7 +372,7 @@ export default function VerificationDetail() {
               </div>
             </div>
 
-            {/* Reference */}
+           
             <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
               <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 text-center">Reference</h3>
               <div className="text-center">
@@ -386,7 +386,7 @@ export default function VerificationDetail() {
         </div>
       </main>
 
-      {/* Footer */}
+      
       <footer className="mt-16 py-10 border-t border-gray-100 bg-white">
         <div className="max-w-7xl mx-auto px-10 flex items-center justify-between opacity-20">
           <div className="flex items-center gap-2">

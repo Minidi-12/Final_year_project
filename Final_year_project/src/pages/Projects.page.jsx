@@ -17,7 +17,6 @@ export default function Projects() {
 
   const { data: backendProjects = [], isLoading, isError, error } = useGetAllprojectsQuery();
 
-  // Merge backend documents with local image + longDescription from constants
   const projects = React.useMemo(
     () =>
       backendProjects.map((project) => {
@@ -58,7 +57,6 @@ export default function Projects() {
   return (
     <div className="min-h-screen bg-[#FDFCFB]">
 
-      {/* Hero */}
       <section className="bg-emerald-950 py-24 text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
           <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -76,7 +74,6 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* Filter & Search */}
       <section className="sticky top-0 z-40 bg-white border-b border-emerald-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row gap-4 items-center justify-between">
           <div className="flex items-center gap-2 text-xs font-bold text-emerald-900 uppercase tracking-widest">
@@ -103,7 +100,6 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* Projects Grid */}
       <section className="py-16 md:py-24 px-4 md:px-6">
         <div className="max-w-7xl mx-auto">
 
@@ -145,7 +141,6 @@ export default function Projects() {
                         : "border-emerald-50 hover:border-emerald-200"
                     }`}>
 
-                    {/* Image */}
                     <div className="relative h-64 overflow-hidden">
                       <img src={project.image} alt={project.title}
                         className={`w-full h-full object-cover transition-transform duration-700 ${
@@ -170,7 +165,6 @@ export default function Projects() {
                       </div>
                     </div>
 
-                    {/* Content */}
                     <div className="p-8 flex flex-col flex-1">
                       <h3 className={`text-xl font-bold mb-4 leading-tight transition-colors ${
                         project.status === "completed"
@@ -183,7 +177,6 @@ export default function Projects() {
                         {project.description}
                       </p>
 
-                      {/* Budget progress — active projects only */}
                       {project.status === "active" && project.budget > 0 && (() => {
                         const pct = Math.min(
                           Math.round((project.fundsRaised / project.budget) * 100), 100
@@ -207,7 +200,6 @@ export default function Projects() {
                         );
                       })()}
 
-                      {/* CTA */}
                       <div className="mt-auto pt-6 border-t border-emerald-50">
                         <Link
                           to={`/projects/${project._id}`}
